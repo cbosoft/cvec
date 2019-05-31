@@ -1,8 +1,8 @@
 CC 		= gcc
 CFLAGS 	= -O0 -g
-SRC 	= cvec.c
-SO		=	lib$(SRC:.c=.so)
-HDR		= $(SRC:.c=.h)
+SRC 	= cvec.c cvec_int.c
+SO		=	libcvec.so
+HDR		= cvec.c
 LINK	= -lcvec -lm -fopenmp
 
 shared: $(SRC) $(HDR)
