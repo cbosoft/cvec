@@ -4,21 +4,21 @@
 
 #include "cvec.h"
 
-double *cvec_linspace(double from, double to, int len) {
-  double *rv = malloc(len*sizeof(double));
-  double step = (to - from) / ((double)(len - 1));
+cvec_float *cvec_linspace(cvec_float from, cvec_float to, int len) {
+  cvec_float *rv = malloc(len*sizeof(cvec_float));
+  cvec_float step = (to - from) / ((cvec_float)(len - 1));
 
 #pragma omp parallel for
   for (int i = 0; i < len; i++) {
-    rv[i] = (step*((double)i)) + from;
+    rv[i] = (step*((cvec_float)i)) + from;
   }
 
   return rv;
 }
 
-double *cvec_logspace(double from, double to, int len) {
-  double lfrom = log(from), lto = log(to);
-  double *rv = cvec_linspace(lfrom, lto, len);
+cvec_float *cvec_logspace(cvec_float from, cvec_float to, int len) {
+  cvec_float lfrom = log(from), lto = log(to);
+  cvec_float *rv = cvec_linspace(lfrom, lto, len);
 
 #pragma omp parallel for
   for (int i  = 0; i < len; i++) {
@@ -28,8 +28,8 @@ double *cvec_logspace(double from, double to, int len) {
   return rv;
 }
 
-double *cvec_apply(double* in, int len, double (*f)(double)) {
-  double *rv = malloc(len*sizeof(double));
+cvec_float *cvec_apply(cvec_float* in, int len, cvec_float (*f)(cvec_float)) {
+  cvec_float *rv = malloc(len*sizeof(cvec_float));
 
 #pragma omp parallel for
   for (int i = 0; i < len; i++){
@@ -38,13 +38,13 @@ double *cvec_apply(double* in, int len, double (*f)(double)) {
   return rv;
 }
 
-double cvec_average(double* in, int len) {
-  double sum = cvec_sum(in, len);
-  return sum / ((double)len);
+cvec_float cvec_average(cvec_float* in, int len) {
+  cvec_float sum = cvec_sum(in, len);
+  return sum / ((cvec_float)len);
 }
 
-double cvec_sum(double* in, int len) {
-  double sum = 0.0;
+cvec_float cvec_sum(cvec_float* in, int len) {
+  cvec_float sum = 0.0;
   for (int i = 0; i < len; i++) {
     sum += in[i];
   }
@@ -52,13 +52,13 @@ double cvec_sum(double* in, int len) {
 }
 
 
-int *cvec_int_linspace(int from, int to, int len) {
-  int *rv = malloc(len*sizeof(int));
-  int step = (to - from) / ((int)(len - 1));
+cvec_int *cvec_int_linspace(cvec_int from, cvec_int to, int len) {
+  cvec_int *rv = malloc(len*sizeof(cvec_int));
+  cvec_int step = (to - from) / ((cvec_int)(len - 1));
 
 #pragma omp parallel for
   for (int i = 0; i < len; i++) {
-    rv[i] = (step*((int)i)) + from;
+    rv[i] = (step*((cvec_int)i)) + from;
   }
 
   return rv;
@@ -67,9 +67,9 @@ int *cvec_int_linspace(int from, int to, int len) {
 
 
 
-int *cvec_int_logspace(int from, int to, int len) {
-  int lfrom = log(from), lto = log(to);
-  int *rv = cvec_int_linspace(lfrom, lto, len);
+cvec_int *cvec_int_logspace(cvec_int from, cvec_int to, int len) {
+  cvec_int lfrom = log(from), lto = log(to);
+  cvec_int *rv = cvec_int_linspace(lfrom, lto, len);
 
 #pragma omp parallel for
   for (int i  = 0; i < len; i++) {
@@ -81,8 +81,8 @@ int *cvec_int_logspace(int from, int to, int len) {
 
 
 
-int *cvec_int_apply(int* in, int len, int (*f)()) {
-  int *rv = malloc(len*sizeof(int));
+cvec_int *cvec_int_apply(cvec_int* in, int len, cvec_int (*f)(cvec_int)) {
+  cvec_int *rv = malloc(len*sizeof(cvec_int));
 
 #pragma omp parallel for
   for (int i = 0; i < len; i++){
@@ -92,13 +92,13 @@ int *cvec_int_apply(int* in, int len, int (*f)()) {
 }
 
 
-int cvec_int_average(int* in, int len) {
-  int sum = cvec_int_sum(in, len);
+cvec_int cvec_int_average(cvec_int* in, int len) {
+  cvec_int sum = cvec_int_sum(in, len);
   return sum / len;
 }
 
-int cvec_int_sum(int* in, int len) {
-  int sum = 0.0;
+cvec_int cvec_int_sum(cvec_int* in, int len) {
+  cvec_int sum = 0;
   for (int i = 0; i < len; i++) {
     sum += in[i];
   }
