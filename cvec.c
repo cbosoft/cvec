@@ -7,18 +7,24 @@
 double *cvec_linspace(double from, double to, int len) {
   double *rv = malloc(len*sizeof(double));
   double step = (to - from) / ((double)(len - 1));
+
+#pragma omp parallel for
   for (int i = 0; i < len; i++) {
     rv[i] = (step*((double)i)) + from;
   }
+
   return rv;
 }
 
 double *cvec_logspace(double from, double to, int len) {
   double lfrom = log(from), lto = log(to);
   double *rv = cvec_linspace(lfrom, lto, len);
+
+#pragma omp parallel for
   for (int i  = 0; i < len; i++) {
     rv[i] = pow(10.0, rv[i]);
   }
+
   return rv;
 }
 
@@ -49,9 +55,12 @@ double cvec_sum(double* in, int len) {
 int *cvec_int_linspace(int from, int to, int len) {
   int *rv = malloc(len*sizeof(int));
   int step = (to - from) / ((int)(len - 1));
+
+#pragma omp parallel for
   for (int i = 0; i < len; i++) {
     rv[i] = (step*((int)i)) + from;
   }
+
   return rv;
 }
 
@@ -61,9 +70,12 @@ int *cvec_int_linspace(int from, int to, int len) {
 int *cvec_int_logspace(int from, int to, int len) {
   int lfrom = log(from), lto = log(to);
   int *rv = cvec_int_linspace(lfrom, lto, len);
+
+#pragma omp parallel for
   for (int i  = 0; i < len; i++) {
     rv[i] = pow(10.0, rv[i]);
   }
+
   return rv;
 }
 
