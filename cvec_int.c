@@ -47,6 +47,20 @@ cvec_int_apply(cvec_int* in, int len, cvec_int (*f)(cvec_int)) {
 
 
 
+cvec_int *
+cvec_int_zeros(int len) {
+  cvec_int *rv = malloc(len*sizeof(cvec_int));
+
+#pragma omp parallel for
+  for (int i = 0; i < len; i++){
+    rv[i] = 0;
+  }
+  return rv;
+}
+
+
+
+
 cvec_int 
 cvec_int_average(cvec_int* in, int len) {
   cvec_int sum = cvec_int_sum(in, len);
