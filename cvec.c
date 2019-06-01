@@ -66,6 +66,18 @@ cvec_zeros(int len) {
 
 
 
+cvec_float *
+cvec_copy(cvec_float * source, int len) {
+  cvec_float *rv = malloc(sizeof(cvec_float)*len);
+#pragma omp parallel for
+  for(int i = 0; i < len; i++) {
+    rv[i] = source[i];
+  }
+  return rv;
+}
+
+
+
 
 cvec_float
 cvec_average(cvec_float* in, int len) {
