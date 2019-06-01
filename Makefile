@@ -1,6 +1,6 @@
 CC 		= gcc
 CFLAGS 	= -O0 -g
-SRC 	= cvec.c cvec_int.c cvec_fourier.c
+SRC 	= cvec.c cvec_int.c cvec_fourier.c cvec_sort.c
 SO		=	libcvec.so
 HDR		= cvec.h
 LINK	= -lcvec -lm -lcgnuplot -lfftw3 -fopenmp
