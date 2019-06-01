@@ -1,9 +1,9 @@
 CC 		= gcc
 CFLAGS 	= -O0 -g
-SRC 	= cvec.c cvec_int.c
+SRC 	= cvec.c cvec_int.c cvec_fourier.c
 SO		=	libcvec.so
-HDR		= cvec.c
-LINK	= -lcvec -lm -fopenmp
+HDR		= cvec.h
+LINK	= -lcvec -lm -lcgnuplot -lfftw3 -fopenmp
 
 shared: $(SRC) $(HDR)
 	$(CC) $(CFLAGS) -shared -o $(SO) -fPIC $(SRC)
@@ -19,6 +19,9 @@ uninstall:
 tests: omptest
 
 omptest: omptest.c
+	$(CC) $(CFLAGS) -o $@ $< $(LINK)
+
+ffttest: ffttest.c
 	$(CC) $(CFLAGS) -o $@ $< $(LINK)
 
 clean:
