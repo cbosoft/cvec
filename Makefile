@@ -16,7 +16,7 @@ uninstall:
 	rm -f /usr/include/$(HDR)
 	rm -f /usr/lib/$(SO)
 
-tests: omptest
+tests: omptest ffttest
 
 omptest: omptest.c
 	$(CC) $(CFLAGS) -o $@ $< $(LINK)

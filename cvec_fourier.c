@@ -37,11 +37,11 @@ cvec_float *
 cvec_freq(int len, cvec_float dt) {
   cvec_float *freq = malloc(len*sizeof(cvec_float));
   double nyq_f = 1/(2.0*dt);
-  int hlen = len/2;
+  int hlen = (len%2==0)?len/2:(len+1)/2; // unsure about this
   for (int in = 0; in < hlen; in++) {
     cvec_float n = (cvec_float)in;
-    freq[hlen + in] = (n*nyq_f) / hlen;
-    freq[hlen - in] = -1.0 * ((n*nyq_f) / hlen);
+    freq[in] = (n*nyq_f) / hlen;
+    freq[len - in - 1] = -1.0 * ((n*nyq_f) / hlen);
   }
   return freq;
 }
