@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <math.h>
-#include <cvec.h>
+
+#include "cvec.h"
 
 cvec_int *
 cvec_int_linspace(cvec_int from, cvec_int to, int len) {

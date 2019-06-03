@@ -1,7 +1,8 @@
 #include <stdlib.h>
-#include <cvec.h>
 #include <fftw3.h>
 #include <float.h>
+
+#include "cvec.h"
 
 cvec_float *
 cvec_fft(cvec_float *in, int in_len) {

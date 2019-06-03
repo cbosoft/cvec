@@ -1,4 +1,4 @@
-#include <cvec.h>
+#include "cvec.h"
 
 int
 cvec_in_order(cvec_float* in, int len) {
@@ -11,7 +11,7 @@ cvec_in_order(cvec_float* in, int len) {
 
 cvec_float *
 cvec_bubble_sort(cvec_float *unsorted, int len) {
-  cvec_float *rv = copy(unsorted, len);
+  cvec_float *rv = cvec_copy(unsorted, len);
   
   int changed = 0;
   do {
@@ -33,6 +33,8 @@ cvec_bubble_sort(cvec_float *unsorted, int len) {
 
 cvec_float *
 cvec_insertion_sort(cvec_float *unsorted, int len) {
+  cvec_float *rv = cvec_copy(unsorted, len);
+  return rv;
 }
 
 
@@ -40,6 +42,8 @@ cvec_insertion_sort(cvec_float *unsorted, int len) {
 
 cvec_float *
 cvec_merge_sort(cvec_float *unsorted, int len) {
+  cvec_float *rv = cvec_copy(unsorted, len);
+  return rv;
 }
 
 
@@ -47,4 +51,6 @@ cvec_merge_sort(cvec_float *unsorted, int len) {
 
 cvec_float *
 cvec_quick_sort(cvec_float *unsorted, int len) {
+  cvec_float *rv = cvec_copy(unsorted, len);
+  return rv;
 }
