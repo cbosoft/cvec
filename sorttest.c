@@ -15,9 +15,9 @@ main(int argc, const char **argv)
     reverse[i] = len - i - 1;
   }
 
-  cvec_float *sorted_sorted = cvec_bubble_sort(sorted, len);
-  cvec_float *shuffled_sorted = cvec_bubble_sort(shuffled, len);
-  cvec_float *reverse_sorted = cvec_bubble_sort(reverse, len);
+  cvec_float *sorted_sorted = cvec_sort(sorted, len);
+  cvec_float *shuffled_sorted = cvec_sort(shuffled, len);
+  cvec_float *reverse_sorted = cvec_sort(reverse, len);
 
   for (int i = 0; i < len; i++)
     fprintf(stderr, "%.0f ", sorted_sorted[i]);
