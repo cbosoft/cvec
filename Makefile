@@ -16,12 +16,15 @@ uninstall:
 	rm -f /usr/include/$(HDR)
 	rm -f /usr/lib/$(SO)
 
-tests: omptest ffttest
+tests: omptest ffttest sorttest
 
 omptest: omptest.c
 	$(CC) $(CFLAGS) -o $@ $< $(LINK)
 
 ffttest: ffttest.c
+	$(CC) $(CFLAGS) -o $@ $< $(LINK)
+	
+sorttest: sorttest.c
 	$(CC) $(CFLAGS) -o $@ $< $(LINK)
 
 clean:
