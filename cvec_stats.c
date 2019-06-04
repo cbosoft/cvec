@@ -102,3 +102,18 @@ cvec_autocorr(cvec_float* x, cvec_float *y, int len, cvec_float **res_x, cvec_fl
   cvec_apply((*res_y), (*nbins), &divmax);
 
 }
+
+
+
+cvec_float
+cvec_std(cvec_float *x, int len)
+{
+  cvec_float average = cvec_average(x, len);
+  cvec_float getsquaredev(cvec_float v) { return pow(average-v,2.0); }
+  cvec_float *square_deviation = cvec_apply(x, len, &getsquaredev);
+  cvec_float sum_square_deviation = cvec_sum(square_deviation, len);
+  cvec_float standard_deviation = sum_square_deviation / ((cvec_float)len);
+  standard_deviation = pow(standard_deviation, 0.5);
+  free(square_deviation);
+  return standard_deviation;
+}

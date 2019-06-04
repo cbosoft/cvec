@@ -49,3 +49,4 @@ cvec_int cvec_int_sum(cvec_int* in, int len);
 
 //cvec_stats.c
 void cvec_hist(cvec_float *input, int len, cvec_float **output, cvec_float **bins, int *nbins);
+cvec_float cvec_std(cvec_float *x, int len);
