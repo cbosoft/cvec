@@ -54,3 +54,14 @@ cvec_quick_sort(cvec_float *unsorted, int len) {
   cvec_float *rv = cvec_copy(unsorted, len);
   return rv;
 }
+
+
+
+
+cvec_float *
+cvec_sort(cvec_float *unsorted, int len) {
+  // for each sort method, choose best one
+  // TODO
+  cvec_float *rv = cvec_bubble_sort(unsorted, len);
+  return rv;
+}
