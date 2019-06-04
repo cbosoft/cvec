@@ -94,6 +94,58 @@ cvec_diff(cvec_float* x, int len) {
 
 
 
+cvec_float *
+cvec_add(cvec_float* x, cvec_float *y, int len) {
+  cvec_float *rv = malloc(sizeof(cvec_float)*(len-1));
+#pragma omp parallel for
+  for (int i = 0; i < len; i++) {
+    rv[i] = x[i] + y[i];
+  }
+  return rv;
+}
+
+
+
+
+cvec_float *
+cvec_subtract(cvec_float* x, cvec_float *y, int len) {
+  cvec_float *rv = malloc(sizeof(cvec_float)*(len-1));
+#pragma omp parallel for
+  for (int i = 0; i < len; i++) {
+    rv[i] = x[i] - y[i];
+  }
+  return rv;
+}
+
+
+
+
+cvec_float *
+cvec_multiply(cvec_float* x, cvec_float *y, int len) {
+  cvec_float *rv = malloc(sizeof(cvec_float)*(len-1));
+#pragma omp parallel for
+  for (int i = 0; i < len; i++) {
+    rv[i] = x[i] * y[i];
+  }
+  return rv;
+}
+
+
+
+
+cvec_float *
+cvec_divide(cvec_float* x, cvec_float *y, int len) {
+  cvec_float *rv = malloc(sizeof(cvec_float)*(len-1));
+#pragma omp parallel for
+  for (int i = 0; i < len; i++) {
+    rv[i] = x[i] / y[i];
+  }
+  return rv;
+}
+
+
+
+
 cvec_float
 cvec_max(cvec_float* x, int len) {
   cvec_float rv = -CVEC_FLOAT_MAX;
