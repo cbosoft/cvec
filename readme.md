@@ -20,10 +20,10 @@ define: `cvec_float` and `cvec_int`. The former is a double, and the latter is a
 long long int. This may change in the future. All functions in cvec use these
 types.
 
-`Vectors` are pointer arrays of `cvec_float` (or `cvec_int`) and are passed to
-functions with their length. Functions are named whether they deal with floats
-or ints. `cvec_<name>` is a float function, and `cvec_int_<name>` is an int
-function.
+Vectors are implemented as  pointer arrays of `cvec_float` (or `cvec_int`) and
+are passed to functions with their length. Functions are named whether they deal
+with floats or ints. `cvec_<name>` is a float function, and `cvec_int_<name>` is
+an int function.
 
 Current functions implemented:
 
