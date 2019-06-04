@@ -62,6 +62,62 @@ cvec_int_zeros(int len) {
 
 
 
+cvec_int *
+cvec_int_copy(cvec_int * source, int len) {
+  cvec_int *rv = malloc(sizeof(cvec_int)*len);
+#pragma omp parallel for
+  for(int i = 0; i < len; i++) {
+    rv[i] = source[i];
+  }
+  return rv;
+}
+
+
+
+
+cvec_int *
+cvec_int_diff(cvec_int* x, int len) {
+  cvec_int *rv = malloc(sizeof(cvec_int)*(len-1));
+  int i, j;
+#pragma omp parallel for
+  for (i=0; i < (len-1); i++) {
+    j = i+1;
+    rv[i] = x[j] - x[i];
+  }
+  return rv;
+}
+
+
+
+
+cvec_int
+cvec_int_max(cvec_int* x, int len) {
+  cvec_int rv = -CVEC_INT_MAX;
+  for (int i = 0; i < len; i++) {
+    if (x[i] > rv) {
+      rv = x[i];
+    }
+  }
+  return rv;
+}
+
+
+
+
+cvec_int
+cvec_int_min(cvec_int* x, int len) {
+  cvec_int rv = CVEC_INT_MAX;
+  for (int i = 0; i < len; i++) {
+    if (x[i] < rv) {
+      rv = x[i];
+    }
+  }
+  return rv;
+}
+
+
+
+
 cvec_int 
 cvec_int_average(cvec_int* in, int len) {
   cvec_int sum = cvec_int_sum(in, len);

@@ -1,7 +1,11 @@
 #pragma once
 
+#include <float.h>
+#include <limits.h>
 typedef double cvec_float;
 typedef long long int cvec_int;
+#define CVEC_FLOAT_MAX DBL_MAX
+#define CVEC_INT_MAX LLONG_MAX
 
 
 // cvec.c
@@ -10,6 +14,9 @@ cvec_float *cvec_logspace(cvec_float from, cvec_float to, int len);
 cvec_float *cvec_apply(cvec_float* in, int len, cvec_float (*f)());
 cvec_float *cvec_zeros(int len);
 cvec_float *cvec_copy(cvec_float *source, int len);
+cvec_float *cvec_diff(cvec_float *x, int len);
+cvec_float cvec_max(cvec_float *x, int len);
+cvec_float cvec_min(cvec_float *x, int len);
 cvec_float cvec_average(cvec_float* in, int len);
 cvec_float cvec_sum(cvec_float* in, int len);
 
@@ -33,6 +40,10 @@ cvec_int *cvec_int_linspace(cvec_int from, cvec_int to, int len);
 cvec_int *cvec_int_logspace(cvec_int from, cvec_int to, int len);
 cvec_int *cvec_int_apply(cvec_int* in, int len, cvec_int (*f)());
 cvec_int *cvec_int_zeros(int len);
+cvec_int *cvec_int_copy(cvec_int *source, int len);
+cvec_int *cvec_int_diff(cvec_int *x, int len);
+cvec_int cvec_int_max(cvec_int *x, int len);
+cvec_int cvec_int_min(cvec_int *x, int len);
 cvec_int cvec_int_average(cvec_int* in, int len);
 cvec_int cvec_int_sum(cvec_int* in, int len);
 

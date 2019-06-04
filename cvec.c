@@ -79,6 +79,49 @@ cvec_copy(cvec_float * source, int len) {
 
 
 
+cvec_float *
+cvec_diff(cvec_float* x, int len) {
+  cvec_float *rv = malloc(sizeof(cvec_float)*(len-1));
+  int i, j;
+#pragma omp parallel for
+  for (i=0; i < (len-1); i++) {
+    j = i+1;
+    rv[i] = x[j] - x[i];
+  }
+  return rv;
+}
+
+
+
+
+cvec_float
+cvec_max(cvec_float* x, int len) {
+  cvec_float rv = -CVEC_FLOAT_MAX;
+  for (int i = 0; i < len; i++) {
+    if (x[i] > rv) {
+      rv = x[i];
+    }
+  }
+  return rv;
+}
+
+
+
+
+cvec_float
+cvec_min(cvec_float* x, int len) {
+  cvec_float rv = CVEC_FLOAT_MAX;
+  for (int i = 0; i < len; i++) {
+    if (x[i] < rv) {
+      rv = x[i];
+    }
+  }
+  return rv;
+}
+
+
+
+
 cvec_float
 cvec_average(cvec_float* in, int len) {
   cvec_float sum = cvec_sum(in, len);
