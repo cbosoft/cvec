@@ -30,4 +30,12 @@ main(int argc, const char **argv)
   for (int i = 0; i < len; i++)
     fprintf(stderr, "%.0f ", reverse_sorted[i]);
   fprintf(stderr, " %s \n", (cvec_in_order(reverse_sorted, len))?"success!":"boo!");
+
+  free(sorted);
+  free(shuffled);
+  free(reverse);
+  free(sorted_sorted);
+  free(shuffled_sorted);
+  free(reverse_sorted);
+  return 0;
 }
