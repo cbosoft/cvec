@@ -26,6 +26,7 @@ cvec_float *cvec_insertion_sort(cvec_float *unsorted, int len);
 cvec_float *cvec_merge_sort(cvec_float *unsorted, int len);
 cvec_float *cvec_quick_sort(cvec_float *unsorted, int len);
 cvec_float *cvec_bubble_sort(cvec_float *unsorted, int len);
+cvec_float *cvec_sort(cvec_float *unsorted, int len);
 
 // cvec_int.c
 cvec_int *cvec_int_linspace(cvec_int from, cvec_int to, int len);
@@ -34,3 +35,6 @@ cvec_int *cvec_int_apply(cvec_int* in, int len, cvec_int (*f)());
 cvec_int *cvec_int_zeros(int len);
 cvec_int cvec_int_average(cvec_int* in, int len);
 cvec_int cvec_int_sum(cvec_int* in, int len);
+
+//cvec_stats.c
+void cvec_hist(cvec_float *input, int len, cvec_float **output, cvec_float **bins, int *nbins);
