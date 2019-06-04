@@ -7,7 +7,7 @@ typedef long long int cvec_int;
 #define CVEC_FLOAT_MAX DBL_MAX
 #define CVEC_INT_MAX LLONG_MAX
 
-
+#define CVEC_PI 3.14159265359
 // cvec.c
 cvec_float *cvec_linspace(cvec_float from, cvec_float to, int len);
 cvec_float *cvec_logspace(cvec_float from, cvec_float to, int len);
