@@ -51,6 +51,13 @@ cvec_int cvec_int_min(cvec_int *x, int len);
 cvec_int cvec_int_average(cvec_int* in, int len);
 cvec_int cvec_int_sum(cvec_int* in, int len);
 
-//cvec_stats.c
+// cvec_stats.c
 void cvec_hist(cvec_float *input, int len, cvec_float **output, cvec_float **bins, int *nbins);
 cvec_float cvec_std(cvec_float *x, int len);
+
+// cvec_matrix.c
+cvec_float **cvec_new_matrix(int rows, int cols, cvec_float (*f)(int, int));
+cvec_float **cvec_matmul(cvec_float **A, int rA, int cA, cvec_float **B, int rB, int cB);
+cvec_float ** cvec_matrix_invert(cvec_float **A, int r, int c);
+cvec_float cvec_matrix_determinant(cvec_float **A, int r, int c);
+int cvec_matrix_is_invertible(cvec_float **A, int r, int c);
