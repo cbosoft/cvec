@@ -54,7 +54,8 @@ cvec_apply(cvec_float* in, int len, cvec_float (*f)(cvec_float)) {
 
 
 cvec_float *
-cvec_zeros(int len) {
+cvec_zeros(int len)
+{
   cvec_float *rv = malloc(len*sizeof(cvec_float));
 
 #pragma omp parallel for
@@ -67,12 +68,33 @@ cvec_zeros(int len) {
 
 
 cvec_float *
-cvec_copy(cvec_float * source, int len) {
+cvec_copy(cvec_float *source, int len)
+{
   cvec_float *rv = malloc(sizeof(cvec_float)*len);
 #pragma omp parallel for
   for(int i = 0; i < len; i++) {
     rv[i] = source[i];
   }
+  return rv;
+}
+
+
+
+cvec_float *
+cvec_cat(cvec_float *source, int len, cvec_float *add, int addlen)
+{
+  cvec_float *rv = malloc(sizeof(cvec_float)*(len+addlen));
+
+#pragma omp parallel for
+  for(int i = 0; i < len; i++) {
+    rv[i] = source[i];
+  }
+
+#pragma omp parallel for
+  for(int i = len; i < (len+addlen); i++) {
+    rv[i] = add[i-len];
+  }
+
   return rv;
 }
 
@@ -134,7 +156,8 @@ cvec_multiply(cvec_float* x, cvec_float *y, int len) {
 
 
 cvec_float *
-cvec_divide(cvec_float* x, cvec_float *y, int len) {
+cvec_divide(cvec_float* x, cvec_float *y, int len)
+{
   cvec_float *rv = malloc(sizeof(cvec_float)*(len-1));
 #pragma omp parallel for
   for (int i = 0; i < len; i++) {
@@ -146,8 +169,18 @@ cvec_divide(cvec_float* x, cvec_float *y, int len) {
 
 
 
+cvec_float *
+cvec_polyfit(cvec_float* x, int xlen, cvec_float* y, int ylen, int degree)
+{
+  // TODO
+}
+
+
+
+
 cvec_float
-cvec_max(cvec_float* x, int len) {
+cvec_max(cvec_float* x, int len)
+{
   cvec_float rv = -CVEC_FLOAT_MAX;
   for (int i = 0; i < len; i++) {
     if (x[i] > rv) {
