@@ -1,6 +1,6 @@
 CC 		= gcc
 CFLAGS 	= -O0 -g
-SRC 	= cvec.c cvec_int.c cvec_fourier.c cvec_sort.c cvec_stats.c
+SRC 	= cvec.c cvec_int.c cvec_fourier.c cvec_sort.c cvec_stats.c cvec_matrix.c
 SO		=	libcvec.so
 HDR		= cvec.h
 LINK	= -lcvec -lm -lcgnuplot -lfftw3 -fopenmp
@@ -16,7 +16,7 @@ uninstall:
 	rm -f /usr/include/$(HDR)
 	rm -f /usr/lib/$(SO)
 
-tests: omptest ffttest sorttest
+tests: omptest ffttest sorttest mattest
 
 omptest: omptest.c
 	$(CC) $(CFLAGS) -o $@ $< $(LINK)
@@ -25,6 +25,9 @@ ffttest: ffttest.c
 	$(CC) $(CFLAGS) -o $@ $< $(LINK)
 	
 sorttest: sorttest.c
+	$(CC) $(CFLAGS) -o $@ $< $(LINK)
+	
+mattest: mattest.c
 	$(CC) $(CFLAGS) -o $@ $< $(LINK)
 
 clean:
