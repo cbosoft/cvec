@@ -56,8 +56,17 @@ void cvec_hist(cvec_float *input, int len, cvec_float **output, cvec_float **bin
 cvec_float cvec_std(cvec_float *x, int len);
 
 // cvec_matrix.c
-cvec_float **cvec_new_matrix(int rows, int cols, cvec_float (*f)(int, int));
-cvec_float **cvec_matmul(cvec_float **A, int rA, int cA, cvec_float **B, int rB, int cB);
-cvec_float ** cvec_matrix_invert(cvec_float **A, int r, int c);
-cvec_float cvec_matrix_determinant(cvec_float **A, int r, int c);
-int cvec_matrix_is_invertible(cvec_float **A, int r, int c);
+cvec_float **cvec_matrix_new(int rows, int cols, cvec_float (*f)(int, int));
+cvec_float **cvec_matrix_cross(cvec_float **A, int rA, int cA, cvec_float **B, int rB, int cB);
+cvec_float **cvec_matrix_copy(cvec_float **A, int R, int C);
+cvec_float **cvec_matrix_apply(cvec_float **A, int R, int C, cvec_float (*f)(cvec_float));
+cvec_float **cvec_matrix_invert(cvec_float **A, int R, int C);
+cvec_float **cvec_matrix_minor(cvec_float **A, int R, int C, int notR, int notC);
+cvec_float **cvec_matrix_of_minors(cvec_float **A, int R, int C);
+cvec_float **cvec_matrix_of_cofactors(cvec_float **A, int R, int C);
+cvec_float **cvec_matrix_transpose(cvec_float **A, int R, int C);
+cvec_float cvec_matrix_determinant(cvec_float **A, int R, int C);
+int cvec_matrix_is_invertible(cvec_float **A, int R, int C);
+void cvec_print_matrix(cvec_float **A, int R, int C);
+
+// vim: ft=c

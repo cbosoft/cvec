@@ -2,12 +2,54 @@
 #include <stdio.h>
 #include "cvec.h"
 
+cvec_float
+cvec_matgen_zero(int r, int c) {
+  return 0.0;
+}
+
+
+
+
+
 cvec_float **
-cvec_new_matrix(int rows, int cols, cvec_float (*f)(int, int))
+cvec_matrix_new(int R, int C, cvec_float (*f)(int, int))
 {
-  cvec_float **rv = malloc(rows*sizeof(cvec_float*));
-  for (int i = 0; i < rows; i++) {
-    rv[i] = malloc(cols*sizeof(cvec_float*));
+  cvec_float **rv = malloc(R*sizeof(cvec_float*));
+  for (int r = 0; r < R; r++) {
+    rv[r] = malloc(C*sizeof(cvec_float*));
+    for (int c = 0; c < C; c++) {
+      rv[r][c] = f(r, c);
+    }
+  }
+  return rv;
+}
+
+
+
+
+cvec_float **
+cvec_matrix_copy(cvec_float **A, int R, int C)
+{
+  cvec_float **rv = malloc(R*sizeof(cvec_float*));
+  for (int r = 0; r < R; r++) {
+    rv[r] = malloc(C*sizeof(cvec_float*));
+    for (int c = 0; c < C; c++) {
+      rv[r][c] = A[r][c];
+    }
+  }
+  return rv;
+}
+
+
+
+cvec_float **
+cvec_matrix_apply(cvec_float **A, int R, int C, cvec_float (*f)(cvec_float))
+{
+  cvec_float **rv = cvec_matrix_copy(A, R, C);
+  for (int r = 0; r <R; r++) {
+    for (int c = 0; c < C; c++) {
+      rv[r][c] = f(rv[r][c]);
+    }
   }
   return rv;
 }
@@ -16,7 +58,7 @@ cvec_new_matrix(int rows, int cols, cvec_float (*f)(int, int))
 
 
 cvec_float ** 
-cvec_matmul(cvec_float **A, int rA, int cA, cvec_float **B, int rB, int cB)
+cvec_matrix_cross(cvec_float **A, int rA, int cA, cvec_float **B, int rB, int cB)
 {
   /*
     This is the matrix multiplication of 
@@ -38,7 +80,7 @@ cvec_matmul(cvec_float **A, int rA, int cA, cvec_float **B, int rB, int cB)
   int R = rA, C = cB, L = cA;
 
   cvec_float z(int r, int c) { return 0.0; }
-  cvec_float **res = cvec_new_matrix(rA, cB, &z);
+  cvec_float **res = cvec_matrix_new(rA, cB, &z);
 
   for (int r = 0; r < R; r++) {
     for (int c = 0; c < C; c++) {
@@ -47,10 +89,6 @@ cvec_matmul(cvec_float **A, int rA, int cA, cvec_float **B, int rB, int cB)
       }
     }
   }
-
-
-  
-
   return res;
 }
 
@@ -58,41 +96,155 @@ cvec_matmul(cvec_float **A, int rA, int cA, cvec_float **B, int rB, int cB)
 
 
 cvec_float **
-cvec_matrix_invert(cvec_float **A, int r, int c)
+cvec_matrix_invert(cvec_float **A, int R, int C)
 {
-  cvec_float z(int r, int c) { return 0.0; }
-  cvec_float **res = cvec_new_matrix(r, c, &z);
-  // TODO
-  return res;
+  if (R != C) {
+    fprintf(stderr, "Can only invert square matrix.\n");
+    exit(1);
+  }
+
+  cvec_float det = cvec_matrix_determinant(A, R, C);
+
+  if (det == 0.0) {
+    fprintf(stderr, "Matrix is non-invertible.\n");
+    exit(1);
+  }
+  
+  cvec_float **moc = cvec_matrix_of_cofactors(A, R, C);
+  cvec_float **adj = cvec_matrix_transpose(moc, R, C);
+  free(moc);
+  
+  cvec_float divdet(cvec_float v) { return v / det; }
+  cvec_float **inverse = cvec_matrix_apply(adj, R, C, &divdet);
+  free(adj);
+  return inverse;
+}
+
+
+
+cvec_float **
+cvec_matrix_minor(cvec_float **A, int R, int C, int notR, int notC)
+{
+  cvec_float **rv = cvec_matrix_new(R-1, C-1, &cvec_matgen_zero);
+  
+  int r = 0, c = 0;
+  for (int or = 0; or < R; or++) {
+    if (or == notR)
+      continue;
+
+    c = 0;
+    for (int oc = 0; oc < C; oc++) {
+      if (oc == notC)
+        continue;
+
+      rv[r][c] = A[or][oc];
+
+      c++;
+    }
+
+    r++;
+  }
+  return rv;
+}
+
+
+
+
+cvec_float **
+cvec_matrix_of_minors(cvec_float **A, int R, int C) 
+{
+  cvec_float **rv = cvec_matrix_new(R-1, C-1, &cvec_matgen_zero);
+  for (int r = 0; r < R; r++) {
+    for (int c = 0; c < C; c++) {
+      cvec_float **minor = cvec_matrix_minor(A, R, C, r, c);
+      rv[r][c] = cvec_matrix_determinant(minor, R-1, C-1);
+      free(minor);
+    }
+  }
+  return rv;
+}
+
+
+
+cvec_float **
+cvec_matrix_of_cofactors(cvec_float **A, int R, int C) {
+  cvec_float **rv = cvec_matrix_new(R-1, C-1, &cvec_matgen_zero);
+  cvec_float **matrix_of_minors = cvec_matrix_of_minors(A, R, C);
+  cvec_float sign = 1.0;
+  for (int r = 0; r < R; r++) {
+    for (int c = 0; c < C; c++) {
+      rv[r][c] = matrix_of_minors[r][c] * sign;
+      sign = sign * -1.0;
+    }
+  }
+  free(matrix_of_minors);
+  return rv;
+}
+
+
+
+
+cvec_float **
+cvec_matrix_transpose(cvec_float **A, int R, int C) {
+  cvec_float **rv = cvec_matrix_new(C, R, &cvec_matgen_zero);
+  for (int r = 0; r < R; r++) {
+    for (int c = 0; c < C; c++) {
+      rv[r][c] = A[c][r];
+    }
+  }
+  return rv;
 }
 
 
 
 
 cvec_float
-cvec_matrix_determinant(cvec_float **A, int r, int c)
+cvec_matrix_determinant(cvec_float **A, int R, int C)
 {
-  if (r != c) {
+  if (R != C) {
     fprintf(stderr, "Can only find the determinant of a square matrix!\n");
     exit(1);
   }
 
-  if (r == 2) {
+  if (R == 2) {
     return (A[0][0] * A[1][1]) - (A[0][1]*A[1][0]);
   }
-  else {
-    // calc determinant for sub matrix
-    // TODO
+  // calc determinant for sub matrix
+  cvec_float det = 0.0;
+  cvec_float sign = 1.0;
+  for (int c = 0; c < C; c++) {
+    cvec_float **minor = cvec_matrix_minor(A, R, C, 0, c);
+    det += sign * A[0][c] * cvec_matrix_determinant(minor, R-1, C-1);
+    sign = sign * -1.0;
+    free(minor);
   }
+  return det;
 }
 
 
 
 
 int
-cvec_matrix_is_invertible(cvec_float **A, int r, int c) 
+cvec_matrix_is_invertible(cvec_float **A, int R, int C) 
 {
-  if (r != c)
+  if (R != C)
     return 0;
-  // TODO
+  if (cvec_matrix_determinant(A, R, C) != 0)
+    return 1;
+  return 0;
+}
+
+
+
+
+void
+cvec_print_matrix(cvec_float **A, int R, int C)
+{
+  for (int r = 0; r < R; r++) {
+    fprintf(stderr, "│ ");
+    for (int c = 0; c < C; c++) {
+      fprintf(stderr, "%.1e ", A[r][c]);
+    }
+    fprintf(stderr, "│\n");
+  }
 }
