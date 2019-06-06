@@ -221,43 +221,110 @@ cvec_get_sumse(cvec_float *x, cvec_float *y, int len, cvec_float *coefs, int nco
 
 
 cvec_float *
-cvec_polyfit(cvec_float* x, cvec_float* y, int len, int degree)
+cvec_polyfit(cvec_float *X, cvec_float *Y, int len, int degree)
 {
-  int ncoefs = degree+1;
-  cvec_float *coefs = malloc(ncoefs*sizeof(cvec_float));
-  for (int i = 0; i < ncoefs; i++) {
-    coefs[i] = 1.0;
-  }
+  // https://github.com/natedomin/polyfit
+  enum {maxOrder = 5};
+  
+  cvec_float B[maxOrder+1] = {0.0f};
+  cvec_float P[((maxOrder+1) * 2)+1] = {0.0f};
+  cvec_float A[(maxOrder + 1)*2*(maxOrder + 1)] = {0.0f};
 
-  // changes to make to coefs
-  cvec_float changes[ncoefs];
-  for (int i = 0; i < ncoefs; i++) changes[i] = 0.1;
+  double x, y, powx;
 
-  // for each coeff, make change, analyze if that helped, change change appropriately
-  for (int oc = 0; oc < 10000; oc++) {
-    for (int i = ncoefs - 1; i >= 0; i--) {
-      for (int ic = 0; ic < 10; ic++) {
-        if (changes[i] < 0.0001) changes[i] = 0.0001;
-        cvec_float err1 = cvec_get_sumse(x, y, len, coefs, ncoefs);
-        coefs[i] += changes[i];
-        cvec_float err2 = cvec_get_sumse(x, y, len, coefs, ncoefs);
-        cvec_float derr = err2 - err1;
-        if (derr > 0.0) {
-          coefs[i] -= changes[i];
-          changes[i] *= -0.99;
-          fprintf(stderr, "error getting worse (%f -> %f), reversing (dC = %f)\n", err1, err2, changes[i]);
-        }
-        else {
-          changes[i] *= 1.0;
-          fprintf(stderr, "error getting better (%f -> %f), speeding up (dC = %f)\n", err1, err2, changes[i]);
-        }
-      }
+  unsigned int ii, jj, kk;
+
+  // Verify initial conditions....
+  // ----------------------------------
+
+  // This method requires that the countOfElements > 
+  // (degree+1) 
+  if (len <= degree)
+      return NULL;
+
+  // This method has imposed an arbitrary bound of
+  // degree <= maxOrder.  Increase maxOrder if necessary.
+  if (degree > maxOrder)
+      return NULL;
+
+  // Begin Code...
+  // ----------------------------------
+
+  // Identify the column vector
+  for (ii = 0; ii < len; ii++) {
+    x    = X[ii];
+    y    = Y[ii];
+    powx = 1;
+
+    for (jj = 0; jj < (degree + 1); jj++) {
+      B[jj] = B[jj] + (y * powx);
+      powx  = powx * x;
     }
   }
 
-  return coefs;
-}
+  // Initialize the PowX array
+  P[0] = len;
 
+  // Compute the sum of the Powers of X
+  for (ii = 0; ii < len; ii++) {
+    x    = X[ii];
+    powx = X[ii];
+
+    for (jj = 1; jj < ((2 * (degree + 1)) + 1); jj++) {
+      P[jj] = P[jj] + powx;
+      powx  = powx * x;
+    }
+  }
+
+  // Initialize the reduction matrix
+  //
+  for (ii = 0; ii < (degree + 1); ii++) {
+    for (jj = 0; jj < (degree + 1); jj++) {
+      A[(ii * (2 * (degree + 1))) + jj] = P[ii+jj];
+    }
+
+    A[(ii*(2 * (degree + 1))) + (ii + (degree + 1))] = 1;
+  }
+
+  // Move the Identity matrix portion of the redux matrix
+  // to the left side (find the inverse of the left side
+  // of the redux matrix
+  for (ii = 0; ii < (degree + 1); ii++) {
+    x = A[(ii * (2 * (degree + 1))) + ii];
+    if (x != 0) {
+      for (kk = 0; kk < (2 * (degree + 1)); kk++) {
+        A[(ii * (2 * (degree + 1))) + kk] = A[(ii * (2 * (degree + 1))) + kk] / x;
+      }
+
+      for (jj = 0; jj < (degree + 1); jj++) {
+        if ((jj - ii) != 0) {
+          y = A[(jj * (2 * (degree + 1))) + ii];
+          for (kk = 0; kk < (2 * (degree + 1)); kk++) {
+            A[(jj * (2 * (degree + 1))) + kk] = A[(jj * (2 * (degree + 1))) + kk] - y * A[(ii * (2 * (degree + 1))) + kk];
+          }
+        }
+      }
+    }
+    else
+    {
+        // Cannot work with singular matrices
+        return NULL;
+    }
+  }
+  
+  cvec_float *coefficients = calloc(degree+1, sizeof(cvec_float));
+  // Calculate and Identify the coefficients
+  for (ii = 0; ii < (degree + 1); ii++) {
+    for (jj = 0; jj < (degree + 1); jj++) {
+      x = 0;
+      for (kk = 0; kk < (degree + 1); kk++) {
+        x = x + (A[(ii * (2 * (degree + 1))) + (kk + (degree + 1))] * B[kk]);
+      }
+      coefficients[ii] = x;
+    }
+  }
+  return coefficients;
+}
 
 
 

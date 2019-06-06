@@ -19,8 +19,8 @@ main (void)
   cvec_float addnoise(cvec_float y) { return (0.9 + (((double)(rand() % 20)) / 100.0)) * y; }
   cvec_float *n = cvec_apply(y, len, &addnoise);
 
-  cvec_float *simple_fit_coefs = cvec_linearfit(x, y, len);
-  cvec_float *fit_coefs = cvec_linearfit(x, n, len);
+  cvec_float *simple_fit_coefs = cvec_polyfit(x, y, len, 1);
+  cvec_float *fit_coefs = cvec_polyfit(x, n, len, 1);
 
   for (int i = 0; i < ncoefs; i++) {
     fprintf(stderr, "%f %f %f\n", actual_coefs[i], simple_fit_coefs[i], fit_coefs[i]);
