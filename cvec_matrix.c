@@ -248,3 +248,15 @@ cvec_print_matrix(cvec_float **A, int R, int C)
     fprintf(stderr, "│\n");
   }
 }
+
+
+
+
+void
+cvec_matrix_free(cvec_float **A, int R, int C) 
+{
+  for (int r = 0; r < R; r++) {
+    free(A[r]);
+  }
+  free(A);
+}

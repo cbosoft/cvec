@@ -72,5 +72,6 @@ cvec_float **cvec_matrix_transpose(cvec_float **A, int R, int C);
 cvec_float cvec_matrix_determinant(cvec_float **A, int R, int C);
 int cvec_matrix_is_invertible(cvec_float **A, int R, int C);
 void cvec_print_matrix(cvec_float **A, int R, int C);
+void cvec_matrix_free(cvec_float **A, int R, int C);
 
 // vim: ft=c
