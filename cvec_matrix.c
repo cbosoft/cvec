@@ -16,7 +16,7 @@ cvec_matrix_new(int R, int C, cvec_float (*f)(int, int))
 {
   cvec_float **rv = malloc(R*sizeof(cvec_float*));
   for (int r = 0; r < R; r++) {
-    rv[r] = malloc(C*sizeof(cvec_float*));
+    rv[r] = malloc(C*sizeof(cvec_float));
     for (int c = 0; c < C; c++) {
       rv[r][c] = f(r, c);
     }
@@ -32,7 +32,7 @@ cvec_matrix_copy(cvec_float **A, int R, int C)
 {
   cvec_float **rv = malloc(R*sizeof(cvec_float*));
   for (int r = 0; r < R; r++) {
-    rv[r] = malloc(C*sizeof(cvec_float*));
+    rv[r] = malloc(C*sizeof(cvec_float));
     for (int c = 0; c < C; c++) {
       rv[r][c] = A[r][c];
     }
@@ -99,15 +99,15 @@ cvec_float **
 cvec_matrix_invert(cvec_float **A, int R, int C)
 {
   if (R != C) {
-    fprintf(stderr, "Can only invert square matrix.\n");
-    exit(1);
+    fprintf(stderr, "Warning! Inversion failed: can only invert square matrix.\n");
+    return NULL;
   }
 
   cvec_float det = cvec_matrix_determinant(A, R, C);
 
   if (det == 0.0) {
-    fprintf(stderr, "Matrix is non-invertible.\n");
-    exit(1);
+    fprintf(stderr, "Warning! Inversion failed: matrix is non-invertible.\n");
+    return NULL;
   }
   
   cvec_float **moc = cvec_matrix_of_cofactors(A, R, C);
@@ -153,7 +153,7 @@ cvec_matrix_minor(cvec_float **A, int R, int C, int notR, int notC)
 cvec_float **
 cvec_matrix_of_minors(cvec_float **A, int R, int C) 
 {
-  cvec_float **rv = cvec_matrix_new(R-1, C-1, &cvec_matgen_zero);
+  cvec_float **rv = cvec_matrix_new(R, C, &cvec_matgen_zero);
   for (int r = 0; r < R; r++) {
     for (int c = 0; c < C; c++) {
       cvec_float **minor = cvec_matrix_minor(A, R, C, r, c);
@@ -168,13 +168,13 @@ cvec_matrix_of_minors(cvec_float **A, int R, int C)
 
 cvec_float **
 cvec_matrix_of_cofactors(cvec_float **A, int R, int C) {
-  cvec_float **rv = cvec_matrix_new(R-1, C-1, &cvec_matgen_zero);
+  cvec_float **rv = cvec_matrix_new(R, C, &cvec_matgen_zero);
   cvec_float **matrix_of_minors = cvec_matrix_of_minors(A, R, C);
   cvec_float sign = 1.0;
   for (int r = 0; r < R; r++) {
     for (int c = 0; c < C; c++) {
       rv[r][c] = matrix_of_minors[r][c] * sign;
-      sign = sign * -1.0;
+      sign *= -1.0;
     }
   }
   free(matrix_of_minors);
