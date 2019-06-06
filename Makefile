@@ -16,7 +16,7 @@ uninstall:
 	rm -f /usr/include/$(HDR)
 	rm -f /usr/lib/$(SO)
 
-tests: omptest ffttest sorttest mattest
+tests: omptest ffttest sorttest mattest fittest
 
 omptest: omptest.c
 	$(CC) $(CFLAGS) -o $@ $< $(LINK)
@@ -28,6 +28,9 @@ sorttest: sorttest.c
 	$(CC) $(CFLAGS) -o $@ $< $(LINK)
 	
 mattest: mattest.c
+	$(CC) $(CFLAGS) -o $@ $< $(LINK)
+	
+fittest: fittest.c
 	$(CC) $(CFLAGS) -o $@ $< $(LINK)
 
 clean:
