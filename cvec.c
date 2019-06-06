@@ -224,15 +224,18 @@ cvec_float *
 cvec_polyfit(cvec_float *X, cvec_float *Y, int len, int degree)
 {
   // https://github.com/natedomin/polyfit
-  enum {maxOrder = 5};
+  int maxdeg = 5;
   
-  cvec_float B[maxOrder+1] = {0.0f};
-  cvec_float P[((maxOrder+1) * 2)+1] = {0.0f};
-  cvec_float A[(maxOrder + 1)*2*(maxOrder + 1)] = {0.0f};
+  // cvec_float B[maxOrder+1] = {0.0f};
+  // cvec_float P[((maxOrder+1) * 2)+1] = {0.0f};
+  // cvec_float A[(maxOrder + 1)*2*(maxOrder + 1)] = {0.0f};
+  cvec_float *B = calloc(maxdeg+1, sizeof(cvec_float));
+  cvec_float *P = calloc(((maxdeg+1)*2)+1, sizeof(cvec_float));
+  cvec_float *A = calloc((maxdeg+1)*2*(maxdeg+1), sizeof(cvec_float));
 
   double x, y, powx;
 
-  unsigned int ii, jj, kk;
+  int i, j, k;
 
   // Verify initial conditions....
   // ----------------------------------
@@ -244,20 +247,20 @@ cvec_polyfit(cvec_float *X, cvec_float *Y, int len, int degree)
 
   // This method has imposed an arbitrary bound of
   // degree <= maxOrder.  Increase maxOrder if necessary.
-  if (degree > maxOrder)
+  if (degree > maxdeg)
       return NULL;
 
   // Begin Code...
   // ----------------------------------
 
   // Identify the column vector
-  for (ii = 0; ii < len; ii++) {
-    x    = X[ii];
-    y    = Y[ii];
-    powx = 1;
+  for (i = 0; i < len; i++) {
+    x    = X[i];
+    y    = Y[i];
+    powx = 1.0;
 
-    for (jj = 0; jj < (degree + 1); jj++) {
-      B[jj] = B[jj] + (y * powx);
+    for (j = 0; j < (degree + 1); j++) {
+      B[j] = B[j] + (y * powx);
       powx  = powx * x;
     }
   }
@@ -266,41 +269,41 @@ cvec_polyfit(cvec_float *X, cvec_float *Y, int len, int degree)
   P[0] = len;
 
   // Compute the sum of the Powers of X
-  for (ii = 0; ii < len; ii++) {
-    x    = X[ii];
-    powx = X[ii];
+  for (i = 0; i < len; i++) {
+    x    = X[i];
+    powx = X[i];
 
-    for (jj = 1; jj < ((2 * (degree + 1)) + 1); jj++) {
-      P[jj] = P[jj] + powx;
+    for (j = 1; j < ((2 * (degree + 1)) + 1); j++) {
+      P[j] = P[j] + powx;
       powx  = powx * x;
     }
   }
 
   // Initialize the reduction matrix
   //
-  for (ii = 0; ii < (degree + 1); ii++) {
-    for (jj = 0; jj < (degree + 1); jj++) {
-      A[(ii * (2 * (degree + 1))) + jj] = P[ii+jj];
+  for (i = 0; i < (degree + 1); i++) {
+    for (j = 0; j < (degree + 1); j++) {
+      A[(i * (2 * (degree + 1))) + j] = P[i+j];
     }
 
-    A[(ii*(2 * (degree + 1))) + (ii + (degree + 1))] = 1;
+    A[(i*(2 * (degree + 1))) + (i + (degree + 1))] = 1;
   }
 
   // Move the Identity matrix portion of the redux matrix
   // to the left side (find the inverse of the left side
   // of the redux matrix
-  for (ii = 0; ii < (degree + 1); ii++) {
-    x = A[(ii * (2 * (degree + 1))) + ii];
+  for (i = 0; i < (degree + 1); i++) {
+    x = A[(i * (2 * (degree + 1))) + i];
     if (x != 0) {
-      for (kk = 0; kk < (2 * (degree + 1)); kk++) {
-        A[(ii * (2 * (degree + 1))) + kk] = A[(ii * (2 * (degree + 1))) + kk] / x;
+      for (k = 0; k < (2 * (degree + 1)); k++) {
+        A[(i * (2 * (degree + 1))) + k] = A[(i * (2 * (degree + 1))) + k] / x;
       }
 
-      for (jj = 0; jj < (degree + 1); jj++) {
-        if ((jj - ii) != 0) {
-          y = A[(jj * (2 * (degree + 1))) + ii];
-          for (kk = 0; kk < (2 * (degree + 1)); kk++) {
-            A[(jj * (2 * (degree + 1))) + kk] = A[(jj * (2 * (degree + 1))) + kk] - y * A[(ii * (2 * (degree + 1))) + kk];
+      for (j = 0; j < (degree + 1); j++) {
+        if ((j - i) != 0) {
+          y = A[(j * (2 * (degree + 1))) + i];
+          for (k = 0; k < (2 * (degree + 1)); k++) {
+            A[(j * (2 * (degree + 1))) + k] = A[(j * (2 * (degree + 1))) + k] - y * A[(i * (2 * (degree + 1))) + k];
           }
         }
       }
@@ -314,15 +317,18 @@ cvec_polyfit(cvec_float *X, cvec_float *Y, int len, int degree)
   
   cvec_float *coefficients = calloc(degree+1, sizeof(cvec_float));
   // Calculate and Identify the coefficients
-  for (ii = 0; ii < (degree + 1); ii++) {
-    for (jj = 0; jj < (degree + 1); jj++) {
+  for (i = 0; i < (degree + 1); i++) {
+    for (j = 0; j < (degree + 1); j++) {
       x = 0;
-      for (kk = 0; kk < (degree + 1); kk++) {
-        x = x + (A[(ii * (2 * (degree + 1))) + (kk + (degree + 1))] * B[kk]);
+      for (k = 0; k < (degree + 1); k++) {
+        x = x + (A[(i * (2 * (degree + 1))) + (k + (degree + 1))] * B[k]);
       }
-      coefficients[ii] = x;
+      coefficients[i] = x;
     }
   }
+  free(A);
+  free(B);
+  free(P);
   return coefficients;
 }
 
