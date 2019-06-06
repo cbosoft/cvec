@@ -14,6 +14,7 @@ cvec_float *cvec_logspace(cvec_float from, cvec_float to, int len);
 cvec_float *cvec_apply(cvec_float* in, int len, cvec_float (*f)());
 cvec_float *cvec_zeros(int len);
 cvec_float *cvec_copy(cvec_float *source, int len);
+cvec_float *cvec_slice(cvec_float *source, int len, int start, int stop, int skip);
 cvec_float *cvec_cat(cvec_float *source, int len, cvec_float *add, int addlen);
 cvec_float *cvec_diff(cvec_float *x, int len);
 cvec_float *cvec_add(cvec_float *x, cvec_float *y, int len);
@@ -73,5 +74,8 @@ cvec_float cvec_matrix_determinant(cvec_float **A, int R, int C);
 int cvec_matrix_is_invertible(cvec_float **A, int R, int C);
 void cvec_print_matrix(cvec_float **A, int R, int C);
 void cvec_matrix_free(cvec_float **A, int R, int C);
+
+// cvec_filter.c
+cvec_float *cvec_moving_average(cvec_float *x, int len, int w);
 
 // vim: ft=c
