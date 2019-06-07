@@ -52,6 +52,14 @@ cvec_apply(cvec_float* in, int len, cvec_float (*f)(cvec_float)) {
 
 
 
+cvec_float cvec_add(cvec_float v1, cvec_float v2) { return v1 + v2; }
+cvec_float cvec_subtract(cvec_float v1, cvec_float v2) { return v1 - v2; }
+cvec_float cvec_multiply(cvec_float v1, cvec_float v2) { return v1 * v2; }
+cvec_float cvec_divide(cvec_float v1, cvec_float v2) { return v1 / v2; }
+cvec_float cvec_exp(cvec_float v1, cvec_float v2) { return pow(v1, v2); }
+
+
+
 
 cvec_float *
 cvec_apply2(cvec_float *in1, cvec_float *in2, int len, cvec_float (*f)(cvec_float, cvec_float))
@@ -124,59 +132,6 @@ cvec_diff(cvec_float* x, int len) {
   for (i=0; i < (len-1); i++) {
     j = i+1;
     rv[i] = x[j] - x[i];
-  }
-  return rv;
-}
-
-
-
-
-cvec_float *
-cvec_add(cvec_float* x, cvec_float *y, int len) {
-  cvec_float *rv = malloc(sizeof(cvec_float)*(len-1));
-#pragma omp parallel for
-  for (int i = 0; i < len; i++) {
-    rv[i] = x[i] + y[i];
-  }
-  return rv;
-}
-
-
-
-
-cvec_float *
-cvec_subtract(cvec_float* x, cvec_float *y, int len) {
-  cvec_float *rv = malloc(sizeof(cvec_float)*(len-1));
-#pragma omp parallel for
-  for (int i = 0; i < len; i++) {
-    rv[i] = x[i] - y[i];
-  }
-  return rv;
-}
-
-
-
-
-cvec_float *
-cvec_multiply(cvec_float* x, cvec_float *y, int len) {
-  cvec_float *rv = malloc(sizeof(cvec_float)*(len-1));
-#pragma omp parallel for
-  for (int i = 0; i < len; i++) {
-    rv[i] = x[i] * y[i];
-  }
-  return rv;
-}
-
-
-
-
-cvec_float *
-cvec_divide(cvec_float* x, cvec_float *y, int len)
-{
-  cvec_float *rv = malloc(sizeof(cvec_float)*len);
-#pragma omp parallel for
-  for (int i = 0; i < len; i++) {
-    rv[i] = x[i] / y[i];
   }
   return rv;
 }
