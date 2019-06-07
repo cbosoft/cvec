@@ -5,14 +5,14 @@
 #include "cvec.h"
 
 cvec_float *
-cvec_fft(cvec_float *in, int in_len) {
+cvec_fft(cvec_float *in, cvec_uint in_len) {
   fftw_complex *fft_in, *fft_out;
   fftw_plan plan;
 
   fft_in = fftw_malloc(sizeof(fftw_complex) * in_len);
   fft_out = fftw_malloc(sizeof(fftw_complex) * in_len);
 
-  for (int i = 0; i < in_len; i++) {
+  for (cvec_uint i = 0; i < in_len; i++) {
     fft_in[i][0] = in[i];
     fft_in[i][1] = 0.0;
   }
@@ -22,7 +22,7 @@ cvec_fft(cvec_float *in, int in_len) {
   
   cvec_float *ffty = malloc(in_len*sizeof(cvec_float));
 
-  for (int i = 0; i < in_len; i++) {
+  for (cvec_uint i = 0; i < in_len; i++) {
     ffty[i] = fft_out[i][0];
   }
 
@@ -34,11 +34,11 @@ cvec_fft(cvec_float *in, int in_len) {
 }
 
 cvec_float *
-cvec_freq(int len, cvec_float dt) {
+cvec_freq(cvec_uint len, cvec_float dt) {
   cvec_float *freq = malloc(len*sizeof(cvec_float));
   double nyq_f = 1/(2.0*dt);
-  int hlen = (len%2==0)?len/2:(len+1)/2; // unsure about this
-  for (int in = 0; in < hlen; in++) {
+  cvec_uint hlen = (len%2==0)?len/2:(len+1)/2; // unsure about this
+  for (cvec_uint in = 0; in < hlen; in++) {
     cvec_float n = (cvec_float)in;
     freq[in] = (n*nyq_f) / hlen;
     freq[len - in - 1] = -1.0 * ((n*nyq_f) / hlen);
