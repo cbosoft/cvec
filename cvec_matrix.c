@@ -229,9 +229,7 @@ cvec_matrix_is_invertible(cvec_float **A, cvec_uint R, cvec_uint C)
 {
   if (R != C)
     return 0;
-  if (cvec_matrix_determinant(A, R, C) != 0)
-    return 1;
-  return 0;
+  return (cvec_matrix_determinant(A, R, C) != 0);
 }
 
 
