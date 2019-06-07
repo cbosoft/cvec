@@ -71,6 +71,10 @@ void cvec_hist(cvec_float *input, cvec_uint len, cvec_float **output, cvec_float
 cvec_float cvec_std(cvec_float *x, cvec_uint len);
 
 // cvec_matrix.c
+cvec_float cvec_matgen_zeros(cvec_uint r, cvec_uint c);
+cvec_float cvec_matgen_ones(cvec_uint r, cvec_uint c);
+cvec_float cvec_matgen_random(cvec_uint r, cvec_uint c);
+cvec_float cvec_matgen_identity(cvec_uint r, cvec_uint c);
 cvec_float **cvec_matrix_new(cvec_uint rows, cvec_uint cols, cvec_float (*f)(cvec_uint, cvec_uint));
 cvec_float **cvec_matrix_cross(cvec_float **A, cvec_uint rA, cvec_uint cA, cvec_float **B, cvec_uint rB, cvec_uint cB);
 cvec_float **cvec_matrix_copy(cvec_float **A, cvec_uint R, cvec_uint C);

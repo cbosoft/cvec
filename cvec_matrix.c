@@ -2,14 +2,10 @@
 #include <stdio.h>
 #include "cvec.h"
 
-cvec_float
-cvec_matgen_zero(cvec_uint r, cvec_uint c) {
-  return 0.0;
-}
-
-
-
-
+cvec_float cvec_matgen_zeros(cvec_uint r, cvec_uint c) { return 0.0; }
+cvec_float cvec_matgen_ones(cvec_uint r, cvec_uint c) { return 1.0; }
+cvec_float cvec_matgen_random(cvec_uint r, cvec_uint c) { return ((cvec_float)rand()) / ((cvec_float) RAND_MAX); };
+cvec_float cvec_matgen_identity(cvec_uint r, cvec_uint c) { return (r == c) ? (1.0) : (0.0); }
 
 cvec_float **
 cvec_matrix_new(cvec_uint R, cvec_uint C, cvec_float (*f)(cvec_uint, cvec_uint))
@@ -79,8 +75,7 @@ cvec_matrix_cross(cvec_float **A, cvec_uint rA, cvec_uint cA, cvec_float **B, cv
 
   cvec_uint R = rA, C = cB, L = cA;
 
-  cvec_float z(cvec_uint r, cvec_uint c) { return 0.0; }
-  cvec_float **res = cvec_matrix_new(rA, cB, &z);
+  cvec_float **res = cvec_matrix_new(rA, cB, &cvec_matgen_zeros);
 
   for (cvec_uint r = 0; r < R; r++) {
     for (cvec_uint c = 0; c < C; c++) {
@@ -125,7 +120,7 @@ cvec_matrix_invert(cvec_float **A, cvec_uint R, cvec_uint C)
 cvec_float **
 cvec_matrix_minor(cvec_float **A, cvec_uint R, cvec_uint C, cvec_uint notR, cvec_uint notC)
 {
-  cvec_float **rv = cvec_matrix_new(R-1, C-1, &cvec_matgen_zero);
+  cvec_float **rv = cvec_matrix_new(R-1, C-1, &cvec_matgen_zeros);
   
   cvec_uint r = 0, c = 0;
   for (cvec_uint or = 0; or < R; or++) {
@@ -153,7 +148,7 @@ cvec_matrix_minor(cvec_float **A, cvec_uint R, cvec_uint C, cvec_uint notR, cvec
 cvec_float **
 cvec_matrix_of_minors(cvec_float **A, cvec_uint R, cvec_uint C) 
 {
-  cvec_float **rv = cvec_matrix_new(R, C, &cvec_matgen_zero);
+  cvec_float **rv = cvec_matrix_new(R, C, &cvec_matgen_zeros);
   for (cvec_uint r = 0; r < R; r++) {
     for (cvec_uint c = 0; c < C; c++) {
       cvec_float **minor = cvec_matrix_minor(A, R, C, r, c);
@@ -168,7 +163,7 @@ cvec_matrix_of_minors(cvec_float **A, cvec_uint R, cvec_uint C)
 
 cvec_float **
 cvec_matrix_of_cofactors(cvec_float **A, cvec_uint R, cvec_uint C) {
-  cvec_float **rv = cvec_matrix_new(R, C, &cvec_matgen_zero);
+  cvec_float **rv = cvec_matrix_new(R, C, &cvec_matgen_zeros);
   cvec_float **matrix_of_minors = cvec_matrix_of_minors(A, R, C);
   cvec_float sign = 1.0;
   for (cvec_uint r = 0; r < R; r++) {
@@ -186,7 +181,7 @@ cvec_matrix_of_cofactors(cvec_float **A, cvec_uint R, cvec_uint C) {
 
 cvec_float **
 cvec_matrix_transpose(cvec_float **A, cvec_uint R, cvec_uint C) {
-  cvec_float **rv = cvec_matrix_new(C, R, &cvec_matgen_zero);
+  cvec_float **rv = cvec_matrix_new(C, R, &cvec_matgen_zeros);
   for (cvec_uint r = 0; r < R; r++) {
     for (cvec_uint c = 0; c < C; c++) {
       rv[r][c] = A[c][r];
@@ -238,13 +233,15 @@ cvec_matrix_is_invertible(cvec_float **A, cvec_uint R, cvec_uint C)
 void
 cvec_print_matrix(cvec_float **A, cvec_uint R, cvec_uint C)
 {
+  fprintf(stderr, "\n");
   for (cvec_uint r = 0; r < R; r++) {
-    fprintf(stderr, "│ ");
+    fprintf(stderr, "  │ ");
     for (cvec_uint c = 0; c < C; c++) {
-      fprintf(stderr, "%.1e ", A[r][c]);
+      fprintf(stderr, "%.1f ", A[r][c]);
     }
     fprintf(stderr, "│\n");
   }
+  fprintf(stderr, "\n");
 }
 
 
