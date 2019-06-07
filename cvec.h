@@ -37,10 +37,11 @@ cvec_float *cvec_polyfit(cvec_float *x, cvec_float *y, cvec_uint len, cvec_uint 
 cvec_float *cvec_linearfit(cvec_float *x, cvec_float *y, cvec_uint len);
 cvec_float cvec_max(cvec_float *x, cvec_uint len);
 cvec_float cvec_min(cvec_float *x, cvec_uint len);
-cvec_float cvec_average(cvec_float* in, cvec_uint len);
-cvec_float cvec_mean(cvec_float* in, cvec_uint len);
-cvec_float cvec_median(cvec_float* in, cvec_uint len);
-cvec_float cvec_sum(cvec_float* in, cvec_uint len);
+cvec_float cvec_average(cvec_float *in, cvec_uint len);
+cvec_float cvec_mean(cvec_float *in, cvec_uint len);
+cvec_float cvec_median(cvec_float *in, cvec_uint len);
+cvec_float cvec_sum(cvec_float *in, cvec_uint len);
+cvec_float cvec_interpolate(cvec_float *x, cvec_float *y, cvec_uint len, cvec_float ix);
 
 // cvec_fourier.c
 // these funcs assume input is evenly spaced

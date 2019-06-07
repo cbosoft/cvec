@@ -384,3 +384,42 @@ cvec_sum(cvec_float* in, cvec_uint len) {
   }
   return sum;
 }
+
+
+
+cvec_float
+cvec_interpolate(cvec_float *x, cvec_float *y, cvec_uint len, cvec_float ix)
+{
+  if (!cvec_in_order(x, len)) {
+    fprintf(stderr, "FATAL ERROR! cvec_interpolate: Interpolation expects ordered x.\n");
+    exit(1);
+  }
+
+  cvec_uint p1 = len, p2 = len;
+  if (ix < x[0]) {
+    p1 = 0;
+    p2 = 1;
+  }
+  else if (ix > x[len-1]) {
+    p1 = len-1;
+    p2 = len-2;
+  }
+  else {
+    // find surrounding xs
+    for (cvec_uint i = 0, j = 1; j < len; i++, j++) {
+      if (x[i] < ix && x[j] > ix) {
+        p1 = i;
+        p2 = j;
+      }
+    }
+    if (p1 == p2) {
+      fprintf(stderr, "FATAL ERROR! cvec_interpolate: Could not find points surrounding ix.\n");
+      exit(1);
+    }
+  }
+
+
+  cvec_float m = (y[p1] - y[p2]) / (x[p1] - x[p2]);
+  cvec_float yi = (m * (ix - x[p2])) + y[p2];
+  return yi;
+}
