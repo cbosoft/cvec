@@ -407,6 +407,10 @@ cvec_interpolate(cvec_float *x, cvec_float *y, cvec_uint len, cvec_float ix)
   else {
     // find surrounding xs
     for (cvec_uint i = 0, j = 1; j < len; i++, j++) {
+      if (x[i] == ix)
+        return y[i];
+      if (x[j] == ix)
+        return y[j];
       if (x[i] < ix && x[j] > ix) {
         p1 = i;
         p2 = j;
