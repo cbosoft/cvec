@@ -356,6 +356,24 @@ cvec_average(cvec_float* in, cvec_uint len) {
 
 
 cvec_float
+cvec_mean(cvec_float* in, cvec_uint len) {
+  cvec_float sum = cvec_sum(in, len);
+  return sum / ((cvec_float)len);
+}
+
+
+
+
+cvec_float
+cvec_median(cvec_float* in, cvec_uint len) {
+  cvec_uint midp = (len%2==0)?(len/2):(len+1/2);
+  return in[midp];
+}
+
+
+
+
+cvec_float
 cvec_sum(cvec_float* in, cvec_uint len) {
   cvec_float sum = 0.0;
   for (cvec_uint i = 0; i < len; i++) {

@@ -91,6 +91,6 @@ void cvec_print_matrix(cvec_float **A, cvec_uint R, cvec_uint C);
 void cvec_matrix_free(cvec_float **A, cvec_uint R, cvec_uint C);
 
 // cvec_filter.c
-cvec_float *cvec_moving_average(cvec_float *x, cvec_uint len, cvec_uint w);
+cvec_float *cvec_moving_average(cvec_float *x, cvec_uint len, cvec_uint w, cvec_float (*avfunc)(cvec_float *x, cvec_uint len));
 
 // vim: ft=c

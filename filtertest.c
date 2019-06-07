@@ -23,7 +23,7 @@ main (void)
   cvec_float addnoise(cvec_float y) { return (0.9 + (((double)(rand() % 20)) / 100.0)) * y; }
   cvec_float *n = cvec_apply(y, len, &addnoise);
 
-  cvec_float *av = cvec_moving_average(n, len, 10);
+  cvec_float *av = cvec_moving_average(n, len, 10, NULL);
 
   gplt_ctrl *h = gplt_init();
 
