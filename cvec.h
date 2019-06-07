@@ -47,7 +47,7 @@ cvec_float *cvec_freq(cvec_uint len, cvec_float dt);
 void cvec_gaussian_fft(cvec_float* in, cvec_uint in_len, cvec_float *out_y, cvec_float *out_x, cvec_uint *out_len);
 
 // cvec_sort.c
-cvec_uint cvec_in_order(cvec_float *in, cvec_uint len);
+bool cvec_in_order(cvec_float *in, cvec_uint len);
 cvec_float *cvec_insertion_sort(cvec_float *unsorted, cvec_uint len);
 cvec_float *cvec_merge_sort(cvec_float *unsorted, cvec_uint len);
 cvec_float *cvec_quick_sort(cvec_float *unsorted, cvec_uint len);
