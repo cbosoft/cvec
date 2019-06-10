@@ -356,10 +356,74 @@ cvec_average(cvec_float* in, cvec_uint len) {
 
 
 cvec_float
+cvec_mean(cvec_float* in, cvec_uint len) {
+  cvec_float sum = cvec_sum(in, len);
+  return sum / ((cvec_float)len);
+}
+
+
+
+
+cvec_float
+cvec_median(cvec_float* in, cvec_uint len) {
+  cvec_uint midp = (len%2==0)?(len/2):(len+1/2);
+  cvec_float *sorted = cvec_sort(in, len);
+  cvec_float rv = sorted[midp];
+  free(sorted);
+  return rv;
+}
+
+
+
+
+cvec_float
 cvec_sum(cvec_float* in, cvec_uint len) {
   cvec_float sum = 0.0;
   for (cvec_uint i = 0; i < len; i++) {
     sum += in[i];
   }
   return sum;
+}
+
+
+
+cvec_float
+cvec_interpolate(cvec_float *x, cvec_float *y, cvec_uint len, cvec_float ix)
+{
+  if (!cvec_in_order(x, len)) {
+    fprintf(stderr, "FATAL ERROR! cvec_interpolate: Interpolation expects ordered x.\n");
+    exit(1);
+  }
+
+  cvec_uint p1 = len, p2 = len;
+  if (ix < x[0]) {
+    p1 = 0;
+    p2 = 1;
+  }
+  else if (ix > x[len-1]) {
+    p1 = len-1;
+    p2 = len-2;
+  }
+  else {
+    // find surrounding xs
+    for (cvec_uint i = 0, j = 1; j < len; i++, j++) {
+      if (x[i] == ix)
+        return y[i];
+      if (x[j] == ix)
+        return y[j];
+      if (x[i] < ix && x[j] > ix) {
+        p1 = i;
+        p2 = j;
+      }
+    }
+    if (p1 == p2) {
+      fprintf(stderr, "FATAL ERROR! cvec_interpolate: Could not find points surrounding ix.\n");
+      exit(1);
+    }
+  }
+
+
+  cvec_float m = (y[p1] - y[p2]) / (x[p1] - x[p2]);
+  cvec_float yi = (m * (ix - x[p2])) + y[p2];
+  return yi;
 }

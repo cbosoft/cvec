@@ -27,6 +27,7 @@ cvec_float cvec_multiply(cvec_float v1, cvec_float v2);
 cvec_float cvec_divide(cvec_float v1, cvec_float v2);
 cvec_float cvec_exp(cvec_float v1, cvec_float v2);
 cvec_float *cvec_apply(cvec_float* in, cvec_uint len, cvec_float (*f)());
+cvec_float *cvec_apply2(cvec_float* in1, cvec_float *in2, cvec_uint len, cvec_float (*f)());
 cvec_float *cvec_slice(cvec_float *source, cvec_uint len, cvec_uint start, cvec_uint stop, cvec_uint skip);
 cvec_float *cvec_cat(cvec_float *source, cvec_uint len, cvec_float *add, cvec_uint addlen);
 cvec_float *cvec_diff(cvec_float *x, cvec_uint len);
@@ -36,8 +37,11 @@ cvec_float *cvec_polyfit(cvec_float *x, cvec_float *y, cvec_uint len, cvec_uint 
 cvec_float *cvec_linearfit(cvec_float *x, cvec_float *y, cvec_uint len);
 cvec_float cvec_max(cvec_float *x, cvec_uint len);
 cvec_float cvec_min(cvec_float *x, cvec_uint len);
-cvec_float cvec_average(cvec_float* in, cvec_uint len);
-cvec_float cvec_sum(cvec_float* in, cvec_uint len);
+cvec_float cvec_average(cvec_float *in, cvec_uint len);
+cvec_float cvec_mean(cvec_float *in, cvec_uint len);
+cvec_float cvec_median(cvec_float *in, cvec_uint len);
+cvec_float cvec_sum(cvec_float *in, cvec_uint len);
+cvec_float cvec_interpolate(cvec_float *x, cvec_float *y, cvec_uint len, cvec_float ix);
 
 // cvec_fourier.c
 // these funcs assume input is evenly spaced
@@ -90,6 +94,6 @@ void cvec_print_matrix(cvec_float **A, cvec_uint R, cvec_uint C);
 void cvec_matrix_free(cvec_float **A, cvec_uint R, cvec_uint C);
 
 // cvec_filter.c
-cvec_float *cvec_moving_average(cvec_float *x, cvec_uint len, cvec_uint w);
+cvec_float *cvec_moving_average(cvec_float *x, cvec_uint len, cvec_uint w, cvec_float (*avfunc)(cvec_float *x, cvec_uint len));
 
 // vim: ft=c
