@@ -50,9 +50,7 @@ main(int argc, const char **argv) {
 
   gplt_draw(h);
 
-  for (int i = 0; i < 60; i++) {
-    sleep(1);
-  }
+  gplt_waitkey();
 
   gplt_close(h);
   free(angle);

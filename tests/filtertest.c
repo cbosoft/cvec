@@ -31,7 +31,9 @@ main (void)
   gplt_plot_xy(h, x, av, len, NULL);
 
   gplt_draw(h);
-  for (int i = 0; i < 100; i++) sleep(1);
+
+
+  gplt_waitkey();
 
   gplt_close(h);
 
