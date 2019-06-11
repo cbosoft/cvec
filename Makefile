@@ -10,6 +10,7 @@ SRC 	= src/cvec.c \
 				src/cvec_sort.c \
 				src/cvec_stats.c \
 				src/cvec_matrix.c \
+				src/cvec_io.c \
 				src/cvec_filter.c
 TESTS = tests/omptest \
 				tests/ffttest \
