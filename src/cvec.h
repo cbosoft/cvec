@@ -98,5 +98,6 @@ cvec_float *cvec_moving_average(cvec_float *x, cvec_uint len, cvec_uint w, cvec_
 
 // cvec_io.c
 void cvec_write_csv(cvec_float **data, cvec_uint ncols, cvec_uint nlines, const char *csv_path);
+void cvec_write_csv_xy(cvec_float *x, cvec_float *y, cvec_uint len, const char *csv_path);
 
 // vim: ft=c
