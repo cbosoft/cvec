@@ -8,8 +8,8 @@ cvec_moving_average(cvec_float *x, cvec_uint len, cvec_uint w, cvec_float (*avfu
   if (w == 0)
     return cvec_copy(x, len);
 
-  if (w < 10) {
-    fprintf(stderr, "\033[31mFATAL ERROR!\033[0m cvec_moving_average: window cannot be less than 10.\n");
+  if (w < 3) {
+    fprintf(stderr, "\033[31mFATAL ERROR!\033[0m cvec_moving_average: window cannot be less than 3.\n");
     exit(1);
   }
 
