@@ -5,6 +5,14 @@
 cvec_float *
 cvec_moving_average(cvec_float *x, cvec_uint len, cvec_uint w, cvec_float (*avfunc)(cvec_float *x, cvec_uint len))
 {
+  if (w == 0)
+    return cvec_copy(x, len);
+
+  if (w < 10) {
+    fprintf(stderr, "\033[31mFATAL ERROR!\033[0m cvec_moving_average: window cannot be less than 10.\n");
+    exit(1);
+  }
+
   cvec_float *res = malloc(len*sizeof(cvec_float));
   int hw = (w%2 == 0)?(w/2):((w+1/2));
   
@@ -31,6 +39,9 @@ cvec_moving_average(cvec_float *x, cvec_uint len, cvec_uint w, cvec_float (*avfu
       after = len-1;
     }
     cvec_float *window = cvec_slice(x, len, before, after, 1);
+    // for (int i = 0; i < after-before; i++)
+    //   fprintf(stderr, "%f, ", window[i]);
+    // fprintf(stderr, "\n\n");
     res[i] = avfunc(window, after-before);
     free(window);
   }
