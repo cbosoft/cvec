@@ -141,6 +141,14 @@ cvec_diff(cvec_float* x, cvec_uint len) {
 cvec_float *
 cvec_slice(cvec_float *x, cvec_uint len, cvec_uint start, cvec_uint stop, cvec_uint skip)
 {
+  if (stop > len) {
+    fprintf(stderr, "\033[31mFATAL ERROR!\033[0m cvec_slice: stop cannot exceed len.\n");
+    exit(1);
+  }
+  if (skip == 0) {
+    fprintf(stderr, "\033[31mFATAL ERROR!\033[0m cvec_slice: skip cannot be less than 1 (if you don't want to miss any values, set skip to 1).\n");
+    exit(1);
+  }
   cvec_uint olen = (stop - start) / skip;
   cvec_float *rv = malloc(sizeof(cvec_float)*olen);
   for (cvec_uint i = start, j = 0; i < stop; i += skip, j++) {
@@ -366,7 +374,7 @@ cvec_mean(cvec_float* in, cvec_uint len) {
 
 cvec_float
 cvec_median(cvec_float* in, cvec_uint len) {
-  cvec_uint midp = (len%2==0)?(len/2):(len+1/2);
+  cvec_uint midp = (len%2==0)?(len/2):((len+1)/2);
   cvec_float *sorted = cvec_sort(in, len);
   cvec_float rv = sorted[midp];
   free(sorted);
