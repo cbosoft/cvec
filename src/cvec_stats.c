@@ -79,9 +79,6 @@ cvec_autocorr(cvec_float* x, cvec_float *y, int len, cvec_float **res_x, cvec_fl
 
   (*nbins) = ceil((x[len-1] - x[0]) / binw);
 
-  fprintf(stderr, "%d, %f, %f\n", (*nbins), x[len-1], x[0]);
-  exit(1);
-
   (*res_x) = malloc(sizeof(cvec_float)*(*nbins));
   (*res_y) = cvec_zeros((*nbins));
 
