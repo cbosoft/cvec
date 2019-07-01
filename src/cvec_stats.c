@@ -65,8 +65,8 @@ cvec_autocorr(cvec_float* x, cvec_float *y, int len, cvec_float **res_x, cvec_fl
   if (!cvec_in_order(x, len))
     cvec_ferr("cvec_autocorr", "autocorrelation input must be in time-order (i.e. sorted by x)");
 
-  if (len > 10000)
-    cvec_warn("cvec_autocorr", "lengths over 10000 may take some time (length = %d)", len);
+  if (len > 100000)
+    cvec_warn("cvec_autocorr", "lengths over 100000 may take some time (length = %d)", len);
 
   cvec_float *dx = cvec_diff(x, len);
   cvec_float mindt = CVEC_FLOAT_MAX, maxdt = -CVEC_FLOAT_MAX;
