@@ -27,13 +27,21 @@ cvec_write_csv(cvec_float **data, cvec_uint ncols, cvec_uint *nlines, const char
     if (nlines[i] > maxlen)
       maxlen = nlines[i];
   }
-  
+
   for (cvec_uint l = 0; l < maxlen; l++) {
+
     for (cvec_uint c = 0; c < ncols; c++) {
+
+      if (c > 0)
+        fprintf(csvf, ",");
+
       if (l < nlines[c])
-        fprintf(csvf, "%f,", data[c][l]);
+        fprintf(csvf, "%f", data[c][l]);
+
     }
+
     fprintf(csvf, "\n");
+
   }
 
   fclose(csvf);
