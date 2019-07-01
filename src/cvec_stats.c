@@ -59,10 +59,11 @@ cvec_autocorr(cvec_float* x, cvec_float *y, int len, cvec_float **res_x, cvec_fl
   // for discrete signals, autocorr R is given by:
   // R = sum_0^N y(n) av(y(n-l))
 
-  if (x == NULL || y == NULL) {
-    fprintf(stderr, "FATAL ERROR! cvec_autocorr: input cannot be NULL\n");
-    exit(1);
-  }
+  if (x == NULL || y == NULL)
+    cvec_ferr("cvec_autocorr","autocorrelation input cannot be NULL");
+
+  if (!cvec_in_order(x, len))
+    cvec_ferr("cvec_autocorr", "autocorrelation input must be in time-order (i.e. sorted by x)");
 
   cvec_float *dx = cvec_diff(x, len);
   cvec_float mindt = CVEC_FLOAT_MAX, maxdt = -CVEC_FLOAT_MAX;
@@ -78,6 +79,9 @@ cvec_autocorr(cvec_float* x, cvec_float *y, int len, cvec_float **res_x, cvec_fl
 
   (*nbins) = ceil((x[len-1] - x[0]) / binw);
 
+  fprintf(stderr, "%d, %f, %f\n", (*nbins), x[len-1], x[0]);
+  exit(1);
+
   (*res_x) = malloc(sizeof(cvec_float)*(*nbins));
   (*res_y) = cvec_zeros((*nbins));
 
@@ -86,6 +90,13 @@ cvec_autocorr(cvec_float* x, cvec_float *y, int len, cvec_float **res_x, cvec_fl
     for (cvec_uint j = i+1; j < len; j++) {
       cvec_float dt = x[j] - x[i];
       cvec_uint ibin = (cvec_uint)(dt/binw);
+      if (ibin >= (*nbins)) {
+        cvec_warn(
+            "cvec_autocorr", 
+            "overspill in bin index calculation (%u > %d)", 
+            ibin, (*nbins));
+        continue;
+      }
       (*res_y)[ibin] += y[i]*y[j];
     }
   }
