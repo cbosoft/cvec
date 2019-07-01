@@ -41,8 +41,5 @@ cvec_warn(const char *source, const char* fmt, ...)
   vsnprintf(mesg, mesglen, fmt, ap);
   va_end(ap);
 
-  fprintf(stderr, "  "FG_YELLOW"WARNING!"RESET" in "FG_BLUE"%s"RESET" %s", source, mesg);
-  if (errno)
-    fprintf(stderr, " (%d) %s", errno, strerror(errno));
-  fprintf(stderr, "\n");
+  fprintf(stderr, "  "FG_YELLOW"WARNING!"RESET" in "FG_BLUE"%s"RESET": %s\n", source, mesg);
 }
