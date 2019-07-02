@@ -1,0 +1,5 @@
+cmake_minimum_required (VERSION 2.6)
+project (cvec)
+add_library(cvec SHARED src/cvec.c src/cvec_filter.c src/cvec.h src/cvec_io.c src/cvec_sort.c src/cvec_error.c src/cvec_fourier.c src/cvec_int.c src/cvec_matrix.c src/cvec_stats.c)
+install(TARGETS cvec DESTINATION /usr/lib)
+install(FILES src/cvec.h DESTINATION /usr/include)

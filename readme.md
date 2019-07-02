@@ -4,11 +4,15 @@
 
 # Installation
 
-Only depends on `libfftw3`. If you've got that installed, then `cvec` can easily
-be installed by cloning this repo then
+Depends on `cmake` for building, and on `libfftw3` for fourier maths. If you've
+got those installed, then `cvec` can easily be installed by cloning this repo
+then:
 
 ```bash
-make && sudo make install
+cd build
+cmake ..
+make
+sudo make install
 ```
 
 Done! Ready to do some maths.
