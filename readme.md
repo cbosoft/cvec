@@ -29,7 +29,17 @@ are passed to functions with their length. Functions are named whether they deal
 with floats or ints. `cvec_<name>` is a float function, and `cvec_int_<name>` is
 an int function.
 
-Current functions implemented:
+Highlights:
+
+  - `cvec_apply`
+
+    Apply a function to every element of the vector, creating a second vector
+    with the results. If possible, this is done in parallel.
+
+  - `cvec_apply2`
+
+    Apply a function to two vectors together, creating a third vector with the
+    results. If possible, this is done in parallel.
 
   - `cvec_bubble_sort`
 
@@ -41,7 +51,7 @@ Current functions implemented:
 
   - `cvec_diff`
 
-    Difference between each element in a vector
+    Difference between each element and the subsequent element in a vector.
 
   - `cvec_fft`, `cvec_freq`
 
