@@ -7,8 +7,7 @@
 
 #include "cvec.h"
 
-void
-cvec_ferr(const char *source, const char* fmt, ...)
+void cvec_ferr(const char *source, const char* fmt, ...)
 {
   size_t mesglen = 256;
   char *mesg = calloc(mesglen, sizeof(char));
@@ -29,8 +28,7 @@ cvec_ferr(const char *source, const char* fmt, ...)
 
 
 
-void
-cvec_warn(const char *source, const char* fmt, ...)
+void cvec_warn(const char *source, const char* fmt, ...)
 {
   size_t mesglen = 256;
   char *mesg = calloc(mesglen, sizeof(char));

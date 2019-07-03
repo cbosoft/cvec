@@ -5,8 +5,8 @@
 
 #include "cvec.h"
 
-void
-cvec_hist(cvec_float *input, cvec_uint len, cvec_float **output, cvec_float **bins, cvec_uint *nbins) {
+void cvec_hist(cvec_float *input, cvec_uint len, cvec_float **output, cvec_float **bins, cvec_uint *nbins)
+{
 
   if ((*nbins) <= 0)
     (*nbins) = (cvec_uint)pow((cvec_float)len, 0.5);
@@ -48,8 +48,8 @@ cvec_hist(cvec_float *input, cvec_uint len, cvec_float **output, cvec_float **bi
 
 
 
-void
-cvec_autocorr(cvec_float* x, cvec_float *y, int len, cvec_float **res_x, cvec_float **res_y, int *nbins) {
+void cvec_autocorr(cvec_float* x, cvec_float *y, int len, cvec_float **res_x, cvec_float **res_y, int *nbins)
+{
   // time correlation
   //
   // for each data point, for each lag dt, get product, sum:
@@ -115,8 +115,7 @@ cvec_autocorr(cvec_float* x, cvec_float *y, int len, cvec_float **res_x, cvec_fl
 
 
 
-cvec_float
-cvec_std(cvec_float *x, cvec_uint len)
+cvec_float cvec_std(cvec_float *x, cvec_uint len)
 {
   cvec_float average = cvec_average(x, len);
   cvec_float getsquaredev(cvec_float v) { return pow(average-v,2.0); }

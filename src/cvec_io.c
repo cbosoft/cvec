@@ -4,7 +4,8 @@
 #include <string.h>
 #include "cvec.h"
 
-FILE *cvec_safe_fopen(const char *path, const char *t) {
+FILE *cvec_safe_fopen(const char *path, const char *t)
+{
   FILE *rv = fopen(path, t);
   if (rv == NULL) {
     fprintf(stderr, "\033[31mFATAL ERROR!\033[0m cvec_safe_fopen: (%d) %s\n", errno, strerror(errno));
@@ -17,8 +18,7 @@ FILE *cvec_safe_fopen(const char *path, const char *t) {
 
 
 
-void
-cvec_write_csv(cvec_float **data, cvec_uint ncols, cvec_uint *nlines, const char *csv_path)
+void cvec_write_csv(cvec_float **data, cvec_uint ncols, cvec_uint *nlines, const char *csv_path)
 {
   FILE *csvf = cvec_safe_fopen(csv_path, "w");
 
@@ -50,8 +50,7 @@ cvec_write_csv(cvec_float **data, cvec_uint ncols, cvec_uint *nlines, const char
 
 
 
-void
-cvec_write_csv_xy(cvec_float *x, cvec_float *y, cvec_uint len, const char *csv_path)
+void cvec_write_csv_xy(cvec_float *x, cvec_float *y, cvec_uint len, const char *csv_path)
 {
   FILE *csvf = cvec_safe_fopen(csv_path, "w");
 

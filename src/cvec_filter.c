@@ -2,8 +2,7 @@
 #include <stdio.h>
 #include "cvec.h"
 
-cvec_float *
-cvec_moving_average(cvec_float *x, cvec_uint len, cvec_uint w, cvec_float (*avfunc)(cvec_float *x, cvec_uint len))
+cvec_float *cvec_moving_average(cvec_float *x, cvec_uint len, cvec_uint w, cvec_float (*avfunc)(cvec_float *x, cvec_uint len))
 {
   if (w == 0)
     return cvec_copy(x, len);

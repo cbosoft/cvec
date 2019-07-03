@@ -7,8 +7,8 @@
 
 
 
-cvec_float *
-cvec_linspace(cvec_float from, cvec_float to, cvec_uint len) {
+cvec_float * cvec_linspace(cvec_float from, cvec_float to, cvec_uint len)
+{
   cvec_float *rv = malloc(len*sizeof(cvec_float));
   cvec_float step = (to - from) / ((cvec_float)(len - 1));
 
@@ -23,8 +23,8 @@ cvec_linspace(cvec_float from, cvec_float to, cvec_uint len) {
 
 
 
-cvec_float *
-cvec_logspace(cvec_float from, cvec_float to, cvec_uint len) {
+cvec_float * cvec_logspace(cvec_float from, cvec_float to, cvec_uint len)
+{
   cvec_float lfrom = log(from), lto = log(to);
   cvec_float *rv = cvec_linspace(lfrom, lto, len);
 
@@ -39,8 +39,8 @@ cvec_logspace(cvec_float from, cvec_float to, cvec_uint len) {
 
 
 
-cvec_float *
-cvec_apply(cvec_float* in, cvec_uint len, cvec_float (*f)(cvec_float)) {
+cvec_float * cvec_apply(cvec_float* in, cvec_uint len, cvec_float (*f)(cvec_float))
+{
   cvec_float *rv = malloc(len*sizeof(cvec_float));
 
 #pragma omp parallel for
@@ -61,8 +61,7 @@ cvec_float cvec_exp(cvec_float v1, cvec_float v2) { return pow(v1, v2); }
 
 
 
-cvec_float *
-cvec_apply2(cvec_float *in1, cvec_float *in2, cvec_uint len, cvec_float (*f)(cvec_float, cvec_float))
+cvec_float *cvec_apply2(cvec_float *in1, cvec_float *in2, cvec_uint len, cvec_float (*f)(cvec_float, cvec_float))
 {
   cvec_float *rv = malloc(len*sizeof(cvec_float));
 
@@ -76,8 +75,7 @@ cvec_apply2(cvec_float *in1, cvec_float *in2, cvec_uint len, cvec_float (*f)(cve
 
 
 
-cvec_float *
-cvec_zeros(cvec_uint len)
+cvec_float *cvec_zeros(cvec_uint len)
 {
   cvec_float *rv = malloc(len*sizeof(cvec_float));
 
@@ -90,8 +88,7 @@ cvec_zeros(cvec_uint len)
 
 
 
-cvec_float *
-cvec_copy(cvec_float *source, cvec_uint len)
+cvec_float *cvec_copy(cvec_float *source, cvec_uint len)
 {
   cvec_float *rv = malloc(sizeof(cvec_float)*len);
 #pragma omp parallel for
@@ -103,8 +100,7 @@ cvec_copy(cvec_float *source, cvec_uint len)
 
 
 
-cvec_float *
-cvec_cat(cvec_float *source, cvec_uint len, cvec_float *add, cvec_uint addlen)
+cvec_float *cvec_cat(cvec_float *source, cvec_uint len, cvec_float *add, cvec_uint addlen)
 {
   cvec_float *rv = malloc(sizeof(cvec_float)*(len+addlen));
 
@@ -124,8 +120,8 @@ cvec_cat(cvec_float *source, cvec_uint len, cvec_float *add, cvec_uint addlen)
 
 
 
-cvec_float *
-cvec_diff(cvec_float* x, cvec_uint len) {
+cvec_float *cvec_diff(cvec_float* x, cvec_uint len)
+{
   cvec_float *rv = malloc(sizeof(cvec_float)*(len-1));
   cvec_uint i, j;
 #pragma omp parallel for
@@ -138,8 +134,7 @@ cvec_diff(cvec_float* x, cvec_uint len) {
 
 
 
-cvec_float *
-cvec_slice(cvec_float *x, cvec_uint len, cvec_uint start, cvec_uint stop, cvec_uint skip)
+cvec_float *cvec_slice(cvec_float *x, cvec_uint len, cvec_uint start, cvec_uint stop, cvec_uint skip)
 {
   if (stop > len) {
     fprintf(stderr, "\033[31mFATAL ERROR!\033[0m cvec_slice: stop cannot exceed len.\n");
@@ -160,8 +155,7 @@ cvec_slice(cvec_float *x, cvec_uint len, cvec_uint start, cvec_uint stop, cvec_u
 
 
 
-cvec_float
-cvec_get_sumse(cvec_float *x, cvec_float *y, cvec_uint len, cvec_float *coefs, cvec_uint ncoefs)
+cvec_float cvec_get_sumse(cvec_float *x, cvec_float *y, cvec_uint len, cvec_float *coefs, cvec_uint ncoefs)
 {
   cvec_float calc_se(cvec_float o, cvec_float g) { 
     return pow(o - g, 2.0); 
@@ -183,8 +177,7 @@ cvec_get_sumse(cvec_float *x, cvec_float *y, cvec_uint len, cvec_float *coefs, c
 
 
 
-cvec_float *
-cvec_polyfit(cvec_float *X, cvec_float *Y, cvec_uint len, cvec_uint degree)
+cvec_float *cvec_polyfit(cvec_float *X, cvec_float *Y, cvec_uint len, cvec_uint degree)
 {
   // https://github.com/natedomin/polyfit
   cvec_uint maxdeg = 5;
@@ -281,8 +274,7 @@ cvec_polyfit(cvec_float *X, cvec_float *Y, cvec_uint len, cvec_uint degree)
 
 
 
-cvec_float *
-cvec_linearfit(cvec_float *x, cvec_float *y, cvec_uint len)
+cvec_float *cvec_linearfit(cvec_float *x, cvec_float *y, cvec_uint len)
 {
   cvec_float midx = cvec_average(x, len);
   cvec_float midy = cvec_average(y, len);
@@ -328,8 +320,8 @@ cvec_linearfit(cvec_float *x, cvec_float *y, cvec_uint len)
 
 
 
-cvec_float
-cvec_average(cvec_float* in, cvec_uint len) {
+cvec_float cvec_average(cvec_float* in, cvec_uint len)
+{
   cvec_float sum = cvec_sum(in, len);
   return sum / ((cvec_float)len);
 }
@@ -337,8 +329,8 @@ cvec_average(cvec_float* in, cvec_uint len) {
 
 
 
-cvec_float
-cvec_mean(cvec_float* in, cvec_uint len) {
+cvec_float cvec_mean(cvec_float* in, cvec_uint len)
+{
   cvec_float sum = cvec_sum(in, len);
   return sum / ((cvec_float)len);
 }
@@ -346,8 +338,8 @@ cvec_mean(cvec_float* in, cvec_uint len) {
 
 
 
-cvec_float
-cvec_median(cvec_float* in, cvec_uint len) {
+cvec_float cvec_median(cvec_float* in, cvec_uint len)
+{
   cvec_uint midp = (len%2==0)?(len/2):((len+1)/2);
   cvec_float *sorted = cvec_sort(in, len);
   cvec_float rv = sorted[midp];
@@ -358,8 +350,8 @@ cvec_median(cvec_float* in, cvec_uint len) {
 
 
 
-cvec_float
-cvec_sum(cvec_float* in, cvec_uint len) {
+cvec_float cvec_sum(cvec_float* in, cvec_uint len)
+{
   cvec_float sum = 0.0;
   for (cvec_uint i = 0; i < len; i++) {
     sum += in[i];
@@ -369,8 +361,7 @@ cvec_sum(cvec_float* in, cvec_uint len) {
 
 
 
-cvec_float
-cvec_interpolate(cvec_float *x, cvec_float *y, cvec_uint len, cvec_float ix)
+cvec_float cvec_interpolate(cvec_float *x, cvec_float *y, cvec_uint len, cvec_float ix)
 {
   if (!cvec_in_order(x, len)) {
     fprintf(stderr, "FATAL ERROR! cvec_interpolate: Interpolation expects ordered x.\n");

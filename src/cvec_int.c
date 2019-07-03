@@ -3,8 +3,8 @@
 
 #include "cvec.h"
 
-cvec_int *
-cvec_int_linspace(cvec_int from, cvec_int to, cvec_uint len) {
+cvec_int *cvec_int_linspace(cvec_int from, cvec_int to, cvec_uint len)
+{
   cvec_int *rv = malloc(len*sizeof(cvec_int));
   cvec_int step = (to - from) / ((cvec_int)(len - 1));
 
@@ -19,8 +19,8 @@ cvec_int_linspace(cvec_int from, cvec_int to, cvec_uint len) {
 
 
 
-cvec_int *
-cvec_int_logspace(cvec_int from, cvec_int to, cvec_uint len) {
+cvec_int *cvec_int_logspace(cvec_int from, cvec_int to, cvec_uint len)
+{
   cvec_int lfrom = log(from), lto = log(to);
   cvec_int *rv = cvec_int_linspace(lfrom, lto, len);
 
@@ -34,8 +34,8 @@ cvec_int_logspace(cvec_int from, cvec_int to, cvec_uint len) {
 
 
 
-cvec_int *
-cvec_int_apply(cvec_int* in, cvec_uint len, cvec_int (*f)(cvec_int)) {
+cvec_int *cvec_int_apply(cvec_int* in, cvec_uint len, cvec_int (*f)(cvec_int))
+{
   cvec_int *rv = malloc(len*sizeof(cvec_int));
 
 #pragma omp parallel for
@@ -48,8 +48,8 @@ cvec_int_apply(cvec_int* in, cvec_uint len, cvec_int (*f)(cvec_int)) {
 
 
 
-cvec_int *
-cvec_int_zeros(cvec_uint len) {
+cvec_int *cvec_int_zeros(cvec_uint len)
+{
   cvec_int *rv = malloc(len*sizeof(cvec_int));
 
 #pragma omp parallel for
@@ -62,8 +62,8 @@ cvec_int_zeros(cvec_uint len) {
 
 
 
-cvec_int *
-cvec_int_copy(cvec_int * source, cvec_uint len) {
+cvec_int *cvec_int_copy(cvec_int * source, cvec_uint len)
+{
   cvec_int *rv = malloc(sizeof(cvec_int)*len);
 #pragma omp parallel for
   for(cvec_uint i = 0; i < len; i++) {
@@ -75,8 +75,8 @@ cvec_int_copy(cvec_int * source, cvec_uint len) {
 
 
 
-cvec_int *
-cvec_int_diff(cvec_int* x, cvec_uint len) {
+cvec_int *cvec_int_diff(cvec_int* x, cvec_uint len)
+{
   cvec_int *rv = malloc(sizeof(cvec_int)*(len-1));
   cvec_uint i, j;
 #pragma omp parallel for
@@ -90,8 +90,8 @@ cvec_int_diff(cvec_int* x, cvec_uint len) {
 
 
 
-cvec_int
-cvec_int_max(cvec_int* x, cvec_uint len) {
+cvec_int cvec_int_max(cvec_int* x, cvec_uint len)
+{
   cvec_int rv = CVEC_INT_MIN;
   for (cvec_uint i = 0; i < len; i++) {
     if (x[i] > rv) {
@@ -104,8 +104,8 @@ cvec_int_max(cvec_int* x, cvec_uint len) {
 
 
 
-cvec_int
-cvec_int_min(cvec_int* x, cvec_uint len) {
+cvec_int cvec_int_min(cvec_int* x, cvec_uint len)
+{
   cvec_int rv = CVEC_INT_MAX;
   for (cvec_uint i = 0; i < len; i++) {
     if (x[i] < rv) {
@@ -118,8 +118,8 @@ cvec_int_min(cvec_int* x, cvec_uint len) {
 
 
 
-cvec_int 
-cvec_int_average(cvec_int* in, cvec_uint len) {
+cvec_int cvec_int_average(cvec_int* in, cvec_uint len)
+{
   cvec_int sum = cvec_int_sum(in, len);
   return sum / len;
 }
@@ -127,8 +127,8 @@ cvec_int_average(cvec_int* in, cvec_uint len) {
 
 
 
-cvec_int
-cvec_int_sum(cvec_int* in, cvec_uint len) {
+cvec_int cvec_int_sum(cvec_int* in, cvec_uint len)
+{
   cvec_int sum = 0;
   for (cvec_uint i = 0; i < len; i++) {
     sum += in[i];

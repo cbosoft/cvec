@@ -4,8 +4,8 @@
 
 #include "cvec.h"
 
-cvec_float *
-cvec_fft(cvec_float *in, cvec_uint in_len) {
+cvec_float *cvec_fft(cvec_float *in, cvec_uint in_len)
+{
   fftw_complex *fft_in, *fft_out;
   fftw_plan plan;
 
@@ -33,8 +33,8 @@ cvec_fft(cvec_float *in, cvec_uint in_len) {
   return ffty;
 }
 
-cvec_float *
-cvec_freq(cvec_uint len, cvec_float dt) {
+cvec_float *cvec_freq(cvec_uint len, cvec_float dt)
+{
   cvec_float *freq = malloc(len*sizeof(cvec_float));
   cvec_float nyq_f = 1/(2.0*dt);
   cvec_uint hlen = (len%2==0)?len:(len+1); // unsure about this

@@ -7,8 +7,7 @@ cvec_float cvec_matgen_ones(cvec_uint r, cvec_uint c) { return 1.0; }
 cvec_float cvec_matgen_random(cvec_uint r, cvec_uint c) { return ((cvec_float)rand()) / ((cvec_float) RAND_MAX); };
 cvec_float cvec_matgen_identity(cvec_uint r, cvec_uint c) { return (r == c) ? (1.0) : (0.0); }
 
-cvec_float **
-cvec_matrix_new(cvec_uint R, cvec_uint C, cvec_float (*f)(cvec_uint, cvec_uint))
+cvec_float **cvec_matrix_new(cvec_uint R, cvec_uint C, cvec_float (*f)(cvec_uint, cvec_uint))
 {
   cvec_float **rv = malloc(R*sizeof(cvec_float*));
   for (cvec_uint r = 0; r < R; r++) {
@@ -23,8 +22,7 @@ cvec_matrix_new(cvec_uint R, cvec_uint C, cvec_float (*f)(cvec_uint, cvec_uint))
 
 
 
-cvec_float **
-cvec_matrix_copy(cvec_float **A, cvec_uint R, cvec_uint C)
+cvec_float **cvec_matrix_copy(cvec_float **A, cvec_uint R, cvec_uint C)
 {
   cvec_float **rv = malloc(R*sizeof(cvec_float*));
   for (cvec_uint r = 0; r < R; r++) {
@@ -38,8 +36,7 @@ cvec_matrix_copy(cvec_float **A, cvec_uint R, cvec_uint C)
 
 
 
-cvec_float **
-cvec_matrix_apply(cvec_float **A, cvec_uint R, cvec_uint C, cvec_float (*f)(cvec_float))
+cvec_float **cvec_matrix_apply(cvec_float **A, cvec_uint R, cvec_uint C, cvec_float (*f)(cvec_float))
 {
   cvec_float **rv = cvec_matrix_copy(A, R, C);
   for (cvec_uint r = 0; r <R; r++) {
@@ -53,8 +50,7 @@ cvec_matrix_apply(cvec_float **A, cvec_uint R, cvec_uint C, cvec_float (*f)(cvec
 
 
 
-cvec_float ** 
-cvec_matrix_cross(cvec_float **A, cvec_uint rA, cvec_uint cA, cvec_float **B, cvec_uint rB, cvec_uint cB)
+cvec_float **cvec_matrix_cross(cvec_float **A, cvec_uint rA, cvec_uint cA, cvec_float **B, cvec_uint rB, cvec_uint cB)
 {
   /*
     This is the matrix multiplication of 
@@ -90,8 +86,7 @@ cvec_matrix_cross(cvec_float **A, cvec_uint rA, cvec_uint cA, cvec_float **B, cv
 
 
 
-cvec_float **
-cvec_matrix_invert(cvec_float **A, cvec_uint R, cvec_uint C)
+cvec_float **cvec_matrix_invert(cvec_float **A, cvec_uint R, cvec_uint C)
 {
   if (R != C) {
     fprintf(stderr, "Warning! Inversion failed: can only invert square matrix.\n");
@@ -117,8 +112,7 @@ cvec_matrix_invert(cvec_float **A, cvec_uint R, cvec_uint C)
 
 
 
-cvec_float **
-cvec_matrix_minor(cvec_float **A, cvec_uint R, cvec_uint C, cvec_uint notR, cvec_uint notC)
+cvec_float **cvec_matrix_minor(cvec_float **A, cvec_uint R, cvec_uint C, cvec_uint notR, cvec_uint notC)
 {
   cvec_float **rv = cvec_matrix_new(R-1, C-1, &cvec_matgen_zeros);
   
@@ -145,8 +139,7 @@ cvec_matrix_minor(cvec_float **A, cvec_uint R, cvec_uint C, cvec_uint notR, cvec
 
 
 
-cvec_float **
-cvec_matrix_of_minors(cvec_float **A, cvec_uint R, cvec_uint C) 
+cvec_float **cvec_matrix_of_minors(cvec_float **A, cvec_uint R, cvec_uint C) 
 {
   cvec_float **rv = cvec_matrix_new(R, C, &cvec_matgen_zeros);
   for (cvec_uint r = 0; r < R; r++) {
@@ -161,8 +154,7 @@ cvec_matrix_of_minors(cvec_float **A, cvec_uint R, cvec_uint C)
 
 
 
-cvec_float **
-cvec_matrix_of_cofactors(cvec_float **A, cvec_uint R, cvec_uint C) {
+cvec_float **cvec_matrix_of_cofactors(cvec_float **A, cvec_uint R, cvec_uint C) {
   cvec_float **rv = cvec_matrix_new(R, C, &cvec_matgen_zeros);
   cvec_float **matrix_of_minors = cvec_matrix_of_minors(A, R, C);
   cvec_float sign = 1.0;
@@ -179,8 +171,7 @@ cvec_matrix_of_cofactors(cvec_float **A, cvec_uint R, cvec_uint C) {
 
 
 
-cvec_float **
-cvec_matrix_transpose(cvec_float **A, cvec_uint R, cvec_uint C) {
+cvec_float **cvec_matrix_transpose(cvec_float **A, cvec_uint R, cvec_uint C) {
   cvec_float **rv = cvec_matrix_new(C, R, &cvec_matgen_zeros);
   for (cvec_uint r = 0; r < R; r++) {
     for (cvec_uint c = 0; c < C; c++) {
@@ -193,8 +184,7 @@ cvec_matrix_transpose(cvec_float **A, cvec_uint R, cvec_uint C) {
 
 
 
-cvec_float
-cvec_matrix_determinant(cvec_float **A, cvec_uint R, cvec_uint C)
+cvec_float cvec_matrix_determinant(cvec_float **A, cvec_uint R, cvec_uint C)
 {
   if (R != C) {
     fprintf(stderr, "Can only find the determinant of a square matrix!\n");
@@ -219,8 +209,7 @@ cvec_matrix_determinant(cvec_float **A, cvec_uint R, cvec_uint C)
 
 
 
-bool
-cvec_matrix_is_invertible(cvec_float **A, cvec_uint R, cvec_uint C) 
+bool cvec_matrix_is_invertible(cvec_float **A, cvec_uint R, cvec_uint C) 
 {
   if (R != C)
     return 0;
@@ -230,8 +219,7 @@ cvec_matrix_is_invertible(cvec_float **A, cvec_uint R, cvec_uint C)
 
 
 
-void
-cvec_print_matrix(cvec_float **A, cvec_uint R, cvec_uint C)
+void cvec_print_matrix(cvec_float **A, cvec_uint R, cvec_uint C)
 {
   fprintf(stderr, "\n");
   for (cvec_uint r = 0; r < R; r++) {
@@ -247,8 +235,7 @@ cvec_print_matrix(cvec_float **A, cvec_uint R, cvec_uint C)
 
 
 
-void
-cvec_matrix_free(cvec_float **A, cvec_uint R, cvec_uint C) 
+void cvec_matrix_free(cvec_float **A, cvec_uint R, cvec_uint C) 
 {
   for (cvec_uint r = 0; r < R; r++) {
     free(A[r]);
