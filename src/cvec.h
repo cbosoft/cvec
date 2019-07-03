@@ -12,6 +12,11 @@ typedef int bool;
 #define CVEC_INT_MAX INT_MAX
 #define CVEC_INT_MIN INT_MIN
 
+// flag stuff
+#define FLAGSET(A,F) ((A&F)==F)
+
+#define CVEC_PEAKS_POSITIVE 0
+#define CVEC_PEAKS_NEGATIVE 1
 
 #define CVEC_LIMITS_MAXIMUM 0
 #define CVEC_LIMITS_MINIMUM 1
@@ -76,7 +81,6 @@ cvec_float cvec_mean(cvec_float *in, cvec_uint len);
 cvec_float cvec_median(cvec_float *in, cvec_uint len);
 cvec_float cvec_sum(cvec_float *in, cvec_uint len);
 cvec_float cvec_interpolate(cvec_float *x, cvec_float *y, cvec_uint len, cvec_float ix);
-
 // }}}
 
 // }}}
@@ -164,6 +168,11 @@ cvec_float *cvec_moving_average(cvec_float *x, cvec_uint len, cvec_uint w, cvec_
 
 void cvec_write_csv(cvec_float **data, cvec_uint ncols, cvec_uint *nlines, const char *csv_path);
 void cvec_write_csv_xy(cvec_float *x, cvec_float *y, cvec_uint len, const char *csv_path);
+
+// }}}
+// cvec_signal.c {{{
+
+void cvec_peakdet(cvec_float *signal, cvec_uint len, cvec_float threshhold, cvec_float **peaks, cvec_uint **peak_indices, cvec_uint *npeaks, cvec_int flags);
 
 // }}}
 // vim: ft=c foldmethod=marker
