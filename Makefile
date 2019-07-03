@@ -4,17 +4,17 @@ LINK	= -lm -lfftw3 -fopenmp
 
 SO		=	build/libcvec.so
 HDR		= src/cvec.h
-SRC 	= src/cvec.c \
-			 	src/cvec_int.c \
-				src/cvec_fourier.c \
-				src/cvec_sort.c \
-				src/cvec_stats.c \
-				src/cvec_matrix.c \
-				src/cvec_io.c \
-				src/cvec_filter.c \
-				src/cvec_error.c \
-				src/cvec_limits.c \
-				src/cvec_signal.c
+SRC 	= src/vector.c \
+			 	src/int_vector.c \
+				src/fourier.c \
+				src/sort.c \
+				src/stats.c \
+				src/matrices.c \
+				src/io.c \
+				src/filter.c \
+				src/error.c \
+				src/limits.c \
+				src/signalproc.c
 TESTS = tests/omptest \
 				tests/ffttest \
 				tests/sorttest \

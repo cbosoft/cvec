@@ -48,7 +48,7 @@ typedef int bool;
 #define BOLD "\033[1m"
 
 // }}}
-// cvec.c {{{
+// vector.c {{{
 
 // creating new vectors {{{
 
@@ -80,20 +80,20 @@ cvec_float cvec_interpolate(cvec_float *x, cvec_float *y, cvec_uint len, cvec_fl
 // }}}
 
 // }}}
-// cvec_error.c {{{
+// error.c {{{
 
 void cvec_ferr(const char *source, const char* fmt, ...);
 void cvec_warn(const char *source, const char* fmt, ...);
 
 // }}}
-// cvec_limits.c {{{
+// limits.c {{{
 
 cvec_float cvec_max(cvec_float *x, cvec_uint len);
 cvec_float cvec_min(cvec_float *x, cvec_uint len);
 void cvec_get_limit(cvec_float *in, cvec_uint len, cvec_int flags, cvec_float threshold, cvec_float *limit, cvec_uint *index);
 
 // }}}
-// cvec_fourier.c {{{
+// fourier.c {{{
 
 // these funcs assume input is evenly spaced
 cvec_float *cvec_fft(cvec_float* in, cvec_uint in_len);
@@ -103,7 +103,7 @@ cvec_float *cvec_freq(cvec_uint len, cvec_float dt);
 void cvec_gaussian_fft(cvec_float* in, cvec_uint in_len, cvec_float *out_y, cvec_float *out_x, cvec_uint *out_len);
 
 // }}}
-// cvec_sort.c {{{
+// sort.c {{{
 
 bool cvec_in_order(cvec_float *in, cvec_uint len);
 cvec_float *cvec_insertion_sort(cvec_float *unsorted, cvec_uint len);
@@ -113,7 +113,7 @@ cvec_float *cvec_bubble_sort(cvec_float *unsorted, cvec_uint len);
 cvec_float *cvec_sort(cvec_float *unsorted, cvec_uint len);
 
 // }}}
-// cvec_int.c {{{
+// int_vector.c {{{
 
 cvec_int *cvec_int_linspace(cvec_int from, cvec_int to, cvec_uint len);
 cvec_int *cvec_int_logspace(cvec_int from, cvec_int to, cvec_uint len);
@@ -127,7 +127,7 @@ cvec_int cvec_int_average(cvec_int* in, cvec_uint len);
 cvec_int cvec_int_sum(cvec_int* in, cvec_uint len);
 
 // }}}
-// cvec_stats.c {{{
+// stats.c {{{
 
 void cvec_hist(cvec_float *input, cvec_uint len, cvec_float **output, cvec_float **bins, cvec_uint *nbins);
 cvec_float cvec_std(cvec_float *x, cvec_uint len);
@@ -138,7 +138,7 @@ cvec_float cvec_median(cvec_float *in, cvec_uint len);
 cvec_float cvec_sum(cvec_float *in, cvec_uint len);
 
 // }}}
-// cvec_matrix.c {{{
+// matrices.c {{{
 
 cvec_float cvec_matgen_zeros(cvec_uint r, cvec_uint c);
 cvec_float cvec_matgen_ones(cvec_uint r, cvec_uint c);
@@ -159,18 +159,18 @@ void cvec_print_matrix(cvec_float **A, cvec_uint R, cvec_uint C);
 void cvec_matrix_free(cvec_float **A, cvec_uint R, cvec_uint C);
 
 // }}}
-// cvec_filter.c {{{
+// filter.c {{{
 
 cvec_float *cvec_moving_average(cvec_float *x, cvec_uint len, cvec_uint w, cvec_float (*avfunc)(cvec_float *x, cvec_uint len));
 
 // }}}
-// cvec_io.c {{{
+// io.c {{{
 
 void cvec_write_csv(cvec_float **data, cvec_uint ncols, cvec_uint *nlines, const char *csv_path);
 void cvec_write_csv_xy(cvec_float *x, cvec_float *y, cvec_uint len, const char *csv_path);
 
 // }}}
-// cvec_signal.c {{{
+// signal_proc.c {{{
 
 void cvec_peakdet(cvec_float *signal, cvec_uint len, cvec_float threshhold, cvec_float **peaks, cvec_uint **peak_indices, cvec_uint *npeaks, cvec_int flags);
 
