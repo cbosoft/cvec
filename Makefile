@@ -1,6 +1,6 @@
 CC 		= gcc
 CFLAGS 	= -O0 -g
-LINK	= -lcvec -lm -lcgnuplot -lfftw3 -fopenmp
+LINK	= -lm -lfftw3 -fopenmp
 
 SO		=	build/libcvec.so
 HDR		= src/cvec.h
@@ -12,7 +12,9 @@ SRC 	= src/cvec.c \
 				src/cvec_matrix.c \
 				src/cvec_io.c \
 				src/cvec_filter.c \
-				src/cvec_error.c
+				src/cvec_error.c \
+				src/cvec_limits.c \
+				src/cvec_signal.c
 TESTS = tests/omptest \
 				tests/ffttest \
 				tests/sorttest \
@@ -48,8 +50,8 @@ test: build_tests
 
 build_tests: $(TESTS)
 
-%test: %test.c
-	$(CC) $(CFLAGS) -o $@ $< $(LINK)
+%test: %test.c $(SRC)
+	$(CC) $(CFLAGS) -o $@ $< $(SRC) $(LINK)
 
 clean:
 	rm -f tests/*test PLOT.png **/*.o **/*.so vgcore* gplt_tmp*
