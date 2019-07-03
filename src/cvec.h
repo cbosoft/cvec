@@ -55,6 +55,7 @@ typedef int bool;
 cvec_float *cvec_linspace(cvec_float from, cvec_float to, cvec_uint len);
 cvec_float *cvec_logspace(cvec_float from, cvec_float to, cvec_uint len);
 cvec_float *cvec_zeros(cvec_uint len);
+cvec_float *cvec_ones(cvec_uint len);
 cvec_float *cvec_copy(cvec_float *source, cvec_uint len);
 
 // }}}

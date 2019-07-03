@@ -88,6 +88,20 @@ cvec_float *cvec_zeros(cvec_uint len)
 
 
 
+
+cvec_float *cvec_ones(cvec_uint len)
+{
+  cvec_float *rv = malloc(len*sizeof(cvec_float));
+
+#pragma omp parallel for
+  for (cvec_uint i = 0; i < len; i++){
+    rv[i] = 1.0;
+  }
+  return rv;
+}
+
+
+
 cvec_float *cvec_copy(cvec_float *source, cvec_uint len)
 {
   cvec_float *rv = malloc(sizeof(cvec_float)*len);
