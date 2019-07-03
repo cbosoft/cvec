@@ -12,6 +12,11 @@ typedef int bool;
 #define CVEC_INT_MAX INT_MAX
 #define CVEC_INT_MIN INT_MIN
 
+
+#define CVEC_LIMITS_MAXIMUM 0
+#define CVEC_LIMITS_MINIMUM 1
+#define CVEC_LIMITS_THRESHOLD 2
+
 // macros {{{
 
 #define CVEC_PI 3.14159265359
@@ -66,8 +71,6 @@ cvec_float *cvec_diff(cvec_float *x, cvec_uint len);
 cvec_float cvec_get_sumse(cvec_float *x, cvec_float *y, cvec_uint len, cvec_float *coefs, cvec_uint ncoefs);
 cvec_float *cvec_polyfit(cvec_float *x, cvec_float *y, cvec_uint len, cvec_uint degree);
 cvec_float *cvec_linearfit(cvec_float *x, cvec_float *y, cvec_uint len);
-cvec_float cvec_max(cvec_float *x, cvec_uint len);
-cvec_float cvec_min(cvec_float *x, cvec_uint len);
 cvec_float cvec_average(cvec_float *in, cvec_uint len);
 cvec_float cvec_mean(cvec_float *in, cvec_uint len);
 cvec_float cvec_median(cvec_float *in, cvec_uint len);
@@ -81,6 +84,13 @@ cvec_float cvec_interpolate(cvec_float *x, cvec_float *y, cvec_uint len, cvec_fl
 
 void cvec_ferr(const char *source, const char* fmt, ...);
 void cvec_warn(const char *source, const char* fmt, ...);
+
+// }}}
+// cvec_limits.c {{{
+
+cvec_float cvec_max(cvec_float *x, cvec_uint len);
+cvec_float cvec_min(cvec_float *x, cvec_uint len);
+void cvec_get_limit(cvec_float *in, cvec_uint len, cvec_int flags, cvec_float threshold, cvec_float *limit, cvec_uint *index);
 
 // }}}
 // cvec_fourier.c {{{

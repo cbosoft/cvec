@@ -325,32 +325,6 @@ cvec_linearfit(cvec_float *x, cvec_float *y, cvec_uint len)
 
 
 
-cvec_float
-cvec_max(cvec_float* x, cvec_uint len)
-{
-  cvec_float rv = -CVEC_FLOAT_MAX;
-  for (cvec_uint i = 0; i < len; i++) {
-    if (x[i] > rv) {
-      rv = x[i];
-    }
-  }
-  return rv;
-}
-
-
-
-
-cvec_float
-cvec_min(cvec_float* x, cvec_uint len) {
-  cvec_float rv = CVEC_FLOAT_MAX;
-  for (cvec_uint i = 0; i < len; i++) {
-    if (x[i] < rv) {
-      rv = x[i];
-    }
-  }
-  return rv;
-}
-
 
 
 
