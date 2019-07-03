@@ -316,51 +316,6 @@ cvec_float *cvec_linearfit(cvec_float *x, cvec_float *y, cvec_uint len)
 
 
 
-
-
-
-
-cvec_float cvec_average(cvec_float* in, cvec_uint len)
-{
-  cvec_float sum = cvec_sum(in, len);
-  return sum / ((cvec_float)len);
-}
-
-
-
-
-cvec_float cvec_mean(cvec_float* in, cvec_uint len)
-{
-  cvec_float sum = cvec_sum(in, len);
-  return sum / ((cvec_float)len);
-}
-
-
-
-
-cvec_float cvec_median(cvec_float* in, cvec_uint len)
-{
-  cvec_uint midp = (len%2==0)?(len/2):((len+1)/2);
-  cvec_float *sorted = cvec_sort(in, len);
-  cvec_float rv = sorted[midp];
-  free(sorted);
-  return rv;
-}
-
-
-
-
-cvec_float cvec_sum(cvec_float* in, cvec_uint len)
-{
-  cvec_float sum = 0.0;
-  for (cvec_uint i = 0; i < len; i++) {
-    sum += in[i];
-  }
-  return sum;
-}
-
-
-
 cvec_float cvec_interpolate(cvec_float *x, cvec_float *y, cvec_uint len, cvec_float ix)
 {
   if (!cvec_in_order(x, len)) {

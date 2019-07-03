@@ -76,10 +76,6 @@ cvec_float *cvec_diff(cvec_float *x, cvec_uint len);
 cvec_float cvec_get_sumse(cvec_float *x, cvec_float *y, cvec_uint len, cvec_float *coefs, cvec_uint ncoefs);
 cvec_float *cvec_polyfit(cvec_float *x, cvec_float *y, cvec_uint len, cvec_uint degree);
 cvec_float *cvec_linearfit(cvec_float *x, cvec_float *y, cvec_uint len);
-cvec_float cvec_average(cvec_float *in, cvec_uint len);
-cvec_float cvec_mean(cvec_float *in, cvec_uint len);
-cvec_float cvec_median(cvec_float *in, cvec_uint len);
-cvec_float cvec_sum(cvec_float *in, cvec_uint len);
 cvec_float cvec_interpolate(cvec_float *x, cvec_float *y, cvec_uint len, cvec_float ix);
 // }}}
 
@@ -136,6 +132,10 @@ cvec_int cvec_int_sum(cvec_int* in, cvec_uint len);
 void cvec_hist(cvec_float *input, cvec_uint len, cvec_float **output, cvec_float **bins, cvec_uint *nbins);
 cvec_float cvec_std(cvec_float *x, cvec_uint len);
 void cvec_autocorr(cvec_float* x, cvec_float *y, int len, cvec_float **res_x, cvec_float **res_y, int *nbins);
+cvec_float cvec_average(cvec_float *in, cvec_uint len);
+cvec_float cvec_mean(cvec_float *in, cvec_uint len);
+cvec_float cvec_median(cvec_float *in, cvec_uint len);
+cvec_float cvec_sum(cvec_float *in, cvec_uint len);
 
 // }}}
 // cvec_matrix.c {{{
