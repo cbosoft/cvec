@@ -136,6 +136,7 @@ cvec_float cvec_average(cvec_float *in, cvec_uint len);
 cvec_float cvec_mean(cvec_float *in, cvec_uint len);
 cvec_float cvec_median(cvec_float *in, cvec_uint len);
 cvec_float cvec_sum(cvec_float *in, cvec_uint len);
+cvec_float cvec_prod(cvec_float *in, cvec_uint len);
 
 // }}}
 // matrices.c {{{
