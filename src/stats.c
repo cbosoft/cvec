@@ -171,3 +171,15 @@ cvec_float cvec_sum(cvec_float* in, cvec_uint len)
   }
   return sum;
 }
+
+
+
+
+cvec_float cvec_prod(cvec_float* in, cvec_uint len)
+{
+  cvec_float prod = 1.0;
+  for (cvec_uint i = 0; i < len; i++) {
+    prod *= in[i];
+  }
+  return prod;
+}
