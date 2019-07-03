@@ -2,17 +2,18 @@
 #include <stdio.h>
 #include <sys/time.h>
 #include <limits.h>
-#include <cvec.h>
 #include <math.h>
 
+#include "../src/cvec.h"
 
-cvec_float
-square(cvec_float in) {
-  return pow(in, 2.0);
+
+cvec_float square(cvec_float in)
+{
+  return pow(in, 0.125) / pow(in, 0.001);
 }
 
-cvec_float *
-raw_linspace(cvec_float from, cvec_float to, int len) {
+cvec_float * raw_linspace(cvec_float from, cvec_float to, int len)
+{
   cvec_float *rv = malloc(len*sizeof(cvec_float));
   cvec_float step = (to - from) / ((cvec_float)(len - 1));
   for (int i = 0; i < len; i++) {
@@ -22,8 +23,8 @@ raw_linspace(cvec_float from, cvec_float to, int len) {
 }
 
 
-cvec_float *
-raw_apply(cvec_float* in, int len, cvec_float (*f)(cvec_float)) {
+cvec_float * raw_apply(cvec_float* in, int len, cvec_float (*f)(cvec_float))
+{
   cvec_float *rv = malloc(len*sizeof(cvec_float));
   for (int i = 0; i < len; i++){
     rv[i] = f(in[i]);
@@ -31,8 +32,8 @@ raw_apply(cvec_float* in, int len, cvec_float (*f)(cvec_float)) {
   return rv;
 }
 
-cvec_int
-time_raw(cvec_float from, cvec_float to, int len) {
+cvec_int time_raw(cvec_float from, cvec_float to, int len)
+{
   struct timeval stop, start;
 
   gettimeofday(&start, NULL);
@@ -48,8 +49,8 @@ time_raw(cvec_float from, cvec_float to, int len) {
   return dusec;
 }
 
-cvec_int
-time_parallel(cvec_float from, cvec_float to, int len) {
+cvec_int time_parallel(cvec_float from, cvec_float to, int len)
+{
   struct timeval stop, start;
 
   gettimeofday(&start, NULL);
@@ -71,16 +72,17 @@ time_parallel(cvec_float from, cvec_float to, int len) {
 
 
 
-int
-main(int argc, const char **argv) {
+int main(int argc, const char **argv)
+{
   
 
-  int len = 1000*1000, repeats = 100;
+  int len = 1000, repeats = 100;
 
   fprintf(stderr, 
       "Creating array of %d numbers between 0 and 1, \n"
-      "linearly spaced, and squaring them. This will \n"
-      "be repeated %d times, the time taken recorded.\n", len, repeats);
+      "linearly spaced, and taking them to the power \n"
+      "of an eighth. This will be repeated %d times, \n"
+      "the time taken recorded.\n", len, repeats);
 
   double from = 0.0, to = 1.0;
   cvec_int *parallel_times = malloc(repeats*sizeof(cvec_int)), *raw_times = malloc(repeats*sizeof(cvec_int));
@@ -104,7 +106,14 @@ main(int argc, const char **argv) {
 
   cvec_float dt_sec = ((cvec_float)dt) / 1000000000.0;
 
-  fprintf(stderr, "\n\nResults\n---\nraw: %lld us\nparallel: %lld us\nTime saved using parallel: %lld us (%f s)\n", average_raw, average_parallel, dt, dt_sec);
-
+  fprintf(stderr, 
+      "\n"
+      "\n"
+      "Results\n"
+      "---\n"
+      "  raw: %d us\n"
+      "  parallel: %d us\n"
+      "  Time saved using parallel: %d us (%f s)\n", 
+      average_raw, average_parallel, dt, dt_sec);
 
 }
