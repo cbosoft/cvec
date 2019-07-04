@@ -1,0 +1,179 @@
+.TH CVEC 7
+.\"
+.\"
+.\"
+.SH NAME
+cvec \- lightweight vector maths library
+.\"
+.\"
+.\"
+.SH SYNOPSIS
+.TP
+Include with
+.B #include <cvec.h>
+.TP
+Compile with
+\fBcc\fI [\fIFLAGS\fR] \fIFILES\fR \fB-lcvec -lfftw3 -lm\fR [\fIlibraries\fR]
+.\"
+.\"
+.\"
+.SH DESCRIPTION
+.PP
+\fBcvec\fR is a library of vector and matrix mathematical operations. Vectors are
+pointer arrays of either \fBcvec_float\fR or of \fBcvec_int\fR. Functions which
+return a vector always return a new vector (which will need to be free'd). A
+vector's length is normally needed along with it. I didn't want to go creating a
+struct to hold all this together; I want \fBcvec\fR to be as simple as possible,
+so this is just a \fBcvec_uint\fR which you will need to cart around with your
+vectors.
+.PP
+Vectors are not the only supported data type, matrices too, with a similar set
+of functions associated with it. Again, matrices are pointer arrays of pointer
+arrays, but only of \fBcvec_float\fR. The shape of the matrix must be kept track
+of (number of rows and number of columns, \fBin row-first order\fR).
+.\"
+.\"
+.\"
+.SH TYPES
+.TP
+\fBcvec_float\fR
+Floating point type used throughout, normally a \fBdouble\fR.
+.TP
+\fBcvec_int\fR
+Integer type used throughout. Normally an \fBinteger\fR.
+.TP
+\fBcvec_uint\fR
+Unsigned type used for vector and matrix lengths, counting, sizing. Normally an 
+\fBunsigned integer\fR.
+.\"
+.\"
+.\"
+.SH FUNCTIONS
+.\"
+.\"
+.SS Creating vectors
+.PP
+.\"
+.B cvec_float *cvec_linspace(cvec_float \fIfrom\fR, cvec_float \fIto\fR, cvec_uint \fIlen\fR);
+.IP
+Create a vector of \fIlen\fR floats linearly spaced between \fIfrom\fR and
+\fIto\fR, inclusive.
+.IP
+This returns a new vector that must be free'd.  
+.PP
+.\"
+.B cvec_float *cvec_logspace(cvec_float \fIfrom\fR, cvec_float \fIto\fR, cvec_uint \fIlen\fR);
+.IP
+Create a vector of \fIlen\fR floats logarithmically spaced between \fIfrom\fR and
+\fIto\fR, inclusive.
+.IP
+This returns a new vector that must be free'd.  
+.PP
+.\"
+.B cvec_float *cvec_zeros(cvec_uint \fIlen\fR);
+.IP
+Create a vector of \fIlen\fR zeros (0).
+.IP
+This returns a new vector that must be free'd.  
+.PP
+.\"
+.B cvec_float *cvec_zeros(cvec_uint \fIlen\fR);
+.IP
+Create a vector of \fIlen\fR ones (1).
+.IP
+This returns a new vector that must be free'd.  
+.PP
+.\"
+.B cvec_float *cvec_copy(cvec_float * \fIsource\fR, cvec_float \fIlen\fR);
+.IP
+Create a copy of an existing vector \fIsource\fR with length \fIlen\fR.
+.IP
+This returns a new vector that must be free'd.  
+.\"
+.\"
+.SS Simple Vector Manipulation
+.\"
+.TP
+.B cvec_float cvec_add(cvec_float \fIv1\fR, cvec_float \fIv2\fR);
+.TQ
+.B cvec_float cvec_subtract(cvec_float \fIv1\fR, cvec_float \fIv2\fR);
+.TQ
+.B cvec_float cvec_multiply(cvec_float \fIv1\fR, cvec_float \fIv2\fR);
+.TQ
+.B cvec_float cvec_divide(cvec_float \fIv1\fR, cvec_float \fIv2\fR);
+.TQ
+.B cvec_float cvec_pow(cvec_float \fIv1\fR, cvec_float \fIv2\fR);
+.IP
+Performs the indicated mathematical operation on the input floats \fIv1\fR and
+\fIv2\fR, returning the result. 
+Intended for use with the \fBcvec_apply2\fR function.
+.\"
+.PP
+.B cvec_float *cvec_apply(
+cvec_float* \fIin\fR, cvec_uint \fIlen\fR, cvec_float (*\fIf\fR)(cvec_float));
+.IP
+Takes a function of \fBcvec_float\fR, \fIf\fR, and applies to every element of
+the vector \fIin\fR (length \fIlen\fR) saving the results in a new vector, which
+is returned.
+.IP
+This returns a new vector that must be free'd.  
+.\"
+.PP
+.B cvec_float *cvec_apply2(cvec_float* in1, cvec_float *in2, cvec_uint len, cvec_float (*f)(cvec_float, cvec_float));
+.IP
+Takes a function of \fBcvec_float\fR, \fBcvec float\fR, \fIf\fR, and applies to
+each pair of elements in the two input vectors \fIin1\fR and \fIin2\fR (both with 
+length \fIlen\fR) saving the results in a new vector, which is returned.
+.IP
+This is useful with the \fBcvec_add\fR, \fBcvec_subtract\fR (and so on)
+functions, to quickly do vectorized maths to a long list of numbers.
+This will not do vector multiplication. This will be scalar multiplication and
+division on an element basis.
+.IP
+This returns a new vector that must be free'd.  
+.\"
+.PP
+.B cvec_float *cvec_slice(cvec_float *source, cvec_uint len, cvec_uint start, cvec_uint stop, cvec_uint skip);
+.IP
+Get a subsection of a vector (similar to a slice object in Python). 
+Returns a new vector containing values from the original vector \fIsource\fR (length
+\fIlen\fR) from index \fIstart\fR to index \fIstop\fR, stepping through indicies
+every with step size \fIskip\fR .
+.IP
+The \fIskip\fR parameter should be 1 or above. A value of 1 means that no value
+is skipped, 2 means every other value is taken, 3 means every third, and so on.
+.IP
+This returns a new vector that must be free'd.  
+.\"
+.PP
+.B cvec_float *cvec_cat(cvec_float *source, cvec_uint len, cvec_float *add, cvec_uint addlen);
+.IP
+As with the Unix tool \fIcat\fR, this concatenates two vectors together.
+.IP
+This returns a new vector that must be free'd.
+.\"
+.PP
+.B cvec_float *cvec_diff(cvec_float *x, cvec_uint len);
+.IP
+Takes the difference between every element and the subsequent element, returning
+the results, a vector of length (\fIlen\fR - 1).
+.IP
+This returns a new vector that must be free'd.
+.PP
+.SS Vector Properties
+.SS Limits
+.SS Fourier
+.SS Sorting
+.SS Int Vector
+.SS Statistics
+.SS Matrices
+.SS Filter
+.SS IO
+.SS Signal Processing
+.\"
+.\"
+.\"
+.\".SH NOTES
+.\"
+.\"
+.\"
