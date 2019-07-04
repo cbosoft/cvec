@@ -2,19 +2,23 @@ CC 		= gcc
 CFLAGS 	= -O0 -g
 LINK	= -lm -lfftw3 -fopenmp
 
-SO		=	build/libcvec.so
+SO		=	libcvec.so
+MAN   = cvec.7.gz
+
 HDR		= src/cvec.h
-SRC 	= src/vector.c \
-			 	src/int_vector.c \
-				src/fourier.c \
-				src/sort.c \
-				src/stats.c \
-				src/matrices.c \
-				src/io.c \
-				src/filter.c \
-				src/error.c \
-				src/limits.c \
-				src/signalproc.c
+
+OBJ 	= src/vector.o \
+			 	src/int_vector.o \
+				src/fourier.o \
+				src/sort.o \
+				src/stats.o \
+				src/matrices.o \
+				src/io.o \
+				src/filter.o \
+				src/error.o \
+				src/limits.o \
+				src/signalproc.o
+
 TESTS = tests/omptest \
 				tests/ffttest \
 				tests/sorttest \
@@ -22,23 +26,30 @@ TESTS = tests/omptest \
 				tests/fittest \
 				tests/filtertest
 
-default: install
+.SECONDARY:
 
-shared: builddir $(SO)
+default: shared
 
-builddir:
-	mkdir -p build
+shared: $(SO)
 
-%.so: $(SRC) $(HDR)
-	$(CC) $(CFLAGS) -shared -o $@ -fPIC $(SRC)
+src/%.o: src/%.c $(HDR)
+	$(CC) $(CFLAGS) -shared -o $@ -fPIC -c $<
 
-install: shared
-	sudo cp $(HDR) /usr/include/.
-	sudo mv $(SO) /usr/lib/.
+%.so: $(OBJ) $(HDR)
+	$(CC) $(CFLAGS) -shared -o $@ -fPIC $(OBJ)
+
+cvec.7.gz: cvec.7
+	gzip -k cvec.7
+
+install: shared cvec.7.gz
+	cp $(HDR) /usr/include/.
+	cp $(MAN) /usr/share/man/man7/.
+	mv $(SO) /usr/lib/.
 
 uninstall:
-	sudo rm -f /usr/include/$(HDR)
-	sudo rm -f /usr/lib/$(SO)
+	rm -f /usr/include/$(HDR)
+	rm -f /usr/share/man/man7/$(MAN)
+	rm -f /usr/lib/$(SO)
 
 test: build_tests
 	tests/omptest
@@ -50,8 +61,8 @@ test: build_tests
 
 build_tests: $(TESTS)
 
-%test: %test.c $(SRC)
-	$(CC) $(CFLAGS) -o $@ $< $(SRC) $(LINK)
+%test: %test.c $(OBJ:.o=.c)
+	$(CC) $(CFLAGS) -o $@ $< $(OBJ:.o=.c) $(LINK)
 
 clean:
-	rm -f tests/*test PLOT.png **/*.o **/*.so vgcore* gplt_tmp*
+	rm -f tests/*test **/*.o **/*.so vgcore* $(MAN)
