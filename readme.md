@@ -4,30 +4,33 @@
 
 # Installation
 
-Depends on `cmake` for building, and on `libfftw3` for fourier maths. If you've
-got those installed, then `cvec` can easily be installed by cloning this repo
-then:
+Depends on `libfftw3` for fourier transforming. If you've got that installed,
+then `cvec` can easily be installed by cloning this repo then:
 
 ```bash
-cd build
-cmake ..
-make
-sudo make install
+make && sudo make install
 ```
 
 Done! Ready to do some maths.
 
+# Uninstallation
+
+If you want to uninstall, `cvec` only installs three files to your system:
+library, header, and manual. These are installed as `/usr/lib/libcvec.so`,
+`/usr/include/cvec.h`, and `/usr/share/man/man7/cvec.7.gz`. You can remove them
+using the Makefile:
+
+```bash
+sudo make uninstall
+```
+
 # Overview
 
-To make things a bit easy to change in the future, there're two new types
-define: `cvec_float` and `cvec_int`. The former is a double, and the latter is a
-long long int. This may change in the future. All functions in cvec use these
-types.
-
-Vectors are implemented as  pointer arrays of `cvec_float` (or `cvec_int`) and
-are passed to functions with their length. Functions are named whether they deal
-with floats or ints. `cvec_<name>` is a float function, and `cvec_int_<name>` is
-an int function.
+`cvec` uses its own types for everything: `cvec_float`, `cvec_int` and
+`cvec_uint`. Vectors are implemented as  pointer arrays of `cvec_float` (or
+`cvec_int`) and are passed to functions with their length (`cvec_uint`).
+Functions are named whether they deal with floats or ints. `cvec_<name>` is a
+float function, and `cvec_int_<name>` is an int function.
 
 Highlights:
 
@@ -58,4 +61,10 @@ Highlights:
     Fourier transform of data in vector. This is just a nice wrapper around the
     excellent `fftw3` library.
 
-And more. Check out the header for all funcs.
+And more. Check out the man page, or the header for more information.
+
+To read the manual without installing:
+
+```bash
+man -l cvec.7
+```
