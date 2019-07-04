@@ -64,7 +64,7 @@ cvec_float cvec_add(cvec_float v1, cvec_float v2);
 cvec_float cvec_subtract(cvec_float v1, cvec_float v2);
 cvec_float cvec_multiply(cvec_float v1, cvec_float v2);
 cvec_float cvec_divide(cvec_float v1, cvec_float v2);
-cvec_float cvec_exp(cvec_float v1, cvec_float v2);
+cvec_float cvec_pow(cvec_float v1, cvec_float v2);
 cvec_float *cvec_apply(cvec_float* in, cvec_uint len, cvec_float (*f)());
 cvec_float *cvec_apply2(cvec_float* in1, cvec_float *in2, cvec_uint len, cvec_float (*f)());
 cvec_float *cvec_slice(cvec_float *source, cvec_uint len, cvec_uint start, cvec_uint stop, cvec_uint skip);

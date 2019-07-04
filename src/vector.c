@@ -56,7 +56,7 @@ cvec_float cvec_add(cvec_float v1, cvec_float v2) { return v1 + v2; }
 cvec_float cvec_subtract(cvec_float v1, cvec_float v2) { return v1 - v2; }
 cvec_float cvec_multiply(cvec_float v1, cvec_float v2) { return v1 * v2; }
 cvec_float cvec_divide(cvec_float v1, cvec_float v2) { return v1 / v2; }
-cvec_float cvec_exp(cvec_float v1, cvec_float v2) { return pow(v1, v2); }
+cvec_float cvec_pow(cvec_float v1, cvec_float v2) { return pow(v1, v2); }
 
 
 
