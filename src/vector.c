@@ -169,7 +169,7 @@ cvec_float *cvec_slice(cvec_float *x, cvec_uint len, cvec_uint start, cvec_uint 
 
 
 
-cvec_float cvec_get_sumse(cvec_float *x, cvec_float *y, cvec_uint len, cvec_float *coefs, cvec_uint ncoefs)
+cvec_float cvec_get_fit_sumse(cvec_float *x, cvec_float *y, cvec_uint len, cvec_float *coefs, cvec_uint ncoefs)
 {
   cvec_float calc_se(cvec_float o, cvec_float g) { 
     return pow(o - g, 2.0); 

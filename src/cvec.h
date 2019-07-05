@@ -74,7 +74,7 @@ cvec_float *cvec_diff(cvec_float *x, cvec_uint len);
 // }}}
 // properties of vector {{{
 
-cvec_float cvec_get_sumse(cvec_float *x, cvec_float *y, cvec_uint len, cvec_float *coefs, cvec_uint ncoefs);
+cvec_float cvec_get_fit_sumse(cvec_float *x, cvec_float *y, cvec_uint len, cvec_float *coefs, cvec_uint ncoefs);
 cvec_float *cvec_polyfit(cvec_float *x, cvec_float *y, cvec_uint len, cvec_uint degree);
 cvec_float *cvec_linearfit(cvec_float *x, cvec_float *y, cvec_uint len);
 cvec_float cvec_interpolate(cvec_float *x, cvec_float *y, cvec_uint len, cvec_float ix);
