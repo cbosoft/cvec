@@ -160,7 +160,36 @@ the results, a vector of length (\fIlen\fR - 1).
 .IP
 This returns a new vector that must be free'd.
 .PP
+.\"
+.\"
 .SS Vector Properties
+.PP
+.B cvec_float cvec_get_fit_sumse(cvec_float * \fIx\fR, cvec_float * \fIy\fR, cvec_uint \fIlen\fR, cvec_float * \fIcoefs\fR, cvec_uint \fIncoefs\fR);
+.IP
+Given vector \fIy\fR, which marks out a function in \fIx\fR, and parameters for
+a polynomial fit \fIcoefs\fR (number \fIncoefs\fR), calculates the sum of the
+square error between the actual data \fIy\fR and the resulting fit. Vectors
+are of length \fIlen\fR.
+.PP
+.B cvec_float *cvec_polyfit(cvec_float *\fIx\fR, cvec_float *\fIy\fR, cvec_uint \fIlen\fR, cvec_uint \fIdegree\fR);
+.IP
+Given vector \fIy\fR, which marks out a function in \fIx\fR, calculate
+polynomial fit coefficient of degree \fIdegree\fR and return them as a vector of
+\fBcvec_float\fR.
+.IP
+This returns a new vector that must be free'd.
+.PP
+.B cvec_float *cvec_linearfit(cvec_float *\fIx\fR, cvec_float *\fIy\fR, cvec_uint \fIlen\fR);
+Given vector \fIy\fR, which marks out a function in \fIx\fR, calculate
+polynomial fit coefficients of degree 1 (a linear fit) and return them as a vector of
+\fBcvec_float\fR.
+.IP
+This returns a new vector that must be free'd.
+.PP
+.B cvec_float cvec_interpolate(cvec_float *\fIx\fR, cvec_float *\fIy\fR, cvec_uint \fIlen\fR, cvec_float \fIix\fR);
+.IP
+Given vector \fIy\fR, which marks out a function in \fIx\fR, finds a
+intermediate value in \fIy\fR for an intermediate \fIix\fR.
 .SS Limits
 .SS Fourier
 .SS Sorting
