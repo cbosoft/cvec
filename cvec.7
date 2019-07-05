@@ -54,7 +54,7 @@ Unsigned type used for vector and matrix lengths, counting, sizing. Normally an
 .SS Creating vectors
 .PP
 .\"
-.B cvec_float *cvec_linspace(cvec_float \fIfrom\fR, cvec_float \fIto\fR, cvec_uint \fIlen\fR);
+.B cvec_float *cvec_linspace(cvec_float \fIfrom\fB, cvec_float \fIto\fB, cvec_uint \fIlen\fB);
 .IP
 Create a vector of \fIlen\fR floats linearly spaced between \fIfrom\fR and
 \fIto\fR, inclusive.
@@ -62,7 +62,7 @@ Create a vector of \fIlen\fR floats linearly spaced between \fIfrom\fR and
 This returns a new vector that must be free'd.  
 .PP
 .\"
-.B cvec_float *cvec_logspace(cvec_float \fIfrom\fR, cvec_float \fIto\fR, cvec_uint \fIlen\fR);
+.B cvec_float *cvec_logspace(cvec_float \fIfrom\fB, cvec_float \fIto\fB, cvec_uint \fIlen\fB);
 .IP
 Create a vector of \fIlen\fR floats logarithmically spaced between \fIfrom\fR and
 \fIto\fR, inclusive.
@@ -70,21 +70,21 @@ Create a vector of \fIlen\fR floats logarithmically spaced between \fIfrom\fR an
 This returns a new vector that must be free'd.  
 .PP
 .\"
-.B cvec_float *cvec_zeros(cvec_uint \fIlen\fR);
+.B cvec_float *cvec_zeros(cvec_uint \fIlen\fB);
 .IP
 Create a vector of \fIlen\fR zeros (0).
 .IP
 This returns a new vector that must be free'd.  
 .PP
 .\"
-.B cvec_float *cvec_zeros(cvec_uint \fIlen\fR);
+.B cvec_float *cvec_zeros(cvec_uint \fIlen\fB);
 .IP
 Create a vector of \fIlen\fR ones (1).
 .IP
 This returns a new vector that must be free'd.  
 .PP
 .\"
-.B cvec_float *cvec_copy(cvec_float * \fIsource\fR, cvec_float \fIlen\fR);
+.B cvec_float *cvec_copy(cvec_float * \fIsource\fB, cvec_float \fIlen\fB);
 .IP
 Create a copy of an existing vector \fIsource\fR with length \fIlen\fR.
 .IP
@@ -94,23 +94,22 @@ This returns a new vector that must be free'd.
 .SS Simple Vector Manipulation
 .\"
 .TP
-.B cvec_float cvec_add(cvec_float \fIv1\fR, cvec_float \fIv2\fR);
+.B cvec_float cvec_add(cvec_float \fIv1\fB, cvec_float \fIv2\fB);
 .TQ
-.B cvec_float cvec_subtract(cvec_float \fIv1\fR, cvec_float \fIv2\fR);
+.B cvec_float cvec_subtract(cvec_float \fIv1\fB, cvec_float \fIv2\fB);
 .TQ
-.B cvec_float cvec_multiply(cvec_float \fIv1\fR, cvec_float \fIv2\fR);
+.B cvec_float cvec_multiply(cvec_float \fIv1\fB, cvec_float \fIv2\fB);
 .TQ
-.B cvec_float cvec_divide(cvec_float \fIv1\fR, cvec_float \fIv2\fR);
+.B cvec_float cvec_divide(cvec_float \fIv1\fB, cvec_float \fIv2\fB);
 .TQ
-.B cvec_float cvec_pow(cvec_float \fIv1\fR, cvec_float \fIv2\fR);
+.B cvec_float cvec_pow(cvec_float \fIv1\fB, cvec_float \fIv2\fB);
 .IP
 Performs the indicated mathematical operation on the input floats \fIv1\fR and
 \fIv2\fR, returning the result. 
 Intended for use with the \fBcvec_apply2\fR function.
 .\"
 .PP
-.B cvec_float *cvec_apply(
-cvec_float* \fIin\fR, cvec_uint \fIlen\fR, cvec_float (*\fIf\fR)(cvec_float));
+.B cvec_float *cvec_apply(cvec_float * \fIin\fB, cvec_uint \fIlen\fB, cvec_float \fI(*f)(cvec_float)\fB);
 .IP
 Takes a function of \fBcvec_float\fR, \fIf\fR, and applies to every element of
 the vector \fIin\fR (length \fIlen\fR) saving the results in a new vector, which
@@ -119,7 +118,7 @@ is returned.
 This returns a new vector that must be free'd.  
 .\"
 .PP
-.B cvec_float *cvec_apply2(cvec_float* in1, cvec_float *in2, cvec_uint len, cvec_float (*f)(cvec_float, cvec_float));
+.B cvec_float *cvec_apply2(cvec_float * \fIin1\fB, cvec_float * \fIin2\fB, cvec_uint \fIlen\fB, cvec_float \fI(*f)(cvec_float, cvec_float)\fB);
 .IP
 Takes a function of \fBcvec_float\fR, \fBcvec float\fR, \fIf\fR, and applies to
 each pair of elements in the two input vectors \fIin1\fR and \fIin2\fR (both with 
@@ -133,7 +132,7 @@ division on an element basis.
 This returns a new vector that must be free'd.  
 .\"
 .PP
-.B cvec_float *cvec_slice(cvec_float *source, cvec_uint len, cvec_uint start, cvec_uint stop, cvec_uint skip);
+.B cvec_float *cvec_slice(cvec_float * \fIsource\fB, cvec_uint \fIlen\fB, cvec_uint \fIstart\fB, cvec_uint \fIstop\fB, cvec_uint \fIskip\fB);
 .IP
 Get a subsection of a vector (similar to a slice object in Python). 
 Returns a new vector containing values from the original vector \fIsource\fR (length
@@ -146,14 +145,14 @@ is skipped, 2 means every other value is taken, 3 means every third, and so on.
 This returns a new vector that must be free'd.  
 .\"
 .PP
-.B cvec_float *cvec_cat(cvec_float *source, cvec_uint len, cvec_float *add, cvec_uint addlen);
+.B cvec_float *cvec_cat(cvec_float * \fIsource\fB, cvec_uint \fIlen\fB, cvec_float *\fIadd\fB, cvec_uint \fIaddlen\fB);
 .IP
 As with the Unix tool \fIcat\fR, this concatenates two vectors together.
 .IP
 This returns a new vector that must be free'd.
 .\"
 .PP
-.B cvec_float *cvec_diff(cvec_float *x, cvec_uint len);
+.B cvec_float *cvec_diff(cvec_float * \fIx\fB, cvec_uint \fIlen\fB);
 .IP
 Takes the difference between every element and the subsequent element, returning
 the results, a vector of length (\fIlen\fR - 1).
@@ -164,14 +163,14 @@ This returns a new vector that must be free'd.
 .\"
 .SS Vector Properties
 .PP
-.B cvec_float cvec_get_fit_sumse(cvec_float * \fIx\fR, cvec_float * \fIy\fR, cvec_uint \fIlen\fR, cvec_float * \fIcoefs\fR, cvec_uint \fIncoefs\fR);
+.B cvec_float cvec_get_fit_sumse(cvec_float * \fIx\fB, cvec_float * \fIy\fB, cvec_uint \fIlen\fB, cvec_float * \fIcoefs\fB, cvec_uint \fIncoefs\fB);
 .IP
 Given vector \fIy\fR, which marks out a function in \fIx\fR, and parameters for
 a polynomial fit \fIcoefs\fR (number \fIncoefs\fR), calculates the sum of the
 square error between the actual data \fIy\fR and the resulting fit. Vectors
 are of length \fIlen\fR.
 .PP
-.B cvec_float *cvec_polyfit(cvec_float *\fIx\fR, cvec_float *\fIy\fR, cvec_uint \fIlen\fR, cvec_uint \fIdegree\fR);
+.B cvec_float *cvec_polyfit(cvec_float * \fIx\fB, cvec_float * \fIy\fB, cvec_uint \fIlen\fB, cvec_uint \fIdegree\fB);
 .IP
 Given vector \fIy\fR, which marks out a function in \fIx\fR, calculate
 polynomial fit coefficient of degree \fIdegree\fR and return them as a vector of
@@ -179,14 +178,15 @@ polynomial fit coefficient of degree \fIdegree\fR and return them as a vector of
 .IP
 This returns a new vector that must be free'd.
 .PP
-.B cvec_float *cvec_linearfit(cvec_float *\fIx\fR, cvec_float *\fIy\fR, cvec_uint \fIlen\fR);
+.B cvec_float *cvec_linearfit(cvec_float * \fIx\fB, cvec_float * \fIy\fB, cvec_uint \fIlen\fB);
+.IP
 Given vector \fIy\fR, which marks out a function in \fIx\fR, calculate
 polynomial fit coefficients of degree 1 (a linear fit) and return them as a vector of
 \fBcvec_float\fR.
 .IP
 This returns a new vector that must be free'd.
 .PP
-.B cvec_float cvec_interpolate(cvec_float *\fIx\fR, cvec_float *\fIy\fR, cvec_uint \fIlen\fR, cvec_float \fIix\fR);
+.B cvec_float cvec_interpolate(cvec_float * \fIx\fB, cvec_float * \fIy\fB, cvec_uint \fIlen\fB, cvec_float \fIix\fB);
 .IP
 Given vector \fIy\fR, which marks out a function in \fIx\fR, finds a
 intermediate value in \fIy\fR for an intermediate \fIix\fR.
