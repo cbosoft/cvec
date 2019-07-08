@@ -2,7 +2,13 @@
 
 #include "cvec.h"
 
-void cvec_get_limit(cvec_float *in, cvec_uint len, cvec_int flags, cvec_float threshold, cvec_float *limit, cvec_uint *index)
+void cvec_get_limit(
+    cvec_float *in, 
+    cvec_uint len, 
+    cvec_int flags, 
+    cvec_float threshold, 
+    cvec_float *limit, 
+    cvec_uint *index)
 {
   cvec_float dircoef = (FLAGSET(flags,CVEC_LIMITS_MINIMUM)) ? -1.0 : 1.0;
 
@@ -20,7 +26,9 @@ void cvec_get_limit(cvec_float *in, cvec_uint len, cvec_int flags, cvec_float th
   }
 
   (*limit) = limval;
-  (*index) = limind;
+
+  if (index != NULL)
+    (*index) = limind;
 }
 
 cvec_float cvec_min(cvec_float *in, cvec_uint len)
