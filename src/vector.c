@@ -369,3 +369,27 @@ cvec_float cvec_interpolate(cvec_float *x, cvec_float *y, cvec_uint len, cvec_fl
   cvec_float yi = (m * (ix - x[p2])) + y[p2];
   return yi;
 }
+
+
+
+cvec_float *cvec_rearrange(
+    cvec_float *x, 
+    cvec_uint *arrangement, 
+    cvec_uint len)
+{
+  cvec_float *rv = cvec_copy(x, len);
+
+  for (cvec_uint i = 0; i < len; i++) {
+    cvec_uint j = arrangement[i];
+
+    if (j >= len)
+      cvec_ferr(
+          "cvec_rearrange", 
+          "new arrangement index outside of vector length (%u > %u)", 
+          j, len);
+
+    rv[i] = x[arrangement[i]];
+  }
+
+  return rv;
+}

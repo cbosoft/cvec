@@ -60,6 +60,7 @@ cvec_float *cvec_copy(cvec_float *source, cvec_uint len);
 
 // }}}
 // simple vector manipulation {{{
+
 cvec_float cvec_add(cvec_float v1, cvec_float v2);
 cvec_float cvec_subtract(cvec_float v1, cvec_float v2);
 cvec_float cvec_multiply(cvec_float v1, cvec_float v2);
@@ -70,6 +71,7 @@ cvec_float *cvec_apply2(cvec_float* in1, cvec_float *in2, cvec_uint len, cvec_fl
 cvec_float *cvec_slice(cvec_float *source, cvec_uint len, cvec_uint start, cvec_uint stop, cvec_uint skip);
 cvec_float *cvec_cat(cvec_float *source, cvec_uint len, cvec_float *add, cvec_uint addlen);
 cvec_float *cvec_diff(cvec_float *x, cvec_uint len);
+cvec_float *cvec_rearrange(cvec_float *x, cvec_uint *arrangement, cvec_uint len);
 
 // }}}
 // properties of vector {{{
