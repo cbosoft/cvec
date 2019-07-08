@@ -3,7 +3,7 @@ CFLAGS 	= -O3 -g
 LINK	= -lm -fopenmp
 
 SO		=	libcvec.so
-MAN   = cvec.7.gz
+MAN   = cvec.7
 
 HDR		= src/cvec.h
 
@@ -38,10 +38,7 @@ src/%.o: src/%.c $(HDR)
 %.so: $(OBJ) $(HDR)
 	$(CC) $(CFLAGS) -shared -o $@ -fPIC $(OBJ)
 
-cvec.7.gz: cvec.7
-	gzip -k cvec.7
-
-install: shared cvec.7.gz
+install: $(SO) $(HDR) $(MAN)
 	cp $(HDR) /usr/include/.
 	cp $(MAN) /usr/share/man/man7/.
 	mv $(SO) /usr/lib/.
