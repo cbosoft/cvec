@@ -9,6 +9,7 @@ HDR		= src/cvec.h
 
 OBJ 	= src/vector.o \
 			 	src/int_vector.o \
+			 	src/uint_vector.o \
 				src/fourier.o \
 				src/sort.o \
 				src/stats.o \
