@@ -39,7 +39,10 @@ cvec_float * cvec_logspace(cvec_float from, cvec_float to, cvec_uint len)
 
 
 
-cvec_float * cvec_apply(cvec_float* in, cvec_uint len, cvec_float (*f)(cvec_float))
+cvec_float *cvec_apply(
+    cvec_float* in, 
+    cvec_uint len, 
+    cvec_float (*f)(cvec_float))
 {
   cvec_float *rv = malloc(len*sizeof(cvec_float));
 
@@ -61,7 +64,11 @@ cvec_float cvec_pow(cvec_float v1, cvec_float v2) { return pow(v1, v2); }
 
 
 
-cvec_float *cvec_apply2(cvec_float *in1, cvec_float *in2, cvec_uint len, cvec_float (*f)(cvec_float, cvec_float))
+cvec_float *cvec_apply2(
+    cvec_float *in1, 
+    cvec_float *in2, 
+    cvec_uint len, 
+    cvec_float (*f)(cvec_float, cvec_float))
 {
   cvec_float *rv = malloc(len*sizeof(cvec_float));
 
@@ -114,7 +121,11 @@ cvec_float *cvec_copy(cvec_float *source, cvec_uint len)
 
 
 
-cvec_float *cvec_cat(cvec_float *source, cvec_uint len, cvec_float *add, cvec_uint addlen)
+cvec_float *cvec_cat(
+    cvec_float *source, 
+    cvec_uint len, 
+    cvec_float *add, 
+    cvec_uint addlen)
 {
   cvec_float *rv = malloc(sizeof(cvec_float)*(len+addlen));
 
@@ -148,16 +159,22 @@ cvec_float *cvec_diff(cvec_float* x, cvec_uint len)
 
 
 
-cvec_float *cvec_slice(cvec_float *x, cvec_uint len, cvec_uint start, cvec_uint stop, cvec_uint skip)
+cvec_float *cvec_slice(
+    cvec_float *x, 
+    cvec_uint len, 
+    cvec_uint start, 
+    cvec_uint stop, 
+    cvec_uint skip)
 {
-  if (stop > len) {
-    fprintf(stderr, "\033[31mFATAL ERROR!\033[0m cvec_slice: stop cannot exceed len.\n");
-    exit(1);
-  }
-  if (skip == 0) {
-    fprintf(stderr, "\033[31mFATAL ERROR!\033[0m cvec_slice: skip cannot be less than 1 (if you don't want to miss any values, set skip to 1).\n");
-    exit(1);
-  }
+  if (stop > len) 
+    cvec_ferr("cvec_slice","stop cannot exceed len");
+  
+  if (skip == 0)
+    cvec_ferr(
+        "cvec_slice", 
+        "cvec should not be less than one"
+        "if you want every value, set skip to 1.");
+
   cvec_uint olen = (stop - start) / skip;
   cvec_float *rv = malloc(sizeof(cvec_float)*olen);
   for (cvec_uint i = start, j = 0; i < stop; i += skip, j++) {
@@ -169,7 +186,12 @@ cvec_float *cvec_slice(cvec_float *x, cvec_uint len, cvec_uint start, cvec_uint 
 
 
 
-cvec_float cvec_get_fit_sumse(cvec_float *x, cvec_float *y, cvec_uint len, cvec_float *coefs, cvec_uint ncoefs)
+cvec_float cvec_get_fit_sumse(
+    cvec_float *x, 
+    cvec_float *y, 
+    cvec_uint len, 
+    cvec_float *coefs, 
+    cvec_uint ncoefs)
 {
   cvec_float calc_se(cvec_float o, cvec_float g) { 
     return pow(o - g, 2.0); 
@@ -191,7 +213,11 @@ cvec_float cvec_get_fit_sumse(cvec_float *x, cvec_float *y, cvec_uint len, cvec_
 
 
 
-cvec_float *cvec_polyfit(cvec_float *X, cvec_float *Y, cvec_uint len, cvec_uint degree)
+cvec_float *cvec_polyfit(
+    cvec_float *X, 
+    cvec_float *Y, 
+    cvec_uint len, 
+    cvec_uint degree)
 {
   // https://github.com/natedomin/polyfit
   cvec_uint maxdeg = 5;
@@ -295,7 +321,11 @@ cvec_float *cvec_linearfit(cvec_float *x, cvec_float *y, cvec_uint len)
 
   cvec_float get_cvec_uint(cvec_float m) { return midy - (m*midx); }
 
-  cvec_float get_sumse(cvec_float *x, cvec_float *y, cvec_uint len, cvec_float gradient) {
+  cvec_float get_sumse(
+      cvec_float *x, 
+      cvec_float *y, 
+      cvec_uint len, 
+      cvec_float gradient) {
     cvec_float cvec_uinterrupt = get_cvec_uint(gradient);
     cvec_float applyfit(cvec_float v) { return cvec_uinterrupt+(gradient*v); }
     cvec_float *fity = cvec_apply(x, len, &applyfit);
@@ -330,12 +360,14 @@ cvec_float *cvec_linearfit(cvec_float *x, cvec_float *y, cvec_uint len)
 
 
 
-cvec_float cvec_interpolate(cvec_float *x, cvec_float *y, cvec_uint len, cvec_float ix)
+cvec_float cvec_interpolate(
+    cvec_float *x, 
+    cvec_float *y, 
+    cvec_uint len, 
+    cvec_float ix)
 {
-  if (!cvec_in_order(x, len)) {
-    fprintf(stderr, "FATAL ERROR! cvec_interpolate: Interpolation expects ordered x.\n");
-    exit(1);
-  }
+  if (!cvec_in_order(x, len)) 
+    cvec_ferr("svec_interpolate", "Interpolation expects ordered x.");
 
   cvec_uint p1 = len, p2 = len;
   if (ix < x[0]) {
@@ -358,10 +390,8 @@ cvec_float cvec_interpolate(cvec_float *x, cvec_float *y, cvec_uint len, cvec_fl
         p2 = j;
       }
     }
-    if (p1 == p2) {
-      fprintf(stderr, "FATAL ERROR! cvec_interpolate: Could not find points surrounding ix.\n");
-      exit(1);
-    }
+    if (p1 == p2) 
+      cvec_ferr("cvec_interpolate", "could not find points surrounding ix");
   }
 
 
