@@ -158,7 +158,15 @@ Takes the difference between every element and the subsequent element, returning
 the results, a vector of length (\fIlen\fR - 1).
 .IP
 This returns a new vector that must be free'd.
+.\"
 .PP
+.B cvec_float *cvec_rearrange(cvec_float * \fIx\fB, cvec_uint \fIlen\fB, cvec_uint *\fIarrangement\fR, cvec_uint \fIalen\fB);
+.IP
+Rearranges values in \fIx\fR according to list of indices \fIarrangement\fR. The
+list of indices does not need to contain every element of \fIx\fR, nor does it
+need to be the same length.
+.IP
+This returns a new vector that must be free'd.
 .\"
 .\"
 .SS Vector Properties

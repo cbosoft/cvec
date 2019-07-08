@@ -404,10 +404,11 @@ cvec_float cvec_interpolate(
 
 cvec_float *cvec_rearrange(
     cvec_float *x, 
+    cvec_uint len,
     cvec_uint *arrangement, 
-    cvec_uint len)
+    cvec_uint alen)
 {
-  cvec_float *rv = cvec_copy(x, len);
+  cvec_float *rv = cvec_ones(alen);
 
   for (cvec_uint i = 0; i < len; i++) {
     cvec_uint j = arrangement[i];
@@ -418,7 +419,7 @@ cvec_float *cvec_rearrange(
           "new arrangement index outside of vector length (%u > %u)", 
           j, len);
 
-    rv[i] = x[arrangement[i]];
+    rv[i] = x[j];
   }
 
   return rv;
