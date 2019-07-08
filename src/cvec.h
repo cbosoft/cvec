@@ -107,11 +107,11 @@ void cvec_gaussian_fft(cvec_float* in, cvec_uint in_len, cvec_float **out_y, cve
 // sort.c {{{
 
 bool cvec_in_order(cvec_float *in, cvec_uint len);
-cvec_float *cvec_insertion_sort(cvec_float *unsorted, cvec_uint len, cvec_uint **sorted_indices, cvec_float **sorted_values);
-cvec_float *cvec_merge_sort(cvec_float *unsorted, cvec_uint len, cvec_uint **sorted_indices, cvec_float **sorted_values);
-cvec_float *cvec_quick_sort(cvec_float *unsorted, cvec_uint len, cvec_uint **sorted_indices, cvec_float **sorted_values);
-cvec_float *cvec_bubble_sort(cvec_float *unsorted, cvec_uint len, cvec_uint **sorted_indices, cvec_float **sorted_values);
-cvec_float *cvec_sort(cvec_float *unsorted, cvec_uint len, cvec_uint **sorted_indices, cvec_float **sorted_values);
+void cvec_insertion_sort(cvec_float *unsorted, cvec_uint len, cvec_uint **sorted_indices, cvec_float **sorted_values);
+void cvec_merge_sort(cvec_float *unsorted, cvec_uint len, cvec_uint **sorted_indices, cvec_float **sorted_values);
+void cvec_quick_sort(cvec_float *unsorted, cvec_uint len, cvec_uint **sorted_indices, cvec_float **sorted_values);
+void cvec_bubble_sort(cvec_float *unsorted, cvec_uint len, cvec_uint **sorted_indices, cvec_float **sorted_values);
+void cvec_sort(cvec_float *unsorted, cvec_uint len, cvec_uint **sorted_indices, cvec_float **sorted_values);
 
 // }}}
 // int_vector.c {{{
