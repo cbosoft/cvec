@@ -176,7 +176,8 @@ cvec_float cvec_mean(cvec_float* in, cvec_uint len)
 cvec_float cvec_median(cvec_float* in, cvec_uint len)
 {
   cvec_uint midp = (len%2==0)?(len/2):((len+1)/2);
-  cvec_float *sorted = cvec_sort(in, len);
+  cvec_float *sorted;
+  cvec_sort(in, len, NULL, &sorted);
   cvec_float rv = sorted[midp];
   free(sorted);
   return rv;
