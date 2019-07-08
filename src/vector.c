@@ -112,6 +112,7 @@ cvec_float *cvec_ones(cvec_uint len)
 cvec_float *cvec_copy(cvec_float *source, cvec_uint len)
 {
   cvec_float *rv = malloc(sizeof(cvec_float)*len);
+
 #pragma omp parallel for
   for(cvec_uint i = 0; i < len; i++) {
     rv[i] = source[i];
@@ -410,7 +411,7 @@ cvec_float *cvec_rearrange(
 {
   cvec_float *rv = cvec_ones(alen);
 
-  for (cvec_uint i = 0; i < len; i++) {
+  for (cvec_uint i = 0; i < alen; i++) {
     cvec_uint j = arrangement[i];
 
     if (j >= len)

@@ -36,8 +36,8 @@ cvec_peakdet(cvec_float* signal,
   // step back until points voltage goes beyond thresh
   // this is the end of the peak
 
-  cvec_float *_peaks = malloc(sizeof(cvec_float)*len); // more than enough space for all peaks
-  cvec_uint  *_indcs = malloc(sizeof(cvec_uint)*len);
+  cvec_float *_peaks = calloc(len, sizeof(cvec_float)); // more than enough space for all peaks
+  cvec_uint  *_indcs = calloc(len, sizeof(cvec_uint));
   cvec_int *counted = cvec_int_zeros(len);
 
   cvec_uint c = 0;
@@ -69,6 +69,7 @@ cvec_peakdet(cvec_float* signal,
     cvec_ferr("cvec_peakdet", "no peaks found!");
 
   _peaks = realloc(_peaks, sizeof(cvec_float)*c); // shrink to actual number of peaks
+  _indcs = realloc(_indcs, sizeof(cvec_float)*c);
 
   (*peaks) = _peaks;
   (*peak_indices) = _indcs;

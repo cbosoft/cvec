@@ -31,6 +31,9 @@ void cvec_bubble_sort(cvec_float *unsorted, cvec_uint len, cvec_uint **sorted_in
     ret_vals = 1;
   }
 
+  if (ret_ids == 0 && ret_vals == 0)
+    return;
+
   cvec_uint changed = 0;
   do {
     changed = 0;
