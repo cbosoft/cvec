@@ -5,7 +5,7 @@
 # Installation
 
 Depends only on a c compiler. I've used `GNU make` for making the build process
-easy, but there's nothing GNU-exclusive in the source, this should be poartable
+easy, but there's nothing GNU-exclusive in the source, this should be portable
 even to windows, but I've not tried it.
 
 Compile and build from terminal:
