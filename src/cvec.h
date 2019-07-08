@@ -127,8 +127,19 @@ cvec_int cvec_int_min(cvec_int *x, cvec_uint len);
 cvec_int cvec_int_average(cvec_int* in, cvec_uint len);
 cvec_int cvec_int_sum(cvec_int* in, cvec_uint len);
 
-// unsigned funcs
-cvec_int *cvec_uint_linspace(cvec_uint from, cvec_uint to, cvec_uint len);
+// }}}
+// uint_vector.c {{{
+
+cvec_uint *cvec_uint_linspace(cvec_uint from, cvec_uint to, cvec_uint len);
+cvec_uint *cvec_uint_logspace(cvec_uint from, cvec_uint to, cvec_uint len);
+cvec_uint *cvec_uint_apply(cvec_uint* in, cvec_uint len, cvec_uint (*f)());
+cvec_uint *cvec_uint_zeros(cvec_uint len);
+cvec_uint *cvec_uint_copy(cvec_uint *source, cvec_uint len);
+cvec_uint *cvec_uint_diff(cvec_uint *x, cvec_uint len);
+cvec_uint cvec_uint_max(cvec_uint *x, cvec_uint len);
+cvec_uint cvec_uint_min(cvec_uint *x, cvec_uint len);
+cvec_uint cvec_uint_average(cvec_uint* in, cvec_uint len);
+cvec_uint cvec_uint_sum(cvec_uint* in, cvec_uint len);
 
 // }}}
 // stats.c {{{
