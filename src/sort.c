@@ -1,5 +1,8 @@
 #include "cvec.h"
 
+
+
+
 bool cvec_in_order(cvec_float* in, cvec_uint len)
 {
   for (cvec_uint i = 0, j = 1; j < len; i++, j++) {
@@ -8,6 +11,9 @@ bool cvec_in_order(cvec_float* in, cvec_uint len)
   }
   return 1;
 }
+
+
+
 
 cvec_float *cvec_bubble_sort(cvec_float *unsorted, cvec_uint len)
 {
