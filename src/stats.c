@@ -60,7 +60,7 @@ void cvec_autocorr(
   //
   // for each data point, for each lag dt, get product, sum:
   //    tcorr = VxV(l) = int _-inf^inf V(t)xV(t+l) dt
-  // normalise wrt initial
+  // normalise wrt zero lag time
 
   // for discrete signals, autocorr R is given by:
   // R = sum_0^N y(n) av(y(n-l))
