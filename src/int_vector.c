@@ -3,6 +3,9 @@
 
 #include "cvec.h"
 
+
+
+
 cvec_int *cvec_int_linspace(cvec_int from, cvec_int to, cvec_uint len)
 {
   cvec_int *rv = malloc(len*sizeof(cvec_int));
@@ -11,6 +14,22 @@ cvec_int *cvec_int_linspace(cvec_int from, cvec_int to, cvec_uint len)
 #pragma omp parallel for
   for (cvec_uint i = 0; i < len; i++) {
     rv[i] = (step*((cvec_int)i)) + from;
+  }
+
+  return rv;
+}
+
+
+
+
+cvec_uint *cvec_uint_linspace(cvec_uint from, cvec_uint to, cvec_uint len)
+{
+  cvec_uint *rv = malloc(len*sizeof(cvec_uint));
+  cvec_uint step = (to - from) / ((cvec_uint)(len - 1));
+
+#pragma omp parallel for
+  for (cvec_uint i = 0; i < len; i++) {
+    rv[i] = (step*i) + from;
   }
 
   return rv;

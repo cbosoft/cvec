@@ -127,6 +127,9 @@ cvec_int cvec_int_min(cvec_int *x, cvec_uint len);
 cvec_int cvec_int_average(cvec_int* in, cvec_uint len);
 cvec_int cvec_int_sum(cvec_int* in, cvec_uint len);
 
+// unsigned funcs
+cvec_int *cvec_uint_linspace(cvec_uint from, cvec_uint to, cvec_uint len);
+
 // }}}
 // stats.c {{{
 
