@@ -75,6 +75,11 @@ void cvec_autocorr(
         "cvec_autocorr", 
         "autocorrelation input must be in time-order (i.e. sorted by x)");
 
+  if (nbins == NULL)
+    cvec_ferr(
+        "cvec_autocorr", 
+        "nbins must point to a valid memory location (i.e. cannot be NULL)");
+
   if (len > 100000)
     cvec_warn(
         "cvec_autocorr", 
@@ -92,7 +97,7 @@ void cvec_autocorr(
   }
   cvec_float binw = mindt * 1.0;
   free(dx);
-
+  
   (*nbins) = ceil((x[len-1] - x[0]) / binw);
 
   (*res_x) = malloc(sizeof(cvec_float)*(*nbins));
@@ -101,28 +106,26 @@ void cvec_autocorr(
   // get correlation
   for (cvec_uint i = 0; i < len; i++) {
     for (cvec_uint j = i+1; j < len; j++) {
+      
       cvec_float dt = x[j] - x[i];
       cvec_uint ibin = (cvec_uint)(dt/binw);
-      if (ibin >= (*nbins)) {
-        cvec_warn(
-            "cvec_autocorr", 
-            "overspill in bin index calculation (%u > %d)", 
-            ibin, (*nbins));
-        continue;
-      }
+      
+      if (ibin >= (*nbins))
+        break;
+
       (*res_y)[ibin] += y[i]*y[j];
+
     }
   }
 
-  // fill res_x
-  for (cvec_uint i = 0; i < (*nbins); i++) {
+  for (cvec_uint i = 0; i < (*nbins); i++)
     (*res_x)[i] = ((cvec_float)(i + 1)) * binw;
-  }
 
   // get max and normalize output
   cvec_float maxv = cvec_max((*res_y), (*nbins));
-  cvec_float divmax(cvec_float v) { return v / maxv; }
-  cvec_apply((*res_y), (*nbins), &divmax);
+  cvec_float invmaxv = 1.0 / maxv;
+  cvec_float norm(cvec_float v) { return v * invmaxv; }
+  cvec_apply((*res_y), (*nbins), &norm);
 
 }
 
