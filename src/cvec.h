@@ -97,11 +97,11 @@ void cvec_get_limit(cvec_float *in, cvec_uint len, cvec_int flags, cvec_float th
 // fourier.c {{{
 
 // these funcs assume input is evenly spaced
-cvec_float *cvec_fft(cvec_float* in, cvec_uint in_len);
+// cvec_float *cvec_fft(cvec_float* in, cvec_uint in_len);
 cvec_float *cvec_freq(cvec_uint len, cvec_float dt);
 
 // this is for "real" data with uneven input
-void cvec_gaussian_fft(cvec_float* in, cvec_uint in_len, cvec_float *out_y, cvec_float *out_x, cvec_uint *out_len);
+void cvec_gaussian_fft(cvec_float* in, cvec_uint in_len, cvec_float **out_y, cvec_float **out_x, cvec_uint *out_len);
 
 // }}}
 // sort.c {{{

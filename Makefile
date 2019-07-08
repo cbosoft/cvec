@@ -1,6 +1,6 @@
 CC 		= gcc
-CFLAGS 	= -O0 -g
-LINK	= -lm -lfftw3 -fopenmp
+CFLAGS 	= -O3 -g
+LINK	= -lm -fopenmp
 
 SO		=	libcvec.so
 MAN   = cvec.7.gz

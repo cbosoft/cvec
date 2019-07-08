@@ -4,8 +4,11 @@
 
 # Installation
 
-Depends on `libfftw3` for fourier transforming. If you've got that installed,
-then `cvec` can easily be installed by cloning this repo then:
+Depends only on a c compiler. I've used `GNU make` for making the build process
+easy, but there's nothing GNU-exclusive in the source, this should be poartable
+even to windows, but I've not tried it.
+
+Compile and build from terminal:
 
 ```bash
 make && sudo make install
