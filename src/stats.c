@@ -51,10 +51,11 @@ void cvec_hist(cvec_float *input, cvec_uint len, cvec_float **output, cvec_float
 void cvec_autocorr(
     cvec_float* x, 
     cvec_float *y, 
-    int len, 
+    cvec_uint len, 
     cvec_float **res_x, 
     cvec_float **res_y, 
-    int *nbins)
+    cvec_uint *nbins,
+    cvec_float *bin_width)
 {
   // time correlation
   //
@@ -95,9 +96,14 @@ void cvec_autocorr(
     if (dx[i] > maxdt)
       maxdt = dx[i];
   }
-  cvec_float binw = mindt * 1.0;
   free(dx);
-  
+
+  cvec_float binw;
+  if ((*bin_width) <= 0.0)
+    binw = mindt * 1.0;
+  else
+    binw = (*bin_width);
+
   (*nbins) = ceil((x[len-1] - x[0]) / binw);
 
   (*res_x) = malloc(sizeof(cvec_float)*(*nbins));

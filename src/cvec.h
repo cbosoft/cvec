@@ -132,7 +132,7 @@ cvec_int cvec_int_sum(cvec_int* in, cvec_uint len);
 
 void cvec_hist(cvec_float *input, cvec_uint len, cvec_float **output, cvec_float **bins, cvec_uint *nbins);
 cvec_float cvec_std(cvec_float *x, cvec_uint len);
-void cvec_autocorr(cvec_float* x, cvec_float *y, int len, cvec_float **res_x, cvec_float **res_y, int *nbins);
+void cvec_autocorr(cvec_float* x, cvec_float *y, cvec_uint len, cvec_float **res_x, cvec_float **res_y, cvec_uint *nbins, cvec_float *bin_width);
 cvec_float cvec_average(cvec_float *in, cvec_uint len);
 cvec_float cvec_mean(cvec_float *in, cvec_uint len);
 cvec_float cvec_median(cvec_float *in, cvec_uint len);
