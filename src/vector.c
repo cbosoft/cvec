@@ -425,3 +425,13 @@ cvec_float *cvec_rearrange(
 
   return rv;
 }
+
+
+
+void cvec_set_constant(cvec_float *x, cvec_uint len, cvec_float v)
+{
+#pragma omp parallel for
+  for (cvec_uint i = 0; i < len; i++) {
+    x[i] = v;
+  }
+}

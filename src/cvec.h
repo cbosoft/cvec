@@ -72,6 +72,7 @@ cvec_float *cvec_slice(cvec_float *source, cvec_uint len, cvec_uint start, cvec_
 cvec_float *cvec_cat(cvec_float *source, cvec_uint len, cvec_float *add, cvec_uint addlen);
 cvec_float *cvec_diff(cvec_float *x, cvec_uint len);
 cvec_float *cvec_rearrange(cvec_float *x, cvec_uint len, cvec_uint *arrangement, cvec_uint alen);
+void cvec_set_constant(cvec_float *x, cvec_uint len, cvec_float v);
 
 // }}}
 // properties of vector {{{
