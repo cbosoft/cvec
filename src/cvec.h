@@ -88,6 +88,8 @@ cvec_float cvec_interpolate(cvec_float *x, cvec_float *y, cvec_uint len, cvec_fl
 
 void cvec_ferr(const char *source, const char* fmt, ...);
 void cvec_warn(const char *source, const char* fmt, ...);
+void cvec_test_fail(const char *testname, const char* fmt, ...);
+void cvec_test_pass(const char *testname, const char* fmt, ...);
 
 // }}}
 // limits.c {{{
