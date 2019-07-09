@@ -41,3 +41,36 @@ void cvec_warn(const char *source, const char* fmt, ...)
 
   fprintf(stderr, "  "FG_YELLOW"WARNING!"RESET" in "FG_BLUE"%s"RESET": %s\n", source, mesg);
 }
+
+
+
+void cvec_test_fail(const char *testname, const char* fmt, ...)
+{
+  size_t mesglen = 256;
+  char *mesg = calloc(mesglen, sizeof(char));
+
+  va_list ap;
+
+  va_start(ap, fmt);
+  vsnprintf(mesg, mesglen, fmt, ap);
+  va_end(ap);
+
+  fprintf(stderr, "  "BG_RED"FAILURE!"RESET" "FG_BLUE"%s"RESET": %s\n", testname, mesg);
+  exit(1);
+}
+
+
+
+void cvec_test_pass(const char *testname, const char* fmt, ...)
+{
+  size_t mesglen = 256;
+  char *mesg = calloc(mesglen, sizeof(char));
+
+  va_list ap;
+
+  va_start(ap, fmt);
+  vsnprintf(mesg, mesglen, fmt, ap);
+  va_end(ap);
+
+  fprintf(stderr, "  "BG_GREEN"PASS!"RESET" "FG_BLUE"%s"RESET": %s\n", testname, mesg);
+}
