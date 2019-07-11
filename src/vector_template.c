@@ -22,7 +22,7 @@ CVEC_TYPE * CVEC_(linspace)(CVEC_TYPE from, CVEC_TYPE to, cvec_uint len)
   CVEC_TYPE *rv = malloc(len*sizeof(CVEC_TYPE));
   double tof = (double)to;
   double fromf = (double)from;
-  double stepf = ( tof - fromf ) / ( (double)(len) );
+  double stepf = ( tof - fromf ) / ( (double)(len - 1) );
 
 #pragma omp parallel for
   for (cvec_uint i = 0; i < len; i++) {
