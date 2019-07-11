@@ -59,11 +59,6 @@ Highlights:
 
     Difference between each element and the subsequent element in a vector.
 
-  - `cvec_fft`, `cvec_freq`
-
-    Fourier transform of data in vector. This is just a nice wrapper around the
-    excellent `fftw3` library.
-
 And more. Check out the man page, or the header for more information.
 
 # Docs
@@ -81,3 +76,5 @@ Otherwise, just `man cvec` to bring up the manual.
 
   - Create templates for the library so that functions can be used accross types
     (written once, used many times, efficiency!)
+
+  - Implement guassian gridding for FFT
