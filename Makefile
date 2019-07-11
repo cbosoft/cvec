@@ -28,12 +28,7 @@ OBJ 	= src/vector.o \
 				src/limits.o \
 				src/signalproc.o
 
-TESTS = tests/omptest \
-				tests/ffttest \
-				tests/sorttest \
-				tests/mattest \
-				tests/fittest \
-				tests/filtertest
+TESTS = tests/vector_creation_test
 
 .SECONDARY:
 
@@ -60,18 +55,11 @@ uninstall:
 	rm -f /usr/share/man/man7/$(MAN)
 	rm -f /usr/lib/$(SO)
 
-test: build_tests
-	tests/omptest
-	tests/ffttest
-	tests/sorttest
-	tests/mattest
-	tests/fittest
-	tests/filtertest
+test: $(TESTS)
+	tests/vector_creation_test
 
-build_tests: $(TESTS)
-
-%test: %test.c $(OBJ:.o=.c)
-	$(CC) $(CFLAGS) -o $@ $< $(OBJ:.o=.c) $(LINK)
+%test: %test.c
+	$(CC) $(CFLAGS) -o $@ $< -lcvec $(LINK)
 
 clean:
 	rm -f tests/*test **/*.o **/*.so vgcore*
