@@ -20,7 +20,7 @@ Done! Ready to do some maths.
 
 If you want to uninstall, `cvec` only installs three files to your system:
 library, header, and manual. These are installed as `/usr/lib/libcvec.so`,
-`/usr/include/cvec.h`, and `/usr/share/man/man7/cvec.7.gz`. You can remove them
+`/usr/include/cvec.h`, and `/usr/share/man/man7/cvec.7`. You can remove them
 using the Makefile:
 
 ```bash
