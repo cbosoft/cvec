@@ -6,12 +6,12 @@
 
 #ifndef CVEC_TYPE
 
-#error Do not include vectore_temple.c directly in source, it is a template.
+#error Define type and name before including template.
 
-#define CVEC_TYPE double
+#include "cvec.h"
+
+#define CVEC_TYPE cvec_float
 #define CVEC_(N) cvec_ ## N
-#define cvec_uint unsigned int
-#define cvec_float double
 #endif
 
 
@@ -20,12 +20,14 @@
 CVEC_TYPE * CVEC_(linspace)(CVEC_TYPE from, CVEC_TYPE to, cvec_uint len)
 {
   CVEC_TYPE *rv = malloc(len*sizeof(CVEC_TYPE));
-  cvec_float stepf = ( ((cvec_float)from) - ((cvec_float)to) ) / ( (cvec_float)(len-1) );
-  CVEC_TYPE step = (CVEC_TYPE)(stepf);
+  double tof = (double)to;
+  double fromf = (double)from;
+  double stepf = ( tof - fromf ) / ( (double)(len) );
 
 #pragma omp parallel for
   for (cvec_uint i = 0; i < len; i++) {
-    rv[i] = (step*((CVEC_TYPE)i)) + from;
+    double iif = (double)i;
+    rv[i] = (CVEC_TYPE)round( (iif * stepf) + fromf );
   }
 
   return rv;
