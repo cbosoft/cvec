@@ -48,40 +48,19 @@ typedef int bool;
 #define BOLD "\033[1m"
 
 // }}}
-// vector.c {{{
+// vector_template.c {{{
 
-// creating new vectors {{{
+#define CVECH_TYPE cvec_float
+#define CVECH_(N) cvec_ ## N
+#include "vector_template.h"
+#undef CVECH_TYPE
+#undef CVECH_
 
-cvec_float *cvec_linspace(cvec_float from, cvec_float to, cvec_uint len);
-cvec_float *cvec_logspace(cvec_float from, cvec_float to, cvec_uint len);
-cvec_float *cvec_zeros(cvec_uint len);
-cvec_float *cvec_ones(cvec_uint len);
-cvec_float *cvec_copy(cvec_float *source, cvec_uint len);
-
-// }}}
-// simple vector manipulation {{{
-
-cvec_float cvec_add(cvec_float v1, cvec_float v2);
-cvec_float cvec_subtract(cvec_float v1, cvec_float v2);
-cvec_float cvec_multiply(cvec_float v1, cvec_float v2);
-cvec_float cvec_divide(cvec_float v1, cvec_float v2);
-cvec_float cvec_pow(cvec_float v1, cvec_float v2);
-cvec_float *cvec_apply(cvec_float* in, cvec_uint len, cvec_float (*f)(cvec_float));
-cvec_float *cvec_apply2(cvec_float* in1, cvec_float *in2, cvec_uint len, cvec_float (*f)(cvec_float, cvec_float));
-cvec_float *cvec_slice(cvec_float *source, cvec_uint len, cvec_uint start, cvec_uint stop, cvec_uint skip);
-cvec_float *cvec_cat(cvec_float *source, cvec_uint len, cvec_float *add, cvec_uint addlen);
-cvec_float *cvec_diff(cvec_float *x, cvec_uint len);
-cvec_float *cvec_rearrange(cvec_float *x, cvec_uint len, cvec_uint *arrangement, cvec_uint alen);
-void cvec_set_constant(cvec_float *x, cvec_uint len, cvec_float v);
-
-// }}}
-// properties of vector {{{
-
-cvec_float cvec_get_fit_sumse(cvec_float *x, cvec_float *y, cvec_uint len, cvec_float *coefs, cvec_uint ncoefs);
-cvec_float *cvec_polyfit(cvec_float *x, cvec_float *y, cvec_uint len, cvec_uint degree);
-cvec_float *cvec_linearfit(cvec_float *x, cvec_float *y, cvec_uint len);
-cvec_float cvec_interpolate(cvec_float *x, cvec_float *y, cvec_uint len, cvec_float ix);
-// }}}
+#define CVECH_TYPE cvec_int
+#define CVECH_(N) cvec_int_ ## N
+#include "vector_template.h"
+#undef CVECH_TYPE
+#undef CVECH_
 
 // }}}
 // error.c {{{
@@ -119,20 +98,6 @@ void cvec_bubble_sort(cvec_float *unsorted, cvec_uint len, cvec_uint **sorted_in
 void cvec_sort(cvec_float *unsorted, cvec_uint len, cvec_uint **sorted_indices, cvec_float **sorted_values);
 
 // }}}
-// int_vector.c {{{
-
-cvec_int *cvec_int_linspace(cvec_int from, cvec_int to, cvec_uint len);
-cvec_int *cvec_int_logspace(cvec_int from, cvec_int to, cvec_uint len);
-cvec_int *cvec_int_apply(cvec_int* in, cvec_uint len, cvec_int (*f)());
-cvec_int *cvec_int_zeros(cvec_uint len);
-cvec_int *cvec_int_copy(cvec_int *source, cvec_uint len);
-cvec_int *cvec_int_diff(cvec_int *x, cvec_uint len);
-cvec_int cvec_int_max(cvec_int *x, cvec_uint len);
-cvec_int cvec_int_min(cvec_int *x, cvec_uint len);
-cvec_int cvec_int_average(cvec_int* in, cvec_uint len);
-cvec_int cvec_int_sum(cvec_int* in, cvec_uint len);
-
-// }}}
 // uint_vector.c {{{
 
 cvec_uint *cvec_uint_linspace(cvec_uint from, cvec_uint to, cvec_uint len);
@@ -152,11 +117,6 @@ cvec_uint cvec_uint_sum(cvec_uint* in, cvec_uint len);
 void cvec_hist(cvec_float *input, cvec_uint len, cvec_float **output, cvec_float **bins, cvec_uint *nbins);
 cvec_float cvec_std(cvec_float *x, cvec_uint len);
 void cvec_autocorr(cvec_float* x, cvec_float *y, cvec_uint len, cvec_float **res_x, cvec_float **res_y, cvec_uint *nbins, cvec_float *bin_width);
-cvec_float cvec_average(cvec_float *in, cvec_uint len);
-cvec_float cvec_mean(cvec_float *in, cvec_uint len);
-cvec_float cvec_median(cvec_float *in, cvec_uint len);
-cvec_float cvec_sum(cvec_float *in, cvec_uint len);
-cvec_float cvec_prod(cvec_float *in, cvec_uint len);
 
 // }}}
 // matrices.c {{{

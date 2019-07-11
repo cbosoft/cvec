@@ -5,7 +5,8 @@ LINK	= -lm -fopenmp
 SO		=	libcvec.so
 MAN   = cvec.7
 
-HDR		= src/cvec.h
+HDR		= src/cvec.h \
+				src/vector_template.h
 
 OBJ 	= src/vector.o \
 			 	src/int_vector.o \
