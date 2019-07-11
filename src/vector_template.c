@@ -179,10 +179,10 @@ CVEC_TYPE *CVEC_(slice)(
     cvec_uint skip)
 {
   if (stop > len) 
-    CVEC_(ferr)("cvec_slice","stop cannot exceed len");
+    cvec_ferr("cvec_slice","stop cannot exceed len");
   
   if (skip == 0)
-    CVEC_(ferr)(
+    cvec_ferr(
         "cvec_slice", 
         "cvec should not be less than one"
         "if you want every value, set skip to 1.");
@@ -379,7 +379,7 @@ CVEC_TYPE CVEC_(interpolate)(
     CVEC_TYPE ix)
 {
   if (!CVEC_(in_order)(x, len)) 
-    CVEC_(ferr)("svec_interpolate", "Interpolation expects ordered x.");
+    cvec_ferr("svec_interpolate", "Interpolation expects ordered x.");
 
   cvec_uint p1 = len, p2 = len;
   if (ix < x[0]) {
@@ -403,7 +403,7 @@ CVEC_TYPE CVEC_(interpolate)(
       }
     }
     if (p1 == p2) 
-      CVEC_(ferr)("cvec_interpolate", "could not find points surrounding ix");
+      cvec_ferr("cvec_interpolate", "could not find points surrounding ix");
   }
 
 
@@ -426,7 +426,7 @@ CVEC_TYPE *CVEC_(rearrange)(
     cvec_uint j = arrangement[i];
 
     if (j >= len)
-      CVEC_(ferr)(
+      cvec_ferr(
           "cvec_rearrange", 
           "new arrangement index outside of vector length (%u > %u)", 
           j, len);
