@@ -19,7 +19,7 @@ OBJ 	= src/vector.o \
 			 	src/uint_vector.o \
 				src/fourier.o \
 				src/sort.o \
-				src/sort_int.o \
+				src/int_sort.o \
 				src/stats.o \
 				src/matrices.o \
 				src/io.o \
@@ -41,7 +41,10 @@ default: shared
 
 shared: $(SO) $(HDR) $(TEMPLATES)
 
-src/%.o: src/%.c $(HDR)
+src/%.o: src/%.c $(HDR) src/%_template.c src/%_template.h
+	$(CC) $(CFLAGS) -shared -o $@ -fPIC -c $<
+
+src/int_%.o: src/int_%.c $(HDR) src/%_template.c src/%_template.h
 	$(CC) $(CFLAGS) -shared -o $@ -fPIC -c $<
 
 %.so: $(OBJ) $(HDR)
