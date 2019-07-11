@@ -112,11 +112,19 @@ cvec_uint cvec_uint_average(cvec_uint* in, cvec_uint len);
 cvec_uint cvec_uint_sum(cvec_uint* in, cvec_uint len);
 
 // }}}
-// stats.c {{{
+// stats_template {{{
 
-void cvec_hist(cvec_float *input, cvec_uint len, cvec_float **output, cvec_float **bins, cvec_uint *nbins);
-cvec_float cvec_std(cvec_float *x, cvec_uint len);
-void cvec_autocorr(cvec_float* x, cvec_float *y, cvec_uint len, cvec_float **res_x, cvec_float **res_y, cvec_uint *nbins, cvec_float *bin_width);
+#define CVECH_TYPE cvec_float
+#define CVECH_(N) cvec_ ## N
+#include "stats_template.h"
+#undef CVECH_TYPE
+#undef CVECH_
+
+#define CVECH_TYPE cvec_int
+#define CVECH_(N) cvec_int_ ## N
+#include "stats_template.h"
+#undef CVECH_TYPE
+#undef CVECH_
 
 // }}}
 // matrices.c {{{

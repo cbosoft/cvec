@@ -6,10 +6,12 @@
 
 #ifndef CVEC_TYPE
 
-//#error Do not include vectore_temple.c directly in source, it is a template.
+#error Do not include vectore_temple.c directly in source, it is a template.
 
 #define CVEC_TYPE double
 #define CVEC_(N) cvec_ ## N
+#define cvec_uint unsigned int
+#define cvec_float double
 #endif
 
 
