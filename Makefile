@@ -5,8 +5,14 @@ LINK	= -lm -fopenmp
 SO		=	libcvec.so
 MAN   = cvec.7
 
-HDRSRC = src/cvec.h
-HDR    = inst.h
+HDR 	= src/cvec.h \
+				src/stats_template.h \
+				src/sort_template.h \
+				src/vector_template.h
+
+TEMPLATES = src/stats_template.c \
+						src/sort_template.c \
+						src/vector_template.c
 
 OBJ 	= src/vector.o \
 			 	src/int_vector.o \
@@ -33,20 +39,16 @@ TESTS = tests/omptest \
 
 default: shared
 
-shared: $(SO)
+shared: $(SO) $(HDR) $(TEMPLATES)
 
-inst.h: $(HDRSRC)
-	echo "#pragma once" > $@
-	cpp $< >> $@
-
-src/%.o: src/%.c $(HDRSRC)
+src/%.o: src/%.c $(HDR)
 	$(CC) $(CFLAGS) -shared -o $@ -fPIC -c $<
 
-%.so: $(OBJ) $(HDRSRC)
+%.so: $(OBJ) $(HDR)
 	$(CC) $(CFLAGS) -shared -o $@ -fPIC $(OBJ)
 
 install: $(SO) $(HDR) $(MAN)
-	cp $(HDR) /usr/include/cvec.h
+	cp $(HDR) /usr/include/.
 	cp $(MAN) /usr/share/man/man7/.
 	mv $(SO) /usr/lib/.
 
