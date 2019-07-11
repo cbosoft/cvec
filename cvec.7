@@ -52,39 +52,49 @@ Unsigned type used for vector and matrix lengths, counting, sizing. Normally an
 .\"
 .\"
 .SS Creating vectors
-.PP
 .\"
+.PP
 .B cvec_float *cvec_linspace(cvec_float \fIfrom\fB, cvec_float \fIto\fB, cvec_uint \fIlen\fB);
+.PP
+.B cvec_int *cvec_int_linspace(cvec_int \fIfrom\fB, cvec_int \fIto\fB, cvec_uint \fIlen\fB);
 .IP
-Create a vector of \fIlen\fR floats linearly spaced between \fIfrom\fR and
+Create a vector of length \fIlen\fR, with values linearly spaced between \fIfrom\fR and
 \fIto\fR, inclusive.
 .IP
 This returns a new vector that must be free'd.  
-.PP
 .\"
+.PP
 .B cvec_float *cvec_logspace(cvec_float \fIfrom\fB, cvec_float \fIto\fB, cvec_uint \fIlen\fB);
+.PP
+.B cvec_int *cvec_int_logspace(cvec_int \fIfrom\fB, cvec_int \fIto\fB, cvec_uint \fIlen\fB);
 .IP
-Create a vector of \fIlen\fR floats logarithmically spaced between \fIfrom\fR and
+Create a vector of length \fIlen\fR, with values logarithmically spaced between \fIfrom\fR and
 \fIto\fR, inclusive.
 .IP
 This returns a new vector that must be free'd.  
-.PP
 .\"
+.PP
 .B cvec_float *cvec_zeros(cvec_uint \fIlen\fB);
+.PP
+.B cvec_int *cvec_int_zeros(cvec_uint \fIlen\fB);
 .IP
 Create a vector of \fIlen\fR zeros (0).
 .IP
 This returns a new vector that must be free'd.  
-.PP
 .\"
-.B cvec_float *cvec_zeros(cvec_uint \fIlen\fB);
+.PP
+.B cvec_float *cvec_ones(cvec_uint \fIlen\fB);
+.PP
+.B cvec_int *cvec_int_ones(cvec_uint \fIlen\fB);
 .IP
 Create a vector of \fIlen\fR ones (1).
 .IP
 This returns a new vector that must be free'd.  
-.PP
 .\"
-.B cvec_float *cvec_copy(cvec_float * \fIsource\fB, cvec_float \fIlen\fB);
+.PP
+.B cvec_float *cvec_copy(cvec_float * \fIsource\fB, cvec_uint \fIlen\fB);
+.PP
+.B cvec_int *cvec_int_copy(cvec_int * \fIsource\fB, cvec_uint \fIlen\fB);
 .IP
 Create a copy of an existing vector \fIsource\fR with length \fIlen\fR.
 .IP
@@ -103,26 +113,39 @@ This returns a new vector that must be free'd.
 .B cvec_float cvec_divide(cvec_float \fIv1\fB, cvec_float \fIv2\fB);
 .TQ
 .B cvec_float cvec_pow(cvec_float \fIv1\fB, cvec_float \fIv2\fB);
+.TQ
+.B cvec_int cvec_int_add(cvec_int \fIv1\fB, cvec_int \fIv2\fB);
+.TQ
+.B cvec_int cvec_int_subtract(cvec_int \fIv1\fB, cvec_int \fIv2\fB);
+.TQ
+.B cvec_int cvec_int_multiply(cvec_int \fIv1\fB, cvec_int \fIv2\fB);
+.TQ
+.B cvec_int cvec_int_divide(cvec_int \fIv1\fB, cvec_int \fIv2\fB);
+.TQ
+.B cvec_int cvec_int_pow(cvec_int \fIv1\fB, cvec_int \fIv2\fB);
 .IP
-Performs the indicated mathematical operation on the input floats \fIv1\fR and
+Performs the indicated mathematical operation on the input values \fIv1\fR and
 \fIv2\fR, returning the result. 
-Intended for use with the \fBcvec_apply2\fR function.
+Intended for use with the \fBcvec_apply2\fR (or \fBcvec_int_apply2\fR) function.
 .\"
 .PP
 .B cvec_float *cvec_apply(cvec_float * \fIin\fB, cvec_uint \fIlen\fB, cvec_float \fI(*f)(cvec_float)\fB);
+.PP
+.B cvec_int *cvec_int_apply(cvec_int * \fIin\fB, cvec_uint \fIlen\fB, cvec_int \fI(*f)(cvec_int)\fB);
 .IP
-Takes a function of \fBcvec_float\fR, \fIf\fR, and applies to every element of
-the vector \fIin\fR (length \fIlen\fR) saving the results in a new vector, which
-is returned.
+Takes a function \fIf\fR and applies to every element of the vector \fIin\fR
+(length \fIlen\fR) saving the results in a new vector, which is returned.
 .IP
 This returns a new vector that must be free'd.  
 .\"
 .PP
 .B cvec_float *cvec_apply2(cvec_float * \fIin1\fB, cvec_float * \fIin2\fB, cvec_uint \fIlen\fB, cvec_float \fI(*f)(cvec_float, cvec_float)\fB);
+.PP
+.B cvec_int *cvec_int_apply2(cvec_int * \fIin1\fB, cvec_int * \fIin2\fB, cvec_uint \fIlen\fB, cvec_int \fI(*f)(cvec_int, cvec_int)\fB);
 .IP
-Takes a function of \fBcvec_float\fR, \fBcvec float\fR, \fIf\fR, and applies to
-each pair of elements in the two input vectors \fIin1\fR and \fIin2\fR (both with 
-length \fIlen\fR) saving the results in a new vector, which is returned.
+Takes a function \fIf\fR and applies to each pair of elements in the two input
+vectors \fIin1\fR and \fIin2\fR (both with length \fIlen\fR) saving the results
+in a new vector, which is returned.
 .IP
 This is useful with the \fBcvec_add\fR, \fBcvec_subtract\fR (and so on)
 functions, to quickly do vectorized maths to a long list of numbers.
@@ -133,9 +156,11 @@ This returns a new vector that must be free'd.
 .\"
 .PP
 .B cvec_float *cvec_slice(cvec_float * \fIsource\fB, cvec_uint \fIlen\fB, cvec_uint \fIstart\fB, cvec_uint \fIstop\fB, cvec_uint \fIskip\fB);
+.PP
+.B cvec_int *cvec_int_slice(cvec_int * \fIsource\fB, cvec_uint \fIlen\fB, cvec_uint \fIstart\fB, cvec_uint \fIstop\fB, cvec_uint \fIskip\fB);
 .IP
-Get a subsection of a vector (similar to a slice object in Python). 
-Returns a new vector containing values from the original vector \fIsource\fR (length
+Get a subsection of a vector (similar to a slice in Python).  Returns a new
+vector containing values from the original vector \fIsource\fR (length
 \fIlen\fR) from index \fIstart\fR to index \fIstop\fR, stepping through indicies
 every with step size \fIskip\fR .
 .IP
@@ -146,6 +171,8 @@ This returns a new vector that must be free'd.
 .\"
 .PP
 .B cvec_float *cvec_cat(cvec_float * \fIsource\fB, cvec_uint \fIlen\fB, cvec_float *\fIadd\fB, cvec_uint \fIaddlen\fB);
+.PP
+.B cvec_int *cvec_int_cat(cvec_int * \fIsource\fB, cvec_uint \fIlen\fB, cvec_int *\fIadd\fB, cvec_uint \fIaddlen\fB);
 .IP
 As with the Unix tool \fIcat\fR, this concatenates two vectors together.
 .IP
@@ -153,6 +180,8 @@ This returns a new vector that must be free'd.
 .\"
 .PP
 .B cvec_float *cvec_diff(cvec_float * \fIx\fB, cvec_uint \fIlen\fB);
+.PP
+.B cvec_int *cvec_int_diff(cvec_int * \fIx\fB, cvec_uint \fIlen\fB);
 .IP
 Takes the difference between every element and the subsequent element, returning
 the results, a vector of length (\fIlen\fR - 1).
@@ -161,6 +190,8 @@ This returns a new vector that must be free'd.
 .\"
 .PP
 .B cvec_float *cvec_rearrange(cvec_float * \fIx\fB, cvec_uint \fIlen\fB, cvec_uint *\fIarrangement\fR, cvec_uint \fIalen\fB);
+.PP
+.B cvec_int *cvec_int_rearrange(cvec_int * \fIx\fB, cvec_uint \fIlen\fB, cvec_uint *\fIarrangement\fR, cvec_uint \fIalen\fB);
 .IP
 Rearranges values in \fIx\fR according to list of indices \fIarrangement\fR. The
 list of indices does not need to contain every element of \fIx\fR, nor does it
