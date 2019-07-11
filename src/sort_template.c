@@ -26,7 +26,7 @@ void CVEC_(bubble_sort)(CVEC_TYPE *unsorted, cvec_uint len, cvec_uint **sorted_i
   cvec_uint ret_ids = 0, ret_vals = 0;
 
   if (sorted_indices != NULL) {
-    (*sorted_indices) = CVEC_(uint_linspace)(0, len, len);
+    (*sorted_indices) = cvec_uint_linspace(0, len, len);
     ret_ids = 1;
   }
 
