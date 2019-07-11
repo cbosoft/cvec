@@ -88,14 +88,19 @@ cvec_float *cvec_freq(cvec_uint len, cvec_float dt);
 void cvec_gaussian_fft(cvec_float* in, cvec_uint in_len, cvec_float **out_y, cvec_float **out_x, cvec_uint *out_len);
 
 // }}}
-// sort.c {{{
+// sort_template {{{
 
-bool cvec_in_order(cvec_float *in, cvec_uint len);
-void cvec_insertion_sort(cvec_float *unsorted, cvec_uint len, cvec_uint **sorted_indices, cvec_float **sorted_values);
-void cvec_merge_sort(cvec_float *unsorted, cvec_uint len, cvec_uint **sorted_indices, cvec_float **sorted_values);
-void cvec_quick_sort(cvec_float *unsorted, cvec_uint len, cvec_uint **sorted_indices, cvec_float **sorted_values);
-void cvec_bubble_sort(cvec_float *unsorted, cvec_uint len, cvec_uint **sorted_indices, cvec_float **sorted_values);
-void cvec_sort(cvec_float *unsorted, cvec_uint len, cvec_uint **sorted_indices, cvec_float **sorted_values);
+#define CVECH_TYPE cvec_float
+#define CVECH_(N) cvec_ ## N
+#include "sort_template.h"
+#undef CVECH_TYPE
+#undef CVECH_
+
+#define CVECH_TYPE cvec_int
+#define CVECH_(N) cvec_int_ ## N
+#include "sort_template.h"
+#undef CVECH_TYPE
+#undef CVECH_
 
 // }}}
 // uint_vector.c {{{
