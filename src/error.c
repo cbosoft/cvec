@@ -56,7 +56,6 @@ void cvec_test_fail(const char *testname, const char* fmt, ...)
   va_end(ap);
 
   fprintf(stderr, "  "BG_RED"FAILURE!"RESET" "FG_BLUE"%s"RESET": %s\n", testname, mesg);
-  exit(1);
 }
 
 
