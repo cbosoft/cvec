@@ -66,8 +66,18 @@ Highlights:
 
 And more. Check out the man page, or the header for more information.
 
-To read the manual without installing:
+# Docs
+
+The man page is kept up to date, and is the best way to get to know `cvec`. To
+read the manual without installing:
 
 ```bash
 man -l cvec.7
 ```
+
+Otherwise, just `man cvec` to bring up the manual.
+
+# To do
+
+  - Create templates for the library so that functions can be used accross types
+    (written once, used many times, efficiency!)
