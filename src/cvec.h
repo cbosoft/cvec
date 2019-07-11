@@ -22,7 +22,7 @@ typedef int bool;
 #define CVEC_LIMITS_MINIMUM 1
 #define CVEC_LIMITS_THRESHOLD 2
 
-// macros {{{
+// macros
 
 #define CVEC_PI 3.14159265359
 
@@ -47,8 +47,11 @@ typedef int bool;
 #define RESET "\033[0m"
 #define BOLD "\033[1m"
 
-// }}}
-// vector_template.c {{{
+
+
+
+
+// vector_template.c
 
 #define CVECH_TYPE cvec_float
 #define CVECH_(N) cvec_ ## N
@@ -61,49 +64,6 @@ typedef int bool;
 #include "vector_template.h"
 #undef CVECH_TYPE
 #undef CVECH_
-
-// }}}
-// error.c {{{
-
-void cvec_ferr(const char *source, const char* fmt, ...);
-void cvec_warn(const char *source, const char* fmt, ...);
-void cvec_test_fail(const char *testname, const char* fmt, ...);
-void cvec_test_pass(const char *testname, const char* fmt, ...);
-
-// }}}
-// limits.c {{{
-
-cvec_float cvec_max(cvec_float *x, cvec_uint len);
-cvec_float cvec_min(cvec_float *x, cvec_uint len);
-void cvec_get_limit(cvec_float *in, cvec_uint len, cvec_int flags, cvec_float threshold, cvec_float *limit, cvec_uint *index);
-
-// }}}
-// fourier.c {{{
-
-// these funcs assume input is evenly spaced
-// cvec_float *cvec_fft(cvec_float* in, cvec_uint in_len);
-cvec_float *cvec_freq(cvec_uint len, cvec_float dt);
-
-// this is for "real" data with uneven input
-void cvec_gaussian_fft(cvec_float* in, cvec_uint in_len, cvec_float **out_y, cvec_float **out_x, cvec_uint *out_len);
-
-// }}}
-// sort_template {{{
-
-#define CVECH_TYPE cvec_float
-#define CVECH_(N) cvec_ ## N
-#include "sort_template.h"
-#undef CVECH_TYPE
-#undef CVECH_
-
-#define CVECH_TYPE cvec_int
-#define CVECH_(N) cvec_int_ ## N
-#include "sort_template.h"
-#undef CVECH_TYPE
-#undef CVECH_
-
-// }}}
-// uint_vector.c {{{
 
 cvec_uint *cvec_uint_linspace(cvec_uint from, cvec_uint to, cvec_uint len);
 cvec_uint *cvec_uint_logspace(cvec_uint from, cvec_uint to, cvec_uint len);
@@ -116,8 +76,70 @@ cvec_uint cvec_uint_min(cvec_uint *x, cvec_uint len);
 cvec_uint cvec_uint_average(cvec_uint* in, cvec_uint len);
 cvec_uint cvec_uint_sum(cvec_uint* in, cvec_uint len);
 
-// }}}
-// stats_template {{{
+
+
+
+
+// error.c
+
+void cvec_ferr(const char *source, const char* fmt, ...);
+void cvec_warn(const char *source, const char* fmt, ...);
+void cvec_test_fail(const char *testname, const char* fmt, ...);
+void cvec_test_pass(const char *testname, const char* fmt, ...);
+
+
+
+
+
+// limits_template.c
+
+#define CVECH_TYPE cvec_float
+#define CVECH_(N) cvec_ ## N
+#include "limits_template.h"
+#undef CVECH_TYPE
+#undef CVECH_
+
+#define CVECH_TYPE cvec_int
+#define CVECH_(N) cvec_int_ ## N
+#include "limits_template.h"
+#undef CVECH_TYPE
+#undef CVECH_
+
+
+
+
+// fourier.c
+
+// these funcs assume input is evenly spaced
+// cvec_float *cvec_fft(cvec_float* in, cvec_uint in_len);
+cvec_float *cvec_freq(cvec_uint len, cvec_float dt);
+
+// this is for "real" data with uneven input
+void cvec_gaussian_fft(cvec_float* in, cvec_uint in_len, cvec_float **out_y, cvec_float **out_x, cvec_uint *out_len);
+
+
+
+
+
+// sort_template.c
+
+#define CVECH_TYPE cvec_float
+#define CVECH_(N) cvec_ ## N
+#include "sort_template.h"
+#undef CVECH_TYPE
+#undef CVECH_
+
+#define CVECH_TYPE cvec_int
+#define CVECH_(N) cvec_int_ ## N
+#include "sort_template.h"
+#undef CVECH_TYPE
+#undef CVECH_
+
+
+
+
+
+// stats_template.c
 
 #define CVECH_TYPE cvec_float
 #define CVECH_(N) cvec_ ## N
@@ -131,8 +153,11 @@ cvec_uint cvec_uint_sum(cvec_uint* in, cvec_uint len);
 #undef CVECH_TYPE
 #undef CVECH_
 
-// }}}
-// matrices.c {{{
+
+
+
+
+// matrices.c
 
 cvec_float cvec_matgen_zeros(cvec_uint r, cvec_uint c);
 cvec_float cvec_matgen_ones(cvec_uint r, cvec_uint c);
@@ -152,21 +177,41 @@ bool cvec_matrix_is_invertible(cvec_float **A, cvec_uint R, cvec_uint C);
 void cvec_print_matrix(cvec_float **A, cvec_uint R, cvec_uint C);
 void cvec_matrix_free(cvec_float **A, cvec_uint R, cvec_uint C);
 
-// }}}
-// filter.c {{{
 
-cvec_float *cvec_moving_average(cvec_float *x, cvec_uint len, cvec_uint w, cvec_float (*avfunc)(cvec_float *x, cvec_uint len));
 
-// }}}
-// io.c {{{
+
+
+
+// filter_template.c
+
+#define CVECH_TYPE cvec_float
+#define CVECH_(N) cvec_ ## N
+#include "filter_template.h"
+#undef CVECH_TYPE
+#undef CVECH_
+
+#define CVECH_TYPE cvec_int
+#define CVECH_(N) cvec_int_ ## N
+#include "filter_template.h"
+#undef CVECH_TYPE
+#undef CVECH_
+
+
+
+
+
+
+// io.c
 
 void cvec_write_csv(cvec_float **data, cvec_uint ncols, cvec_uint *nlines, const char *csv_path);
 void cvec_write_csv_xy(cvec_float *x, cvec_float *y, cvec_uint len, const char *csv_path);
 
-// }}}
+
+
+
 // signal_proc.c {{{
 
 void cvec_peakdet(cvec_float *signal, cvec_uint len, cvec_float threshhold, cvec_float **peaks, cvec_uint **peak_indices, cvec_uint *npeaks, cvec_int flags);
 
 // }}}
-// vim: ft=c foldmethod=marker
+// vim: ft=c
