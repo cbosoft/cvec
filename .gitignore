@@ -3,3 +3,4 @@
 *.so
 gplt_tmp*
 cvec.7.gz
+inst.h

@@ -5,8 +5,8 @@ LINK	= -lm -fopenmp
 SO		=	libcvec.so
 MAN   = cvec.7
 
-HDR		= src/cvec.h \
-				src/vector_template.h
+HDRSRC = src/cvec.h
+HDR    = inst.h
 
 OBJ 	= src/vector.o \
 			 	src/int_vector.o \
@@ -34,14 +34,18 @@ default: shared
 
 shared: $(SO)
 
-src/%.o: src/%.c $(HDR)
+inst.h: $(HDRSRC)
+	echo "#pragma once" > $@
+	cpp $< >> $@
+
+src/%.o: src/%.c $(HDRSRC)
 	$(CC) $(CFLAGS) -shared -o $@ -fPIC -c $<
 
-%.so: $(OBJ) $(HDR)
+%.so: $(OBJ) $(HDRSRC)
 	$(CC) $(CFLAGS) -shared -o $@ -fPIC $(OBJ)
 
 install: $(SO) $(HDR) $(MAN)
-	cp $(HDR) /usr/include/.
+	cp $(HDR) /usr/include/cvec.h
 	cp $(MAN) /usr/share/man/man7/.
 	mv $(SO) /usr/lib/.
 
@@ -64,4 +68,4 @@ build_tests: $(TESTS)
 	$(CC) $(CFLAGS) -o $@ $< $(OBJ:.o=.c) $(LINK)
 
 clean:
-	rm -f tests/*test **/*.o **/*.so vgcore* $(MAN)
+	rm -f tests/*test **/*.o **/*.so vgcore*
