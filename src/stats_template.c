@@ -132,11 +132,11 @@ void CVEC_(autocorr)(
         "cvec_autocorr", 
         "nbins must point to a valid memory location (i.e. cannot be NULL)");
 
-  if (len > CORR_LONG_LEN)
+  if (len > CVEC_CORR_LONG_LEN)
     CVEC_(warn)(
         "cvec_autocorr", 
         "lengths over %u may take some time (length = %d)", 
-        CORR_LONG_LEN, len);
+        CVEC_CORR_LONG_LEN, len);
 
   CVEC_TYPE *dx = CVEC_(diff)(x, len);
   CVEC_TYPE mindt = CVEC_FLOAT_MAX, maxdt = -CVEC_FLOAT_MAX;
@@ -160,12 +160,11 @@ void CVEC_(autocorr)(
   (*res_x) = malloc(sizeof(CVEC_TYPE)*(*nbins));
   CVEC_TYPE *raw_res_y = CVEC_(zeros)((*nbins));
   
-  cvec_uint njobs = 16;
-  pthread_t threads[njobs];
-  autocorr_data_t args[njobs];
-  cvec_uint seg = len/njobs;
+  pthread_t threads[CVEC_NJOBS];
+  autocorr_data_t args[CVEC_NJOBS];
+  cvec_uint seg = len/CVEC_NJOBS;
 
-  for (cvec_uint i = 0; i < njobs; i++) {
+  for (cvec_uint i = 0; i < CVEC_NJOBS; i++) {
     
     args[i].x = x;
     args[i].y = y;
@@ -174,8 +173,8 @@ void CVEC_(autocorr)(
     args[i].res_y = raw_res_y;
     args[i].from = i*seg;
     args[i].binw = binw;
-    args[i].to = (i == njobs-1)?(len):(i+1)*seg;
     args[i].maxlag = 60.0;
+    args[i].to = (i == CVEC_NJOBS-1)?(len):(i+1)*seg;
     args[i].thread_id = i;
     args[i].progress = 0;
     
@@ -183,7 +182,7 @@ void CVEC_(autocorr)(
 
   }
   
-  if (len > CORR_LONG_LEN) {
+  if (len > CVEC_CORR_LONG_LEN) {
 
     cvec_float perc = 0;
 
@@ -191,7 +190,7 @@ void CVEC_(autocorr)(
 
       cvec_uint total_progress = 0;
 
-      for (cvec_uint i = 0; i < njobs; i++)
+      for (cvec_uint i = 0; i < CVEC_NJOBS; i++)
         total_progress += args[i].progress;
 
       perc = 100.0 * ((double)total_progress) / ((double)len);
@@ -206,7 +205,7 @@ void CVEC_(autocorr)(
 
   }
 
-  for (cvec_uint i = 0; i < njobs; i++) {
+  for (cvec_uint i = 0; i < CVEC_NJOBS; i++) {
     pthread_join(threads[i], NULL);
   }
 
