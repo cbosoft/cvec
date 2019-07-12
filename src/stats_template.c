@@ -8,7 +8,10 @@
 #include <math.h>
 #include "cvec.h"
 #include <stdlib.h>
+#include <stdio.h>
+#include <unistd.h>
 #include <pthread.h>
+#include <sys/ioctl.h>
 
 #endif
 
@@ -63,11 +66,14 @@ typedef struct autocorr_data_t {
   cvec_uint nbins;
 
   cvec_uint thread_id;
+  cvec_uint progress;
 } autocorr_data_t;
 
 void *corr(void *ptr)
 {
   autocorr_data_t *adt = (autocorr_data_t *)ptr;
+
+  adt->progress = 0;
 
   for (cvec_uint i = adt->from; i < adt->to; i++) {
     for (cvec_uint j = i+1; j < adt->len; j++) {
@@ -81,6 +87,7 @@ void *corr(void *ptr)
       adt->res_y[ibin] += adt->y[i]*adt->y[j];
 
     }
+    adt->progress += 1;
   }
 
   return NULL;
@@ -120,11 +127,11 @@ void CVEC_(autocorr)(
         "cvec_autocorr", 
         "nbins must point to a valid memory location (i.e. cannot be NULL)");
 
-  if (len > 100000)
+  if (len > CORR_LONG_LEN)
     CVEC_(warn)(
         "cvec_autocorr", 
-        "lengths over 100000 may take some time (length = %d)", 
-        len);
+        "lengths over %u may take some time (length = %d)", 
+        CORR_LONG_LEN, len);
 
   CVEC_TYPE *dx = CVEC_(diff)(x, len);
   CVEC_TYPE mindt = CVEC_FLOAT_MAX, maxdt = -CVEC_FLOAT_MAX;
@@ -164,8 +171,32 @@ void CVEC_(autocorr)(
     args[i].binw = binw;
     args[i].to = (i == njobs-1)?(len):(i+1)*seg;
     args[i].thread_id = i;
+    args[i].progress = 0;
     
     pthread_create(&threads[i], NULL, corr, &args[i]);
+
+  }
+  
+  if (len > CORR_LONG_LEN) {
+
+    cvec_float perc = 0;
+
+    do {
+
+      cvec_uint total_progress = 0;
+
+      for (cvec_uint i = 0; i < njobs; i++)
+        total_progress += args[i].progress;
+
+      perc = 100.0 * ((double)total_progress) / ((double)len);
+
+      progressbar("  Correlation progress: ", perc);
+
+      sleep(1);
+
+    } while (perc < 100);
+
+    fprintf(stderr, "\n");
 
   }
 

@@ -3,6 +3,8 @@
 #include <math.h>
 #include <float.h>
 #include <pthread.h>
+#include <unistd.h>
+#include <sys/ioctl.h>
 
 #include "cvec.h"
 
