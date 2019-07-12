@@ -16,6 +16,7 @@ typedef cvec_uint cvu;
 #define CVEC_FLOAT_MIN DBL_MIN
 #define CVEC_INT_MAX INT_MAX
 #define CVEC_INT_MIN INT_MIN
+#define CORR_LONG_LEN 100000
 
 // flag stuff
 #define FLAGSET(A,F) ((A&F)==F)
@@ -214,9 +215,13 @@ void cvec_write_csv_xy(cvec_float *x, cvec_float *y, cvec_uint len, const char *
 
 
 
-// signal_proc.c {{{
+// signal_proc.c
 
 void cvec_peakdet(cvec_float *signal, cvec_uint len, cvec_float threshhold, cvec_float **peaks, cvec_uint **peak_indices, cvec_uint *npeaks, cvec_int flags);
 
-// }}}
+
+
+// display.c
+
+void progressbar(const char *message, cvec_float progress);
 // vim: ft=c
