@@ -9,11 +9,17 @@ HDR 	= src/cvec.h \
 				src/stats_template.h \
 				src/sort_template.h \
 				src/limits_template.h \
+				src/filter_template.h \
+				src/fourier_template.h \
+				src/matrices_template.h \
 				src/vector_template.h
 
 TEMPLATES = src/stats_template.c \
 						src/sort_template.c \
 						src/limits_template.c \
+						src/filter_template.c \
+						src/fourier_template.c \
+						src/matrices_template.c \
 						src/vector_template.c
 
 OBJ 	= src/vector.o \
