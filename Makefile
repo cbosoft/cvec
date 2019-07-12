@@ -23,6 +23,7 @@ TEMPLATES = src/stats_template.c \
 						src/vector_template.c
 
 OBJ 	= src/vector.o \
+				src/display.o \
 			 	src/int_vector.o \
 			 	src/uint_vector.o \
 				src/fourier.o \
