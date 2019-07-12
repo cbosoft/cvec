@@ -217,7 +217,7 @@ void CVEC_(autocorr)(
     (*res_x)[i] = ((CVEC_TYPE)(i + 1)) * binw;
 
   // get max and normalize output
-  CVEC_TYPE maxv = CVEC_(max)((*res_y), (*nbins));
+  CVEC_TYPE maxv = CVEC_(max)(raw_res_y, (*nbins));
   CVEC_TYPE invmaxv = 1.0 / maxv;
   CVEC_TYPE norm(CVEC_TYPE v) { return v * invmaxv; }
   (*res_y) = CVEC_(apply)(raw_res_y, (*nbins), &norm);
