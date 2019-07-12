@@ -153,7 +153,7 @@ void CVEC_(autocorr)(
   (*nbins) = ceil((x[len-1] - x[0]) / binw);
 
   (*res_x) = malloc(sizeof(CVEC_TYPE)*(*nbins));
-  (*res_y) = CVEC_(zeros)((*nbins));
+  CVEC_TYPE *raw_res_y = CVEC_(zeros)((*nbins));
   
   cvec_uint njobs = 16;
   pthread_t threads[njobs];
@@ -166,7 +166,7 @@ void CVEC_(autocorr)(
     args[i].y = y;
     args[i].len = len;
     args[i].nbins = (*nbins);
-    args[i].res_y = (*res_y);
+    args[i].res_y = raw_res_y;
     args[i].from = i*seg;
     args[i].binw = binw;
     args[i].to = (i == njobs-1)?(len):(i+1)*seg;
@@ -211,8 +211,9 @@ void CVEC_(autocorr)(
   CVEC_TYPE maxv = CVEC_(max)((*res_y), (*nbins));
   CVEC_TYPE invmaxv = 1.0 / maxv;
   CVEC_TYPE norm(CVEC_TYPE v) { return v * invmaxv; }
-  CVEC_(apply)((*res_y), (*nbins), &norm);
+  (*res_y) = CVEC_(apply)(raw_res_y, (*nbins), &norm);
 
+  free(raw_res_y);
 }
 
 
