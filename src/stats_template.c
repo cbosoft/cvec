@@ -150,10 +150,14 @@ void CVEC_(autocorr)(
   free(dx);
 
   CVEC_TYPE binw;
-  if ((*bin_width) <= 0.0)
+  if ((*bin_width) <= 0.0) {
     binw = mindt * 1.0;
-  else
+    if (bin_width != NULL) (*bin_width) = binw;
+    fprintf(stderr, "  Bin width not given; using smallest: %f\n", binw);
+  }
+  else {
     binw = (*bin_width);
+  }
 
   (*nbins) = ceil((x[len-1] - x[0]) / binw);
 
