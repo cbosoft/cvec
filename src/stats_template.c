@@ -64,6 +64,7 @@ typedef struct autocorr_data_t {
   CVEC_TYPE binw;
   CVEC_TYPE *res_y;
   cvec_uint nbins;
+  CVEC_TYPE maxlag;
 
   cvec_uint thread_id;
   cvec_uint progress;
@@ -77,10 +78,14 @@ void *corr(void *ptr)
 
   for (cvec_uint i = adt->from; i < adt->to; i++) {
     for (cvec_uint j = i+1; j < adt->len; j++) {
-      
+
       CVEC_TYPE dt = adt->x[j] - adt->x[i];
+
+      if (dt > adt->maxlag)
+        break;
+
       cvec_uint ibin = (cvec_uint)(dt/adt->binw);
-      
+
       if (ibin >= adt->nbins)
         break;
 
@@ -170,6 +175,7 @@ void CVEC_(autocorr)(
     args[i].from = i*seg;
     args[i].binw = binw;
     args[i].to = (i == njobs-1)?(len):(i+1)*seg;
+    args[i].maxlag = 60.0;
     args[i].thread_id = i;
     args[i].progress = 0;
     
