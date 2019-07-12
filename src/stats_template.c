@@ -8,6 +8,7 @@
 #include <math.h>
 #include "cvec.h"
 #include <stdlib.h>
+#include <pthread.h>
 
 #endif
 
@@ -49,7 +50,41 @@ void CVEC_(hist)(CVEC_TYPE *input, cvec_uint len, CVEC_TYPE **output, CVEC_TYPE 
 
 }
 
+typedef struct autocorr_data_t {
+  CVEC_TYPE *x;
+  CVEC_TYPE *y;
+  cvec_uint len;
 
+  cvec_uint from;
+  cvec_uint to;
+
+  CVEC_TYPE binw;
+  CVEC_TYPE *res_y;
+  cvec_uint nbins;
+
+  cvec_uint thread_id;
+} autocorr_data_t;
+
+void *corr(void *ptr)
+{
+  autocorr_data_t *adt = (autocorr_data_t *)ptr;
+
+  for (cvec_uint i = adt->from; i < adt->to; i++) {
+    for (cvec_uint j = i+1; j < adt->len; j++) {
+      
+      CVEC_TYPE dt = adt->x[j] - adt->x[i];
+      cvec_uint ibin = (cvec_uint)(dt/adt->binw);
+      
+      if (ibin >= adt->nbins)
+        break;
+
+      adt->res_y[ibin] += adt->y[i]*adt->y[j];
+
+    }
+  }
+
+  return NULL;
+}
 
 
 void CVEC_(autocorr)(
@@ -112,20 +147,30 @@ void CVEC_(autocorr)(
 
   (*res_x) = malloc(sizeof(CVEC_TYPE)*(*nbins));
   (*res_y) = CVEC_(zeros)((*nbins));
+  
+  cvec_uint njobs = 16;
+  pthread_t threads[njobs];
+  autocorr_data_t args[njobs];
+  cvec_uint seg = len/njobs;
 
-  // get correlation
-  for (cvec_uint i = 0; i < len; i++) {
-    for (cvec_uint j = i+1; j < len; j++) {
-      
-      CVEC_TYPE dt = x[j] - x[i];
-      cvec_uint ibin = (cvec_uint)(dt/binw);
-      
-      if (ibin >= (*nbins))
-        break;
+  for (cvec_uint i = 0; i < njobs; i++) {
+    
+    args[i].x = x;
+    args[i].y = y;
+    args[i].len = len;
+    args[i].nbins = (*nbins);
+    args[i].res_y = (*res_y);
+    args[i].from = i*seg;
+    args[i].binw = binw;
+    args[i].to = (i == njobs-1)?(len):(i+1)*seg;
+    args[i].thread_id = i;
+    
+    pthread_create(&threads[i], NULL, corr, &args[i]);
 
-      (*res_y)[ibin] += y[i]*y[j];
+  }
 
-    }
+  for (cvec_uint i = 0; i < njobs; i++) {
+    pthread_join(threads[i], NULL);
   }
 
   for (cvec_uint i = 0; i < (*nbins); i++)
