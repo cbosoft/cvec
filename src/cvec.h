@@ -7,6 +7,11 @@ typedef double cvec_float;
 typedef int cvec_int;
 typedef unsigned int cvec_uint;
 typedef int bool;
+
+typedef cvec_float cvf;
+typedef cvec_int cvi;
+typedef cvec_uint cvu;
+
 #define CVEC_FLOAT_MAX DBL_MAX
 #define CVEC_FLOAT_MIN DBL_MIN
 #define CVEC_INT_MAX INT_MAX
