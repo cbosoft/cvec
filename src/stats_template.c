@@ -15,16 +15,15 @@
 
 #endif
 
-#ifndef CVEC_NJOBS_SETTER
+extern int njobs;
+
+#ifndef CVEC_MAXLAG_SETTER
 // if not already defined setter, define it.
-static int njobs = 6;
-void cvec_set_njobs(int v) { njobs = v; }
 static cvec_float cvec_maxlag = 5.0;
 void cvec_set_maxlag(cvec_float t) { cvec_maxlag = t; }
 #define CVEC_NJOBS_SETTER
 #else
 // if already defined, make external.
-static extern int njobs;
 static extern cvec_float cvec_maxlag;
 #endif
 
