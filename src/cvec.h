@@ -52,8 +52,13 @@ typedef cvec_uint cvu;
 #define BG_CYAN    "\033[46m"
 #define BG_WHITE   "\033[47m"
 
-#define RESET "\033[0m"
-#define BOLD "\033[1m"
+#define RESET       "\033[0m"
+#define BOLD        "\033[1m"
+#define DIM         "\033[2m"
+#define ITALIC      "\033[3m"
+#define UNDERLINE   "\033[4m"
+#define BLINK       "\033[5m"
+#define INVERTED    "\033[7m"
 
 
 
