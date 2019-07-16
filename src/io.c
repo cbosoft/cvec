@@ -7,10 +7,8 @@
 FILE *cvec_safe_fopen(const char *path, const char *t)
 {
   FILE *rv = fopen(path, t);
-  if (rv == NULL) {
-    fprintf(stderr, "\033[31mFATAL ERROR!\033[0m cvec_safe_fopen: (%d) %s\n", errno, strerror(errno));
-    exit(1);
-  }
+  if (rv == NULL)
+    cvec_ferr("cvec_safe_fopen", "error opening file \"%s\"", path);
   return rv;
 }
 
