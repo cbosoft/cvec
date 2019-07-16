@@ -17,7 +17,7 @@ typedef cvec_uint cvu;
 #define CVEC_INT_MAX INT_MAX
 #define CVEC_INT_MIN INT_MIN
 
-#define CVEC_CORR_LONG_LEN 100000
+#define CVEC_LONG_LEN 100000
 
 // flag stuff
 #define FLAGSET(A,F) ((A&F)==F)

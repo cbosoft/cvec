@@ -11,6 +11,9 @@
 #define CVEC_(N) cvec_ ## N
 #endif
 
+
+
+
 extern int cvec_njobs;
 
 
@@ -505,48 +508,68 @@ CVEC_TYPE CVEC_(median)(CVEC_TYPE * in, cvec_uint len)
 
 
 
+CVEC_TYPE CVEC_(sumrange)(CVEC_TYPE *x, cvec_uint from, cvec_uint to)
+{
+  CVEC_TYPE sum = 0.0;
+  for (cvec_uint i = from; i < to; i++)
+    sum += x[i];
+  return sum;
+}
+
 typedef struct sum_td_t {
   cvec_uint from;
   cvec_uint to;
-  CVEC_TYPE *v;
-  CVEC_TYPE res;
+  CVEC_TYPE *x;
+  CVEC_TYPE *res;
+  cvec_uint id;
 } sum_td_t;
 
 void *CVEC_(sumthread)(void *vtd)
 {
   sum_td_t *td = (sum_td_t *)vtd;
-
-  for (cvec_uint i = td->from; i < td->to; i++) {
-    td->res += td->v[i];
-  }
-
+  td->res[td->id] += CVEC_(sumrange)(td->x, td->from, td->to);
   return NULL;
 }
 
 CVEC_TYPE CVEC_(sum)(CVEC_TYPE * in, cvec_uint len)
 {
+  CVEC_TYPE *sub_summed;
+  cvec_uint sub_len;
 
-  sum_td_t data[cvec_njobs];
-  pthread_t threads[cvec_njobs];
-  cvec_uint each = len/cvec_njobs;
+  if (len < CVEC_LONG_LEN) {
 
-  for (cvec_uint i = 0; i < cvec_njobs; i++) {
-    data[i].from = i*each;
-    data[i].to = (i == cvec_njobs-1) ? (len) : ((i+1)*each);
-    data[i].v = in;
-    data[i].res = 0.0;
+    sub_summed = in;
+    sub_len = len;
 
-    pthread_create(&threads[i], NULL, CVEC_(sumthread), &data[i]);
+  }
+  else {
+
+    sum_td_t data[cvec_njobs];
+    pthread_t threads[cvec_njobs];
+    cvec_uint each = len/cvec_njobs;
+
+    sub_summed = calloc(cvec_njobs, sizeof(CVEC_TYPE));
+    sub_len = cvec_njobs;
+
+    for (cvec_uint i = 0; i < cvec_njobs; i++) {
+      data[i].from = i*each;
+      data[i].to = (i == cvec_njobs-1) ? (len) : ((i+1)*each);
+      data[i].x = in;
+      data[i].res = sub_summed;
+      data[i].id = i;
+
+      pthread_create(&threads[i], NULL, CVEC_(sumthread), &data[i]);
+    }
+
+    for (cvec_uint i = 0; i < cvec_njobs; i++) {
+      pthread_join(threads[i], NULL);
+    }
   }
 
-  for (cvec_uint i = 0; i < cvec_njobs; i++) {
-    pthread_join(threads[i], NULL);
-  }
+  CVEC_TYPE sum = CVEC_(sumrange)(sub_summed, 0, sub_len);
 
-  CVEC_TYPE sum = 0.0;
-  for (cvec_uint i = 0; i < cvec_njobs; i++) {
-    sum += data[i].res;
-  }
+  if (len >= CVEC_LONG_LEN)
+    free(sub_summed);
 
   return sum;
 }
