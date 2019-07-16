@@ -19,10 +19,13 @@
 // if not already defined setter, define it.
 static int njobs = 6;
 void cvec_set_njobs(int v) { njobs = v; }
+static cvec_float cvec_maxlag = 5.0;
+void cvec_set_maxlag(cvec_float t) { cvec_maxlag = t; }
 #define CVEC_NJOBS_SETTER
 #else
 // if already defined, make external.
 static extern int njobs;
+static extern cvec_float cvec_maxlag;
 #endif
 
 void CVEC_(hist)(CVEC_TYPE *input, cvec_uint len, CVEC_TYPE **output, CVEC_TYPE **bins, cvec_uint *nbins)
@@ -74,7 +77,6 @@ typedef struct autocorr_data_t {
   CVEC_TYPE binw;
   CVEC_TYPE *res_y;
   cvec_uint nbins;
-  CVEC_TYPE maxlag;
 
   cvec_uint thread_id;
   cvec_uint progress;
@@ -91,7 +93,7 @@ void *corr(void *ptr)
 
       CVEC_TYPE dt = adt->x[j] - adt->x[i];
 
-      if (dt > adt->maxlag)
+      if (dt > cvec_maxlag)
         break;
 
       cvec_uint ibin = (cvec_uint)(dt/adt->binw);
@@ -187,7 +189,6 @@ void CVEC_(autocorr)(
     args[i].res_y = raw_res_y;
     args[i].from = i*seg;
     args[i].binw = binw;
-    args[i].maxlag = 60.0;
     args[i].to = (i == njobs-1)?(len):(i+1)*seg;
     args[i].thread_id = i;
     args[i].progress = 0;

@@ -157,6 +157,7 @@ void cvec_gaussian_fft(cvec_float* in, cvec_uint in_len, cvec_float **out_y, cve
 // stats_template.c
 
 void cvec_set_njobs(int v);
+void cvec_set_maxlag(cvec_float t);
 
 #define CVECH_TYPE cvec_float
 #define CVECH_(N) cvec_ ## N
