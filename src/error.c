@@ -44,6 +44,22 @@ void cvec_warn(const char *source, const char* fmt, ...)
 
 
 
+void cvec_info(const char* fmt, ...)
+{
+  size_t mesglen = 256;
+  char *mesg = calloc(mesglen, sizeof(char));
+
+  va_list ap;
+
+  va_start(ap, fmt);
+  vsnprintf(mesg, mesglen, fmt, ap);
+  va_end(ap);
+
+  fprintf(stderr, "  "FG_BLUE"%s"RESET"\n", mesg);
+}
+
+
+
 void cvec_test_fail(const char *testname, const char* fmt, ...)
 {
   size_t mesglen = 256;
