@@ -28,6 +28,7 @@ OBJ 	= src/vector.o \
 			 	src/uint_vector.o \
 				src/fourier.o \
 				src/sort.o \
+				src/jobs.o \
 				src/int_sort.o \
 				src/stats.o \
 				src/matrices.o \
