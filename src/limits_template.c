@@ -18,7 +18,7 @@ void CVEC_(get_limit)(
 {
   CVEC_TYPE dircoef = (FLAGSET(flags,CVEC_LIMITS_MINIMUM)) ? -1.0 : 1.0;
 
-  CVEC_TYPE limval = (FLAGSET(flags,CVEC_LIMITS_MINIMUM)) ? CVEC_FLOAT_MAX : CVEC_FLOAT_MAX;
+  CVEC_TYPE limval = (FLAGSET(flags,CVEC_LIMITS_MINIMUM)) ? CVEC_FLOAT_MAX : CVEC_FLOAT_MIN;
   cvec_uint limind = 0;
 
   cvec_uint use_thresh = FLAGSET(flags,CVEC_LIMITS_THRESHOLD);
