@@ -143,12 +143,6 @@ void CVEC_(autocorr)(
         "cvec_autocorr", 
         "nbins must point to a valid memory location (i.e. cannot be NULL)");
 
-  if (len > CVEC_LONG_LEN)
-    CVEC_(warn)(
-        "cvec_autocorr", 
-        "lengths over %u may take some time (length = %d)", 
-        CVEC_LONG_LEN, len);
-
   CVEC_TYPE *dx = CVEC_(diff)(x, len);
   CVEC_TYPE mindt = CVEC_FLOAT_MAX, maxdt = -CVEC_FLOAT_MAX;
 
