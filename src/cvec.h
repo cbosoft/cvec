@@ -101,6 +101,7 @@ void cvec_info(const char* fmt, ...);
 void cvec_anci(const char* fmt, ...);
 void cvec_test_fail(const char *testname, const char* fmt, ...);
 void cvec_test_pass(const char *testname, const char* fmt, ...);
+void cvec_timestamp(const char *fmt, ...);
 
 
 
@@ -156,7 +157,6 @@ void cvec_gaussian_fft(cvec_float* in, cvec_uint in_len, cvec_float **out_y, cve
 
 // stats_template.c
 
-void cvec_set_njobs(int v);
 void cvec_set_maxlag(cvec_float t);
 
 #define CVECH_TYPE cvec_float
@@ -237,4 +237,10 @@ void cvec_peakdet(cvec_float *signal, cvec_uint len, cvec_float threshhold, cvec
 
 void progressbar(const char *message, cvec_float progress);
 void progressbar_finish(void);
+
+// jobs.c
+
+void cvec_set_njobs(int v);
+
+
 // vim: ft=c
