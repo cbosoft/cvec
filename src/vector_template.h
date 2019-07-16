@@ -1,6 +1,4 @@
 #ifndef CVECH_TYPE
-#error Define type and name prefix before including template
-
 #define CVECH_TYPE double
 #define CVECH_(N) cvec_test_ ## N
 #define cvec_uint unsigned int
