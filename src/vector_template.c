@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
+#include <pthread.h>
 
 
 
@@ -9,6 +10,8 @@
 #define CVEC_TYPE cvec_float
 #define CVEC_(N) cvec_ ## N
 #endif
+
+extern int cvec_njobs;
 
 
 
@@ -436,12 +439,37 @@ CVEC_TYPE *CVEC_(rearrange)(
 }
 
 
+typedef struct sc_td_t {
+  cvec_uint from;
+  cvec_uint to;
+  CVEC_TYPE *x;
+  CVEC_TYPE val;
+} sc_td_t;
+
+void *setconstthread(void *vtd) 
+{
+  sc_td_t *td = (sc_td_t*)vtd;
+  for (cvec_uint i = td->from; i < td->to; i++) td->x[i] = td->val;
+  return NULL;
+}
 
 void CVEC_(set_constant)(CVEC_TYPE *x, cvec_uint len, CVEC_TYPE v)
 {
-#pragma omp parallel for
-  for (cvec_uint i = 0; i < len; i++) {
-    x[i] = v;
+  pthread_t threads[cvec_njobs];
+  sc_td_t data[cvec_njobs];
+  cvec_uint each = len/cvec_njobs;
+
+  for (cvec_uint i = 0; i < cvec_njobs; i++) {
+    data[i].from = i*each;
+    data[i].to = (i == cvec_njobs-1) ? (len) : ((i+1)*each);
+    data[i].x = x;
+    data[i].val = v;
+
+    pthread_create(&threads[i], NULL, setconstthread, &data[i]);
+  }
+
+  for (cvec_uint i = 0; i < cvec_njobs; i++) {
+    pthread_join(threads[i], NULL);
   }
 }
 
@@ -477,13 +505,49 @@ CVEC_TYPE CVEC_(median)(CVEC_TYPE * in, cvec_uint len)
 
 
 
+typedef struct sum_td_t {
+  cvec_uint from;
+  cvec_uint to;
+  CVEC_TYPE *v;
+  CVEC_TYPE res;
+} sum_td_t;
+
+void *sumthread(void *vtd)
+{
+  sum_td_t *td = (sum_td_t *)vtd;
+
+  for (cvec_uint i = td->from; i < td->to; i++) {
+    td->res += td->v[i];
+  }
+
+  return NULL;
+}
 
 CVEC_TYPE CVEC_(sum)(CVEC_TYPE * in, cvec_uint len)
 {
-  CVEC_TYPE sum = 0.0;
-  for (cvec_uint i = 0; i < len; i++) {
-    sum += in[i];
+
+  sum_td_t data[cvec_njobs];
+  pthread_t threads[cvec_njobs];
+  cvec_uint each = len/cvec_njobs;
+
+  for (cvec_uint i = 0; i < cvec_njobs; i++) {
+    data[i].from = i*each;
+    data[i].to = (i == cvec_njobs-1) ? (len) : ((i+1)*each);
+    data[i].v = in;
+    data[i].res = 0.0;
+
+    pthread_create(&threads[i], NULL, sumthread, &data[i]);
   }
+
+  for (cvec_uint i = 0; i < cvec_njobs; i++) {
+    pthread_join(threads[i], NULL);
+  }
+
+  CVEC_TYPE sum = 0.0;
+  for (cvec_uint i = 0; i < cvec_njobs; i++) {
+    sum += data[i].res;
+  }
+
   return sum;
 }
 
