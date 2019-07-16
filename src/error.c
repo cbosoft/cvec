@@ -119,6 +119,9 @@ void cvec_test_pass(const char *testname, const char* fmt, ...)
 
 void cvec_timestamp(const char *fmt, ...)
 {
+
+  if (verbosity < 3) return;
+
   char mesg[MESGLEN] = {0};
 
   va_list ap;
