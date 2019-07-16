@@ -446,7 +446,7 @@ typedef struct sc_td_t {
   CVEC_TYPE val;
 } sc_td_t;
 
-void *setconstthread(void *vtd) 
+void *CVEC_(setconstthread)(void *vtd) 
 {
   sc_td_t *td = (sc_td_t*)vtd;
   for (cvec_uint i = td->from; i < td->to; i++) td->x[i] = td->val;
@@ -465,7 +465,7 @@ void CVEC_(set_constant)(CVEC_TYPE *x, cvec_uint len, CVEC_TYPE v)
     data[i].x = x;
     data[i].val = v;
 
-    pthread_create(&threads[i], NULL, setconstthread, &data[i]);
+    pthread_create(&threads[i], NULL, CVEC_(setconstthread), &data[i]);
   }
 
   for (cvec_uint i = 0; i < cvec_njobs; i++) {
@@ -512,7 +512,7 @@ typedef struct sum_td_t {
   CVEC_TYPE res;
 } sum_td_t;
 
-void *sumthread(void *vtd)
+void *CVEC_(sumthread)(void *vtd)
 {
   sum_td_t *td = (sum_td_t *)vtd;
 
@@ -536,7 +536,7 @@ CVEC_TYPE CVEC_(sum)(CVEC_TYPE * in, cvec_uint len)
     data[i].v = in;
     data[i].res = 0.0;
 
-    pthread_create(&threads[i], NULL, sumthread, &data[i]);
+    pthread_create(&threads[i], NULL, CVEC_(sumthread), &data[i]);
   }
 
   for (cvec_uint i = 0; i < cvec_njobs; i++) {
