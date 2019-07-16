@@ -95,9 +95,11 @@ cvec_uint cvec_uint_sum(cvec_uint* in, cvec_uint len);
 
 // error.c
 
+void set_verbosity(int v);
 void cvec_ferr(const char *source, const char* fmt, ...);
 void cvec_warn(const char *source, const char* fmt, ...);
 void cvec_info(const char* fmt, ...);
+void cvec_anci(const char* fmt, ...);
 void cvec_test_fail(const char *testname, const char* fmt, ...);
 void cvec_test_pass(const char *testname, const char* fmt, ...);
 

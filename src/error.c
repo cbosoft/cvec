@@ -7,6 +7,10 @@
 
 #include "cvec.h"
 
+static int verbosity = 3;
+
+void set_verbosity(int v) { verbosity = v; }
+
 void cvec_ferr(const char *source, const char* fmt, ...)
 {
   size_t mesglen = 256;
@@ -30,6 +34,9 @@ void cvec_ferr(const char *source, const char* fmt, ...)
 
 void cvec_warn(const char *source, const char* fmt, ...)
 {
+
+  if (verbosity < 1) return;
+
   size_t mesglen = 256;
   char *mesg = calloc(mesglen, sizeof(char));
 
@@ -46,6 +53,9 @@ void cvec_warn(const char *source, const char* fmt, ...)
 
 void cvec_info(const char* fmt, ...)
 {
+
+  if (verbosity < 2) return;
+
   size_t mesglen = 256;
   char *mesg = calloc(mesglen, sizeof(char));
 
@@ -56,6 +66,25 @@ void cvec_info(const char* fmt, ...)
   va_end(ap);
 
   fprintf(stderr, "  "FG_BLUE"%s"RESET"\n", mesg);
+}
+
+
+
+void cvec_anci(const char* fmt, ...)
+{
+
+  if (verbosity < 3) return;
+
+  size_t mesglen = 256;
+  char *mesg = calloc(mesglen, sizeof(char));
+
+  va_list ap;
+
+  va_start(ap, fmt);
+  vsnprintf(mesg, mesglen, fmt, ap);
+  va_end(ap);
+
+  fprintf(stderr, "  "DIM"%s"RESET"\n", mesg);
 }
 
 
