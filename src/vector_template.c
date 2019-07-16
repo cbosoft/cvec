@@ -5,11 +5,7 @@
 
 
 #ifndef CVEC_TYPE
-
-#error Define type and name before including template.
-
 #include "cvec.h"
-
 #define CVEC_TYPE cvec_float
 #define CVEC_(N) cvec_ ## N
 #endif
