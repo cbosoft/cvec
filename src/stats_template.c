@@ -15,6 +15,16 @@
 
 #endif
 
+#ifndef CVEC_NJOBS_SETTER
+// if not already defined setter, define it.
+static int njobs = 6;
+void cvec_set_njobs(int v) { njobs = v; }
+#define CVEC_NJOBS_SETTER
+#else
+// if already defined, make external.
+static extern int njobs;
+#endif
+
 void CVEC_(hist)(CVEC_TYPE *input, cvec_uint len, CVEC_TYPE **output, CVEC_TYPE **bins, cvec_uint *nbins)
 {
 
@@ -164,11 +174,11 @@ void CVEC_(autocorr)(
   (*res_x) = malloc(sizeof(CVEC_TYPE)*(*nbins));
   CVEC_TYPE *raw_res_y = CVEC_(zeros)((*nbins));
   
-  pthread_t threads[CVEC_NJOBS];
-  autocorr_data_t args[CVEC_NJOBS];
-  cvec_uint seg = len/CVEC_NJOBS;
+  pthread_t threads[njobs];
+  autocorr_data_t args[njobs];
+  cvec_uint seg = len/njobs;
 
-  for (cvec_uint i = 0; i < CVEC_NJOBS; i++) {
+  for (cvec_uint i = 0; i < njobs; i++) {
     
     args[i].x = x;
     args[i].y = y;
@@ -178,7 +188,7 @@ void CVEC_(autocorr)(
     args[i].from = i*seg;
     args[i].binw = binw;
     args[i].maxlag = 60.0;
-    args[i].to = (i == CVEC_NJOBS-1)?(len):(i+1)*seg;
+    args[i].to = (i == njobs-1)?(len):(i+1)*seg;
     args[i].thread_id = i;
     args[i].progress = 0;
     
@@ -194,7 +204,7 @@ void CVEC_(autocorr)(
 
       cvec_uint total_progress = 0;
 
-      for (cvec_uint i = 0; i < CVEC_NJOBS; i++)
+      for (cvec_uint i = 0; i < njobs; i++)
         total_progress += args[i].progress;
 
       perc = 100.0 * ((double)total_progress) / ((double)len);
@@ -209,7 +219,7 @@ void CVEC_(autocorr)(
 
   }
 
-  for (cvec_uint i = 0; i < CVEC_NJOBS; i++) {
+  for (cvec_uint i = 0; i < njobs; i++) {
     pthread_join(threads[i], NULL);
   }
 

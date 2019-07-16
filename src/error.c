@@ -9,7 +9,7 @@
 
 static int verbosity = 3;
 
-void set_verbosity(int v) { verbosity = v; }
+void cvec_set_verbosity(int v) { verbosity = v; }
 
 void cvec_ferr(const char *source, const char* fmt, ...)
 {

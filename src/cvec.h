@@ -18,7 +18,6 @@ typedef cvec_uint cvu;
 #define CVEC_INT_MIN INT_MIN
 
 #define CVEC_CORR_LONG_LEN 100000
-#define CVEC_NJOBS 32
 
 // flag stuff
 #define FLAGSET(A,F) ((A&F)==F)
@@ -95,7 +94,7 @@ cvec_uint cvec_uint_sum(cvec_uint* in, cvec_uint len);
 
 // error.c
 
-void set_verbosity(int v);
+void cvec_set_verbosity(int v);
 void cvec_ferr(const char *source, const char* fmt, ...);
 void cvec_warn(const char *source, const char* fmt, ...);
 void cvec_info(const char* fmt, ...);
@@ -156,6 +155,8 @@ void cvec_gaussian_fft(cvec_float* in, cvec_uint in_len, cvec_float **out_y, cve
 
 
 // stats_template.c
+
+void cvec_set_njobs(int v);
 
 #define CVECH_TYPE cvec_float
 #define CVECH_(N) cvec_ ## N
