@@ -24,3 +24,11 @@ void progressbar(const char* message, cvec_float progress)
       fprintf(stdout, "▏ %s\r", percstr);
 
 }
+
+
+
+
+void progressbar_finish(void)
+{
+  fprintf(stdout, "\n");
+}

@@ -234,4 +234,5 @@ void cvec_peakdet(cvec_float *signal, cvec_uint len, cvec_float threshhold, cvec
 // display.c
 
 void progressbar(const char *message, cvec_float progress);
+void progressbar_finish(void);
 // vim: ft=c

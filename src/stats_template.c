@@ -153,7 +153,7 @@ void CVEC_(autocorr)(
   if ((*bin_width) <= 0.0) {
     binw = mindt * 1.0;
     if (bin_width != NULL) (*bin_width) = binw;
-    fprintf(stderr, "  Bin width not given; using smallest: %f\n", binw);
+    cvec_info("Bin width not given; using smallest: %f\n", binw);
   }
   else {
     binw = (*bin_width);
@@ -205,7 +205,7 @@ void CVEC_(autocorr)(
 
     } while (perc < 100);
 
-    fprintf(stderr, "\n");
+    progressbar_finish();
 
   }
 
