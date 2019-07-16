@@ -19,12 +19,12 @@ extern int cvec_njobs;
 
 #ifndef CVEC_MAXLAG_SETTER
 // if not already defined setter, define it.
-static cvec_float cvec_maxlag = 5.0;
+cvec_float cvec_maxlag = 5.0;
 void cvec_set_maxlag(cvec_float t) { cvec_maxlag = t; }
 #define CVEC_NJOBS_SETTER
 #else
 // if already defined, make external.
-static extern cvec_float cvec_maxlag;
+extern cvec_float cvec_maxlag;
 #endif
 
 void CVEC_(hist)(CVEC_TYPE *input, cvec_uint len, CVEC_TYPE **output, CVEC_TYPE **bins, cvec_uint *nbins)
