@@ -21,10 +21,10 @@ CVEC_TYPE *CVEC_(moving_average)(CVEC_TYPE *x, cvec_uint len, cvec_uint w, CVEC_
     cvec_ferr("cvec_moving_average", "window cannot be smaller than 3 (is %u).", w);
 
   CVEC_TYPE *res = malloc(len*sizeof(CVEC_TYPE));
-  int hw = (w%2 == 0)?(w/2):((w+1/2));
+  unsigned int hw = (w%2 == 0)?(w/2):((w+1/2));
   
   if (w >= len) 
-    cvec_ferr("cvec_moving_average", "window cannot be greater than the length of the vector.");
+    cvec_ferr("cvec_moving_average", "window cannot be greater than the length of the vector (len=%u, w=%u)", len, w);
 
   if (avfunc == NULL)
     avfunc = &cvec_average;
