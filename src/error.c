@@ -24,7 +24,15 @@ void cvec_ferr(const char *source, const char* fmt, ...)
   vsnprintf(mesg, MESGLEN-1, fmt, ap);
   va_end(ap);
 
-  fprintf(stderr, "  "BG_RED"FATAL ERROR!"RESET" in "FG_BLUE"%s"RESET" %s", source, mesg);
+  time_t rt;
+  struct tm *info;
+  char timestr[MESGLEN] = {0};
+
+  time(&rt);
+  info = localtime(&rt);
+  strftime(timestr, MESGLEN-1, "%x %X", info);
+
+  fprintf(stderr, "  "DIM"(%s)"RESET" "BG_RED"FATAL ERROR!"RESET" in "FG_BLUE"%s"RESET" %s", timestr, source, mesg);
   if (errno)
     fprintf(stderr, " (%d) %s", errno, strerror(errno));
   fprintf(stderr, "\n");
@@ -47,7 +55,15 @@ void cvec_warn(const char *source, const char* fmt, ...)
   vsnprintf(mesg, MESGLEN-1, fmt, ap);
   va_end(ap);
 
-  fprintf(stderr, "  "FG_YELLOW"WARNING!"RESET" in "FG_BLUE"%s"RESET": %s\n", source, mesg);
+  time_t rt;
+  struct tm *info;
+  char timestr[MESGLEN] = {0};
+
+  time(&rt);
+  info = localtime(&rt);
+  strftime(timestr, MESGLEN-1, "%x %X", info);
+
+  fprintf(stderr, "  "DIM"(%s)"RESET" "FG_YELLOW"WARNING!"RESET" in "FG_BLUE"%s"RESET": %s\n", timestr, source, mesg);
 }
 
 
@@ -65,7 +81,15 @@ void cvec_info(const char* fmt, ...)
   vsnprintf(mesg, MESGLEN-1, fmt, ap);
   va_end(ap);
 
-  fprintf(stderr, "  "FG_BLUE"%s"RESET"\n", mesg);
+  time_t rt;
+  struct tm *info;
+  char timestr[MESGLEN] = {0};
+
+  time(&rt);
+  info = localtime(&rt);
+  strftime(timestr, MESGLEN-1, "%x %X", info);
+
+  fprintf(stderr, "  "DIM"(%s)"RESET" "FG_BLUE"%s"RESET"\n", timestr, mesg);
 }
 
 
@@ -83,7 +107,15 @@ void cvec_anci(const char* fmt, ...)
   vsnprintf(mesg, MESGLEN-1, fmt, ap);
   va_end(ap);
 
-  fprintf(stderr, "  "DIM"%s"RESET"\n", mesg);
+  time_t rt;
+  struct tm *info;
+  char timestr[MESGLEN] = {0};
+
+  time(&rt);
+  info = localtime(&rt);
+  strftime(timestr, MESGLEN-1, "%x %X", info);
+
+  fprintf(stderr, "  "DIM"(%s)"RESET" "DIM"%s"RESET"\n", timestr, mesg);
 }
 
 
@@ -98,7 +130,15 @@ void cvec_test_fail(const char *testname, const char* fmt, ...)
   vsnprintf(mesg, MESGLEN-1, fmt, ap);
   va_end(ap);
 
-  fprintf(stderr, "  "BG_RED"FAILURE!"RESET" "FG_BLUE"%s"RESET": %s\n", testname, mesg);
+  time_t rt;
+  struct tm *info;
+  char timestr[MESGLEN] = {0};
+
+  time(&rt);
+  info = localtime(&rt);
+  strftime(timestr, MESGLEN-1, "%x %X", info);
+
+  fprintf(stderr, "  "DIM"(%s)"RESET" "BG_RED"FAILURE!"RESET" "FG_BLUE"%s"RESET": %s\n", timestr, testname, mesg);
 }
 
 
@@ -113,7 +153,15 @@ void cvec_test_pass(const char *testname, const char* fmt, ...)
   vsnprintf(mesg, MESGLEN-1, fmt, ap);
   va_end(ap);
 
-  fprintf(stderr, "  "BG_GREEN"PASS!"RESET" "FG_BLUE"%s"RESET": %s\n", testname, mesg);
+  time_t rt;
+  struct tm *info;
+  char timestr[MESGLEN] = {0};
+
+  time(&rt);
+  info = localtime(&rt);
+  strftime(timestr, MESGLEN-1, "%x %X", info);
+
+  fprintf(stderr, "  "DIM"(%s)"RESET" "BG_GREEN"PASS!"RESET" "FG_BLUE"%s"RESET": %s\n", timestr, testname, mesg);
 }
 
 
