@@ -382,17 +382,23 @@ CVEC_TYPE CVEC_(interpolate)(
     cvec_uint len, 
     CVEC_TYPE ix)
 {
-  if (!CVEC_(in_order)(x, len)) 
-    cvec_ferr("svec_interpolate", "Interpolation expects ordered x.");
+  //if (!CVEC_(in_order)(x, len)) 
+  //  cvec_ferr("cvec_interpolate", "Interpolation expects ordered x.");
 
   cvec_uint p1 = len, p2 = len;
   if (ix < x[0]) {
+    cvec_warn("cvec_interpolate", "ix below start");
     p1 = 0;
-    p2 = 1;
+    p2 = len*0.1;
+
+    if (p1 == p2) p2 ++;
   }
   else if (ix > x[len-1]) {
+    cvec_warn("cvec_interpolate", "ix after end");
     p1 = len-1;
-    p2 = len-2;
+    p2 = len*0.9;
+
+    if (p1 == p2) p2 --;
   }
   else {
     // find surrounding xs
@@ -410,8 +416,18 @@ CVEC_TYPE CVEC_(interpolate)(
       cvec_ferr("cvec_interpolate", "could not find points surrounding ix");
   }
 
+  CVEC_TYPE m_num = (y[p1] - y[p2]);
+  CVEC_TYPE m_den = (x[p1] - x[p2]);
 
-  CVEC_TYPE m = (y[p1] - y[p2]) / (x[p1] - x[p2]);
+  if (m_den == 0.0)
+    cvec_ferr("cvec_interpolate", "inf result!");
+
+#ifdef FLOATING_TYPE
+  if (isnan(m_num) || isnan(m_den)) 
+    cvec_ferr("cvec_interpolate", "NaN result!");
+#endif
+  
+  CVEC_TYPE m = m_num / m_den;
   CVEC_TYPE yi = (m * (ix - x[p2])) + y[p2];
   return yi;
 }
